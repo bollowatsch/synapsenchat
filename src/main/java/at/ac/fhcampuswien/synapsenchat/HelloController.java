@@ -1,4 +1,4 @@
-package at.ac.fhcampuswien.synapsenchat.synapsenchat;
+package at.ac.fhcampuswien.synapsenchat;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;

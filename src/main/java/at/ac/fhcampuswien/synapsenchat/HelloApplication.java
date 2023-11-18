@@ -1,4 +1,4 @@
-package at.ac.fhcampuswien.synapsenchat.synapsenchat;
+package at.ac.fhcampuswien.synapsenchat;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
