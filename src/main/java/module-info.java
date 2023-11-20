@@ -1,4 +1,4 @@
-module at.ac.fhcampuswien.synapsenchat.synapsenchat {
+module at.ac.fhcampuswien.synapsenchat {
     requires javafx.controls;
     requires javafx.fxml;
 
