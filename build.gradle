@@ -17,16 +17,16 @@ ext {
     junitVersion = '5.9.2'
 }
 
-sourceCompatibility = '20'
-targetCompatibility = '20'
+sourceCompatibility = '19'
+targetCompatibility = '19'
 
 tasks.withType(JavaCompile) {
     options.encoding = 'UTF-8'
 }
 
 application {
-    mainModule = 'at.ac.fhcampuswien.synapsenchat.synapsenchat'
-    mainClass = 'at.ac.fhcampuswien.synapsenchat.synapsenchat.HelloApplication'
+    mainModule = 'at.ac.fhcampuswien.synapsenchat'
+    mainClass = 'at.ac.fhcampuswien.synapsenchat.HelloApplication'
 }
 
 javafx {
@@ -38,6 +38,8 @@ dependencies {
 
     testImplementation("org.junit.jupiter:junit-jupiter-api:${junitVersion}")
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:${junitVersion}")
+    implementation 'io.github.palexdev:materialfx:11.17.0'
+
 }
 
 test {
