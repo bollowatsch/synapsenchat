@@ -3,14 +3,14 @@ package at.ac.fhcampuswien.synapsenchat;
 import java.net.*;
 import java.io.*;
 
-public class startSocket {
+public class Server {
 
     private ServerSocket serverSocket;
     private Socket clientSocket;
     private PrintWriter out;
     private BufferedReader in;
 
-    private void start(int port) throws IOException {
+    void start(int port) throws IOException {
         serverSocket = new ServerSocket(port);
         clientSocket = serverSocket.accept();
         out = new PrintWriter(clientSocket.getOutputStream(), true);
@@ -24,8 +24,5 @@ public class startSocket {
         clientSocket.close();
     }
 
-    public static void main(String[] args) throws IOException {
-        startSocket server = new startSocket();
-        server.start(2828);
-    }
+
 }
