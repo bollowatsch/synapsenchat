@@ -14,7 +14,7 @@ public class ClientHandler {
 
         Client client = new Client();
 
-        System.out.println("Inport the server IP you want to connect: ");
+        System.out.println("Input the server IP you want to connect: ");
         ip = scanner.nextLine();
 
         System.out.println("Input your Port for Connection: ");
