@@ -10,11 +10,20 @@ public class Server {
     private PrintWriter out;
     private BufferedReader in;
 
-    void start(int port) throws IOException {
-        serverSocket = new ServerSocket(port);
-        clientSocket = serverSocket.accept();
-        out = new PrintWriter(clientSocket.getOutputStream(), true);
-        in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
+    void start(int port) {
+        try {
+            serverSocket = new ServerSocket(port);
+            while (true) {
+                clientSocket = serverSocket.accept();
+                System.out.println("Connection established");
+
+                out = new PrintWriter(clientSocket.getOutputStream(), true);
+                in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
+            }
+        } catch (IOException e){
+            System.out.println("Error " + e.getMessage());
+        }
+
     }
 
     private void stop() throws IOException {
