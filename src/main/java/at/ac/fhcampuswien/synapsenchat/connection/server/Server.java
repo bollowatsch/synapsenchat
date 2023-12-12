@@ -19,11 +19,18 @@ public class Server {
 
                 out = new PrintWriter(clientSocket.getOutputStream(), true);
                 in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
+
+                String msg = in.readLine();
+
+                System.out.println(msg);
+
+                out.println(msg);
+
+                stop();
             }
         } catch (IOException e){
             System.out.println("Error " + e.getMessage());
         }
-
     }
 
     private void stop() throws IOException {
@@ -32,6 +39,4 @@ public class Server {
         serverSocket.close();
         clientSocket.close();
     }
-
-
 }
