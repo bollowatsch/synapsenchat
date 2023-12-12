@@ -1,4 +1,4 @@
-package at.ac.fhcampuswien.synapsenchat;
+package at.ac.fhcampuswien.synapsenchat.connection.server;
 
 import java.net.*;
 import java.io.*;
