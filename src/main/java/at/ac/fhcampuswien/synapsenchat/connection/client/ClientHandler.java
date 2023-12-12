@@ -24,6 +24,7 @@ public class ClientHandler {
 
         System.out.println("Input Message(Enter to send): ");
         msg = scanner.nextLine();
+
         client.sendMessage(msg);
 
         client.receiveMessage();
