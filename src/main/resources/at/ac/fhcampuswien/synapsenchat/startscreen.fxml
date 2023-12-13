@@ -44,11 +44,16 @@
                         <MFXButton id="new-chat-button" text="+">
 
                         </MFXButton>
-                        <Label styleClass="chat-label"  text="Chat css"></Label>
-                        <Label styleClass="chat-label"  text="Chat css"></Label>
-                        <Label styleClass="chat-label"  text="Chat css"></Label>
-                         <Label styleClass="chat-label"  text="Chat css"></Label>
-                         <Label styleClass="chat-label"  text="Chat css"></Label>
+                        <Label styleClass="chat-label"  text="Chat 1"></Label>
+                        <Label styleClass="chat-label"  text="Chat 2"></Label>
+                        <Label styleClass="chat-label"  text="Chat 3"></Label>
+                        <Label styleClass="chat-label"  text="Chat 4"></Label>
+                        <Label styleClass="chat-label"  text="Chat 5"></Label>
+                        <Label styleClass="chat-label"  text="Chat 6"></Label>
+                        <Label styleClass="chat-label"  text="Chat 7"></Label>
+                        <Label styleClass="chat-label"  text="Chat 8"></Label>
+                        <Label styleClass="chat-label"  text="Chat 9"></Label>
+                        <Label styleClass="chat-label"  text="Chat 10"></Label>
                      </children>
                   </VBox>
                </content>

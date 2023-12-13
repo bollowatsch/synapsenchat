@@ -4,6 +4,7 @@
     -fx-font-size: 12;
     -fx-text-fill: darkslategrey;
     -fx-min-width: 100;
+    -fx-min-height: 40;
     -fx-label-padding: 5 5 5 5;
     -fx-padding: 5;
     -fx-border-insets: 5;
