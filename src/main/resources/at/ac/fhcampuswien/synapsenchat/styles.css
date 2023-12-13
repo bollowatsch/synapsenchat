@@ -1,0 +1,15 @@
+.chat-label, #new-chat-button{
+    -fx-background-color: #f4f4f4;
+    -fx-font-family: "Roboto Light";
+    -fx-font-size: 12;
+    -fx-text-fill: darkslategrey;
+    -fx-min-width: 100;
+    -fx-label-padding: 5 5 5 5;
+    -fx-padding: 5;
+    -fx-border-insets: 5;
+    -fx-background-insets: 5;
+    -fx-background-radius: 5;
+}
+.chat-label, #new-chat-button{
+
+}
