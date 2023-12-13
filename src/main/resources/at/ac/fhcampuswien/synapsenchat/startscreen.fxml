@@ -24,7 +24,7 @@
       <RowConstraints />
   </rowConstraints>
    <children>
-      <GridPane maxHeight="1.7976931348623157E308" maxWidth="300.0" minWidth="100.0" prefWidth="200.0" style="-fx-background-color: DARKSLATEGREY;" GridPane.rowSpan="3">
+      <GridPane id="chat-list-gridpane" maxHeight="1.7976931348623157E308" maxWidth="300.0" minWidth="100.0" prefWidth="200.0" GridPane.rowSpan="3">
         <columnConstraints>
           <ColumnConstraints hgrow="ALWAYS" minWidth="10.0" prefWidth="100.0" />
         </columnConstraints>
@@ -34,9 +34,9 @@
           <RowConstraints minHeight="100.0" percentHeight="0.0" prefHeight="30.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <MFXScrollPane fitToHeight="true" fitToWidth="true" style="-fx-background-color: DARKSLATEGREY;" thumbColor="#f4f4f4" thumbHoverColor="#8e8e8e" trackColor="DARKSLATEGRAY" GridPane.rowSpan="2">
+            <MFXScrollPane fitToHeight="true" fitToWidth="true" thumbColor="#f4f4f4" thumbHoverColor="#8e8e8e" trackColor="DARKSLATEGRAY" GridPane.rowSpan="2">
                <content>
-                  <VBox id="chatList" alignment="CENTER" style="-fx-background-color: DARKSLATEGREY; -fx-border-style: NONE;">
+                  <VBox id="chatList" alignment="CENTER">
                      <opaqueInsets>
                         <Insets />
                      </opaqueInsets>
@@ -61,7 +61,7 @@
                   <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                </GridPane.margin>
             </MFXScrollPane>
-            <MFXTextField floatingText="Name" minWidth="100.0" prefHeight="49.0" prefWidth="100.0" selectable="false" GridPane.halignment="LEFT" GridPane.rowIndex="2" GridPane.valignment="CENTER">
+            <MFXTextField id="name-field" floatingText="Name" minWidth="100.0" prefHeight="49.0" prefWidth="100.0" selectable="false" GridPane.halignment="LEFT" GridPane.rowIndex="2" GridPane.valignment="CENTER">
                <font>
                   <Font name="Roboto Italic" size="12.0" />
                </font>
