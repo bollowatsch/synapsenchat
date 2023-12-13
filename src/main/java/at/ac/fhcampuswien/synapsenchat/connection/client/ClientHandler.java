@@ -11,7 +11,6 @@ public class ClientHandler {
         String msg;
 
         Scanner scanner = new Scanner(System.in);
-
         Client client = new Client();
 
         System.out.println("Input the server IP you want to connect: ");
@@ -20,14 +19,19 @@ public class ClientHandler {
         System.out.println("Input your Port for Connection: ");
         port = scanner.nextInt();
 
-        client.startConnection(ip,port);
+        client.startConnection(ip, port);
 
-        System.out.println("Input Message(Enter to send): ");
-        msg = scanner.nextLine();
+        while (true) {
+            System.out.println("Input Message(Enter to send): ");
+            msg = scanner.nextLine();
+            client.sendMessage(msg);
+            //client.receiveMessage();
 
-        client.sendMessage(msg);
+        }
 
-        client.receiveMessage();
+        //System.out.println("Input Message(Enter to send): ");
+        //msg = scanner.nextLine();
+
+
     }
-
 }

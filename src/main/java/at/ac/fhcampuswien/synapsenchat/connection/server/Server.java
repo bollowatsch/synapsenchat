@@ -13,9 +13,11 @@ public class Server {
     void start(int port) {
         try {
             serverSocket = new ServerSocket(port);
+
+            clientSocket = serverSocket.accept();
+            System.out.println("Connection established");
             while (true) {
-                clientSocket = serverSocket.accept();
-                System.out.println("Connection established");
+
 
                 out = new PrintWriter(clientSocket.getOutputStream(), true);
                 in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
@@ -26,7 +28,6 @@ public class Server {
 
                 out.println(msg);
 
-                stop();
             }
         } catch (IOException e){
             System.out.println("Error " + e.getMessage());
