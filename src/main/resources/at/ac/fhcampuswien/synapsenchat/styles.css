@@ -1,4 +1,4 @@
-/* Set aall colors to readable format*/
+/* Set all colors to readable format*/
 *{
     -primary-background: #F5F5F5;
     -primary: #607D8B;
@@ -45,9 +45,7 @@
 }
 
 #name-field{
-    -fx-border-color: -accent;
     -fx-background-color: -primary-background;
     -fx-text-fill: -text-dark;
     -fx-border-color: -divider;
-
 }
