@@ -24,7 +24,7 @@ public class HelloApplication extends Application {
                 .build()
                 .setGlobal();
 
-        FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("startscreen.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("home.fxml"));
         Parent root = fxmlLoader.load();
         Scene scene = new Scene(root);
      //   scene.getStylesheets().add(getClass().getResource("").toExternalForm());

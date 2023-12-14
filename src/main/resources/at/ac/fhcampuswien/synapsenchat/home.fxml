@@ -24,6 +24,10 @@
       <RowConstraints />
   </rowConstraints>
    <children>
+      <MFXScrollPane fitToHeight="true" fitToWidth="true" thumbColor="#f4f4f4" thumbHoverColor="#8e8e8e" trackColor="DARKSLATEGRAY" GridPane.columnIndex="1" GridPane.columnSpan="3">
+         <content>
+            <Label text="Chats will be displayed here" />
+         </content></MFXScrollPane>
       <GridPane id="chat-list-gridpane" maxHeight="1.7976931348623157E308" maxWidth="300.0" minWidth="100.0" prefWidth="200.0" GridPane.rowSpan="3">
         <columnConstraints>
           <ColumnConstraints hgrow="ALWAYS" minWidth="10.0" prefWidth="100.0" />
@@ -34,7 +38,7 @@
           <RowConstraints minHeight="100.0" percentHeight="0.0" prefHeight="30.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <MFXScrollPane fitToHeight="true" fitToWidth="true" thumbColor="#f4f4f4" thumbHoverColor="#8e8e8e" trackColor="DARKSLATEGRAY" GridPane.rowSpan="2">
+            <MFXScrollPane id="sidebar-scroll-pane" fitToHeight="true" fitToWidth="true" thumbColor="#f4f4f4" thumbHoverColor="#8e8e8e" trackColor="DARKSLATEGRAY" GridPane.rowSpan="2">
                <content>
                   <VBox id="chatList" alignment="CENTER">
                      <opaqueInsets>
@@ -44,16 +48,16 @@
                         <MFXButton id="new-chat-button" text="+">
 
                         </MFXButton>
-                        <Label styleClass="chat-label"  text="Chat 1"></Label>
-                        <Label styleClass="chat-label"  text="Chat 2"></Label>
-                        <Label styleClass="chat-label"  text="Chat 3"></Label>
-                        <Label styleClass="chat-label"  text="Chat 4"></Label>
-                        <Label styleClass="chat-label"  text="Chat 5"></Label>
-                        <Label styleClass="chat-label"  text="Chat 6"></Label>
-                        <Label styleClass="chat-label"  text="Chat 7"></Label>
-                        <Label styleClass="chat-label"  text="Chat 8"></Label>
-                        <Label styleClass="chat-label"  text="Chat 9"></Label>
-                        <Label styleClass="chat-label"  text="Chat 10"></Label>
+                        <Label styleClass="chat-label" text="Chat 1" />
+                        <Label styleClass="chat-label" text="Chat 2" />
+                        <Label styleClass="chat-label" text="Chat 3" />
+                        <Label styleClass="chat-label" text="Chat 4" />
+                        <Label styleClass="chat-label" text="Chat 5" />
+                        <Label styleClass="chat-label" text="Chat 6" />
+                        <Label styleClass="chat-label" text="Chat 7" />
+                        <Label styleClass="chat-label" text="Chat 8" />
+                        <Label styleClass="chat-label" text="Chat 9" />
+                        <Label styleClass="chat-label" text="Chat 10" />
                      </children>
                   </VBox>
                </content>
@@ -71,7 +75,7 @@
             </MFXTextField>
          </children>
       </GridPane>
-      <Label text="A lonely rhombus is waiting for you to chat with :(" textAlignment="CENTER" textFill="darkslategrey" wrapText="true" GridPane.columnIndex="1" GridPane.columnSpan="3" GridPane.halignment="CENTER" GridPane.rowSpan="3" GridPane.valignment="CENTER">
+      <Label text="A lonely rhombus is waiting for you to chat with :(" textAlignment="CENTER" wrapText="true" GridPane.columnIndex="1" GridPane.columnSpan="3" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
          <font>
             <Font name="Roboto Light Italic" size="37.0" />
          </font>
