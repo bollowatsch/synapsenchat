@@ -1,4 +1,4 @@
-package at.ac.fhcampuswien.synapsenchat;
+package at.ac.fhcampuswien.synapsenchat.connection.server;
 
 import java.net.*;
 import java.io.*;
@@ -13,17 +13,25 @@ public class Server {
     void start(int port) {
         try {
             serverSocket = new ServerSocket(port);
+
+            clientSocket = serverSocket.accept();
+            System.out.println("Connection established");
             while (true) {
-                clientSocket = serverSocket.accept();
-                System.out.println("Connection established");
+
 
                 out = new PrintWriter(clientSocket.getOutputStream(), true);
                 in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
+
+                String msg = in.readLine();
+
+                System.out.println(msg);
+
+                out.println(msg);
+
             }
         } catch (IOException e){
             System.out.println("Error " + e.getMessage());
         }
-
     }
 
     private void stop() throws IOException {
@@ -32,6 +40,4 @@ public class Server {
         serverSocket.close();
         clientSocket.close();
     }
-
-
 }
