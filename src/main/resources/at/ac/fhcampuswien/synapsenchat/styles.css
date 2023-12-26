@@ -1,0 +1,53 @@
+/* Set all colors to readable format*/
+*{
+    -primary-background: #F5F5F5;
+    -primary: #607D8B;
+    -text-dark: #212121;
+    -text-light: #FFFFFF;
+    -text-secondary: #9f9f9f;
+    -divider: #BDBDBD;
+    -accent: #66B2A8;
+    -fx-font-family: "Roboto Light";
+
+    -common-gradient: linear-gradient(to right bottom, #FF8C00FF, #e88001, #c06a00, #e60b79, #ef1872, #f5276b, #fa3564, #fe415e, #ff5158, #ff5f52, #ff6c4e, #ff794b);
+    -secondary-gradient: linear-gradient(to right bottom, #1ec400, #00bd3a, #00b654, #00ae67, #00a574, #00a280, #009e8a, #009a91, #009b9d, #009ba8, #009bb2, #009abb);
+}
+
+#sidebar-scroll-pane, #chat-list-gridpane{
+    -fx-background-color: -primary;
+}
+
+#chat-list{
+    -fx-background-color: -primary;
+    -fx-border-style: none;
+}
+
+.label{
+    -fx-text-fill: -text-dark;
+    -fx-font-style: italic;
+}
+
+.chat-label, #new-chat-button{
+    -fx-background-color: -primary-background;
+    -fx-font-size: 16;
+    -fx-text-fill: -text-dark;
+    -fx-min-width: 100;
+    -fx-min-height: 40;
+    -fx-padding: 5;
+    -fx-border-insets: 5;
+    -fx-background-insets: 5;
+    -fx-background-radius: 5;
+    -fx-border-radius: 5;
+    -fx-border-color: -divider;
+    -fx-text-alignment: center;
+}
+
+#new-chat-button{
+    -fx-background-color: -accent;
+}
+
+#name-field{
+    -fx-background-color: -primary-background;
+    -fx-text-fill: -text-dark;
+    -fx-border-color: -divider;
+}

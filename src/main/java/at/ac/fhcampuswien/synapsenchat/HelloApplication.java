@@ -24,12 +24,13 @@ public class HelloApplication extends Application {
                 .build()
                 .setGlobal();
 
-        FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("hello-view.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("home.fxml"));
         Parent root = fxmlLoader.load();
         Scene scene = new Scene(root);
      //   scene.getStylesheets().add(getClass().getResource("").toExternalForm());
         stage.setTitle("Hello!");
         stage.setScene(scene);
+        scene.getStylesheets().add(HelloApplication.class.getResource("styles.css").toExternalForm());
         stage.show();
     }
 
