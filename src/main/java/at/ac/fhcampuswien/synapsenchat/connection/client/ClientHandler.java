@@ -21,6 +21,7 @@ public class ClientHandler {
         Client client = new Client();
         System.out.println("Input your Username: ");
         username = scanner.nextLine();
+
         System.out.println("Input the server IP you want to connect: ");
         ip = scanner.nextLine();
 
@@ -33,7 +34,8 @@ public class ClientHandler {
 
             System.out.println("Input Message(Enter to send): ");
             Message msg = new Message(scanner.nextLine());
-
+            msg.setSenderName(username);
+            msg.setTimestamp();
             //msg = new SimpleDateFormat("[dd.MM.yyyy HH:mm]").format(new Date()) + username + ": " + scanner.nextLine();
             client.sendMessage(msg);
             //client.receiveMessage();

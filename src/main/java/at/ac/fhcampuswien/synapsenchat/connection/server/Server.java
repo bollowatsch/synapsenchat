@@ -47,9 +47,7 @@ public class Server {
                 }
                 //String msg = in.readLine();
 
-                System.out.println(msg);
-
-                out.println(msg);
+                System.out.println(msg.getTimestamp() + " " + msg.getSenderName() + " " + msg.getSenderName());
 
             }
         } catch (IOException e){
