@@ -1,5 +1,7 @@
 package at.ac.fhcampuswien.synapsenchat.connection.server;
 
+import at.ac.fhcampuswien.synapsenchat.connection.Message;
+
 import java.net.*;
 import java.io.*;
 
@@ -10,6 +12,12 @@ public class Server {
     private PrintWriter out;
     private BufferedReader in;
 
+    private OutputStream outputStream;
+    private ObjectOutputStream objectOutputStream;
+    //private BufferedReader in;
+    private InputStream inputStream;
+    private ObjectInputStream objectInputStream;
+
     void start(int port) {
         try {
             serverSocket = new ServerSocket(port);
@@ -19,10 +27,25 @@ public class Server {
             while (true) {
 
 
-                out = new PrintWriter(clientSocket.getOutputStream(), true);
-                in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
+                //out = new PrintWriter(clientSocket.getOutputStream(), true);
+                //in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
 
-                String msg = in.readLine();
+                outputStream = clientSocket.getOutputStream();
+                objectOutputStream = new ObjectOutputStream(outputStream);
+
+                inputStream = clientSocket.getInputStream();
+                objectInputStream = new ObjectInputStream(inputStream);
+
+                System.out.println("Connection established");
+
+
+                Message msg = null;
+                try {
+                    msg = (Message) objectInputStream.readObject();
+                } catch (ClassNotFoundException e) {
+                    throw new RuntimeException(e);
+                }
+                //String msg = in.readLine();
 
                 System.out.println(msg);
 
@@ -34,9 +57,14 @@ public class Server {
         }
     }
 
+    /*public Message receiveMessage(msg){
+        Message msg = new Message(ObjectInputStream);
+        return msg;
+    }*/
+
     private void stop() throws IOException {
-        in.close();
-        out.close();
+        objectInputStream.close();
+        objectOutputStream.close();
         serverSocket.close();
         clientSocket.close();
     }
