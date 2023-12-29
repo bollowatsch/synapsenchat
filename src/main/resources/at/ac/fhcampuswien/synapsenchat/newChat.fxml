@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import io.github.palexdev.materialfx.controls.MFXButton?>
+<?import io.github.palexdev.materialfx.controls.MFXRadioButton?>
+<?import io.github.palexdev.materialfx.controls.MFXScrollPane?>
+<?import io.github.palexdev.materialfx.controls.MFXTextField?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.control.ToggleGroup?>
+
+<AnchorPane minHeight="600.0" minWidth="600.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="at.ac.fhcampuswien.synapsenchat.HelloController">
+
+
+    <MFXScrollPane id="new-chat" fitToHeight="true" fitToWidth="true" thumbColor="#8c8c8c" thumbHoverColor="#8e8e8e"
+                   trackColor="DARKSLATEGRAY" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0"
+                   AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+        <content>
+            <VBox alignment="CENTER">
+                <children>
+                    <MFXTextField id="chat-name" floatingText="Chat name" selectable="false" styleClass="custom-text">
+                        <VBox.margin>
+                            <Insets bottom="10.0" top="20.0"/>
+                        </VBox.margin>
+                    </MFXTextField>
+                    <HBox alignment="CENTER">
+                        <fx:define>
+                            <ToggleGroup fx:id="radio"/>
+                        </fx:define>
+                        <GridPane>
+                            <columnConstraints>
+                                <ColumnConstraints prefWidth="100"/>
+                                <ColumnConstraints prefWidth="100"/>
+                            </columnConstraints>
+                            <rowConstraints>
+                                <RowConstraints/>
+                            </rowConstraints>
+                            <MFXRadioButton id="radioButton" fx:id="radioServer" alignment="TOP_RIGHT" text="Server"
+                                            GridPane.columnIndex="0" GridPane.halignment="CENTER"
+                                            toggleGroup="$radio"/>
+                            <MFXRadioButton id="radioButton" fx:id="radioClient" selected="true" text="Client"
+                                            GridPane.columnIndex="1" GridPane.halignment="CENTER" toggleGroup="$radio"/>
+                        </GridPane>
+                        <VBox.margin>
+                            <Insets bottom="10.0"/>
+                        </VBox.margin>
+                    </HBox>
+                    <MFXTextField id="ip-address" floatingText="IP address" selectable="false" styleClass="custom-text">
+                        <VBox.margin>
+                            <Insets bottom="10.0"/>
+                        </VBox.margin>
+                    </MFXTextField>
+                    <MFXTextField id="port" floatingText="Port" selectable="false" styleClass="custom-text"/>
+                    <MFXButton id="start-connection" fx:id="startConnection" buttonType="RAISED" minHeight="30.0" onAction="#showChatContent"
+                               text="GO!">
+                        <VBox.margin>
+                            <Insets bottom="20.0" top="20.0"/>
+                        </VBox.margin>
+                    </MFXButton>
+                </children>
+            </VBox>
+        </content>
+    </MFXScrollPane>
+</AnchorPane>

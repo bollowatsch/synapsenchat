@@ -1,4 +1,5 @@
 /* Set all colors to readable format*/
+
 *{
     -primary-background: #F5F5F5;
     -primary: #607D8B;
@@ -50,4 +51,21 @@
     -fx-background-color: -primary-background;
     -fx-text-fill: -text-dark;
     -fx-border-color: -divider;
+}
+
+.custom-text{
+    -fx-text-fill: -text-dark;
+    -fx-border-color: -divider;
+    -fx-width: 200;
+    -fx-min-width: 50;
+}
+
+#radioButton .dot{
+    -fx-fill: -primary;
+    -fx-border-color: -primary;
+}
+
+#radioButton:selected .radio{
+ -fx-stroke: -primary;
+
 }

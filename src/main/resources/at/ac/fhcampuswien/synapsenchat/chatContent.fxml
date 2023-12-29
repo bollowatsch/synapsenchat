@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
+
+<?import javafx.scene.layout.HBox?>
+<?import io.github.palexdev.materialfx.controls.MFXScrollPane?>
+<?import io.github.palexdev.materialfx.controls.MFXTextField?>
+<?import io.github.palexdev.materialfx.controls.MFXButton?>
+<AnchorPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="at.ac.fhcampuswien.synapsenchat.HelloController"
+            minHeight="600.0" minWidth="600.0" >
+
+    <VBox fx:id="chatContent">
+        <HBox prefWidth="Infinity" alignment="CENTER">
+            <MFXScrollPane id="chat-content" fitToHeight="true" fitToWidth="true" thumbColor="#f4f4f4"
+                           thumbHoverColor="#8e8e8e" trackColor="DARKSLATEGRAY">
+                <content>
+                    <Label text="test"/>
+                </content>
+            </MFXScrollPane>
+        </HBox>
+        <HBox >
+            <MFXTextField id="new-message" fx:id="newMessage" text="Enter a new message here" prefWidth="Infinity"/>
+            <MFXButton id="send-message" fx:id="sendMessage" text="send"/>
+        </HBox>
+    </VBox>
+</AnchorPane>
