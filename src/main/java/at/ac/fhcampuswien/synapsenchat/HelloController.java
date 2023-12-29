@@ -25,7 +25,7 @@ public class HelloController {
     @FXML
     Label startLabel;
     @FXML
-    VBox chatContent;
+    AnchorPane chatContent;
     @FXML
     protected BorderPane homePane;
     @FXML

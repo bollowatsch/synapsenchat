@@ -1,30 +1,33 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.VBox?>
-
-<?import javafx.scene.layout.HBox?>
+<?import io.github.palexdev.materialfx.controls.MFXButton?>
 <?import io.github.palexdev.materialfx.controls.MFXScrollPane?>
 <?import io.github.palexdev.materialfx.controls.MFXTextField?>
-<?import io.github.palexdev.materialfx.controls.MFXButton?>
-<AnchorPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="at.ac.fhcampuswien.synapsenchat.HelloController"
-            minHeight="600.0" minWidth="600.0" >
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
 
-    <VBox fx:id="chatContent">
-        <HBox prefWidth="Infinity" alignment="CENTER">
-            <MFXScrollPane id="chat-content" fitToHeight="true" fitToWidth="true" thumbColor="#f4f4f4"
-                           thumbHoverColor="#8e8e8e" trackColor="DARKSLATEGRAY">
-                <content>
-                    <Label text="test"/>
-                </content>
-            </MFXScrollPane>
-        </HBox>
-        <HBox >
-            <MFXTextField id="new-message" fx:id="newMessage" text="Enter a new message here" prefWidth="Infinity"/>
-            <MFXButton id="send-message" fx:id="sendMessage" text="send"/>
-        </HBox>
-    </VBox>
+<AnchorPane fx:id="chatContent" prefWidth="Infinity" minHeight="600.0" minWidth="600.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="at.ac.fhcampuswien.synapsenchat.HelloController">
+    <children>
+        <GridPane AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <columnConstraints>
+                <ColumnConstraints hgrow="ALWAYS" minWidth="10.0" prefWidth="516.0" />
+                <ColumnConstraints hgrow="NEVER" maxWidth="300.0" minWidth="10.0" prefWidth="84.0" />
+            </columnConstraints>
+            <rowConstraints>
+                <RowConstraints minHeight="100.0" prefHeight="547.0" vgrow="ALWAYS" />
+                <RowConstraints minHeight="10.0" prefHeight="53.0" vgrow="SOMETIMES" />
+            </rowConstraints>
+            <children>
+                <MFXScrollPane id="chat-content" fitToHeight="true" fitToWidth="true" thumbColor="#f4f4f4" thumbHoverColor="#8e8e8e" trackColor="DARKSLATEGRAY" GridPane.columnSpan="2" GridPane.rowIndex="0">
+                    <content>
+
+                    </content>
+                </MFXScrollPane>
+                <MFXButton alignment="CENTER" GridPane.valignment="CENTER" contentDisplay="CENTER" prefHeight="Infinity" prefWidth="Infinity" text="Send" textAlignment="CENTER" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                <MFXTextField prefHeight="Infinity" prefWidth="Infinity" GridPane.rowIndex="1" GridPane.valignment="CENTER" GridPane.halignment="CENTER"/>
+            </children>
+        </GridPane>
+    </children>
 </AnchorPane>
