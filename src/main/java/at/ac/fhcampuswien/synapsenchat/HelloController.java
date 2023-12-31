@@ -1,22 +1,21 @@
 package at.ac.fhcampuswien.synapsenchat;
 
 import io.github.palexdev.materialfx.controls.MFXButton;
-import io.github.palexdev.materialfx.controls.MFXRadioButton;
-import io.github.palexdev.materialfx.controls.MFXScrollPane;
+import io.github.palexdev.materialfx.controls.MFXTextField;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.fxml.Initializable;
-import javafx.scene.Node;
-import javafx.scene.Parent;
 import javafx.scene.control.Label;
-import javafx.scene.control.RadioButton;
-import javafx.scene.control.ToggleGroup;
-import javafx.scene.layout.*;
+import javafx.scene.control.TextField;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.BorderPane;
 
-import java.io.IOException;
-import java.net.URL;
-import java.util.ResourceBundle;
+import java.io.*;
+import java.net.Inet4Address;
+import java.net.UnknownHostException;
+
+import java.util.*;
+
 
 public class HelloController {
 
@@ -32,6 +31,9 @@ public class HelloController {
     protected AnchorPane view;
     @FXML
     MFXButton startConnection;
+    @FXML
+    MFXTextField ipAddress;
+
 
     @FXML
     protected void onNewChatButtonClick() {
@@ -54,6 +56,19 @@ public class HelloController {
     protected void showNewChat(ActionEvent event) throws IOException{
         view = FXMLLoader.load(getClass().getResource("newChat.fxml"));
         homePane.setCenter(view);
+    }
+
+    @FXML
+    private void getClientIp() throws UnknownHostException {
+        Inet4Address my_localhost = (Inet4Address) Inet4Address.getLocalHost();
+        String ipv4Address = my_localhost.getHostAddress().trim();
+        ipAddress.clear();
+        ipAddress.appendText(ipv4Address);
+    }
+
+  @FXML
+  private void clearIpAddress(){
+        ipAddress.clear();
     }
 
     @FXML

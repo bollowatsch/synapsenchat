@@ -56,8 +56,7 @@
 .custom-text{
     -fx-text-fill: -text-dark;
     -fx-border-color: -divider;
-    -fx-width: 200;
-    -fx-min-width: 50;
+    -fx-min-width: 150;
 }
 
 #radioButton .dot{
@@ -67,5 +66,8 @@
 
 #radioButton:selected .radio{
  -fx-stroke: -primary;
+}
 
+#ip-address{
+  -fx-width: 300;
 }

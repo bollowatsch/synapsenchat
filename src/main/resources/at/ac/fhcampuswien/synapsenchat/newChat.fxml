@@ -40,15 +40,15 @@
                             </rowConstraints>
                             <MFXRadioButton id="radioButton" fx:id="radioServer" alignment="TOP_RIGHT" text="Server"
                                             GridPane.columnIndex="0" GridPane.halignment="CENTER"
-                                            toggleGroup="$radio"/>
+                                            toggleGroup="$radio" onAction="#clearIpAddress"/>
                             <MFXRadioButton id="radioButton" fx:id="radioClient" selected="true" text="Client"
-                                            GridPane.columnIndex="1" GridPane.halignment="CENTER" toggleGroup="$radio"/>
+                                            GridPane.columnIndex="1" GridPane.halignment="CENTER" toggleGroup="$radio" onAction="#getClientIp"/>
                         </GridPane>
                         <VBox.margin>
                             <Insets bottom="10.0"/>
                         </VBox.margin>
                     </HBox>
-                    <MFXTextField id="ip-address" floatingText="IP address" selectable="false" styleClass="custom-text">
+                    <MFXTextField id="ip-address" fx:id="ipAddress" floatingText="IP address" selectable="false" styleClass="custom-text">
                         <VBox.margin>
                             <Insets bottom="10.0"/>
                         </VBox.margin>
