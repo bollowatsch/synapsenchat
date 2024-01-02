@@ -19,9 +19,7 @@
     <MFXScrollPane id="new-chat" fitToHeight="true" fitToWidth="true" thumbColor="#8c8c8c" thumbHoverColor="#8e8e8e"
                    trackColor="DARKSLATEGRAY" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0"
                    AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-        <content>
             <VBox alignment="CENTER">
-                <children>
                     <Label fx:id="errorLabel" id="error-label"/>
                     <MFXTextField id="chat-name" fx:id="chatName" floatingText="Chat name" selectable="false" styleClass="custom-text">
                         <VBox.margin>
@@ -62,8 +60,6 @@
                             <Insets bottom="20.0" top="20.0"/>
                         </VBox.margin>
                     </MFXButton>
-                </children>
             </VBox>
-        </content>
     </MFXScrollPane>
 </AnchorPane>

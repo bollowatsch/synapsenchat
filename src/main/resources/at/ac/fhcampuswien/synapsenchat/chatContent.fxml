@@ -13,37 +13,31 @@
 <AnchorPane fx:id="chatContent" prefWidth="Infinity" minHeight="600.0" minWidth="600.0"
             xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="at.ac.fhcampuswien.synapsenchat.HelloController">
-    <children>
-        <GridPane AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"
-                  AnchorPane.topAnchor="0.0">
-            <columnConstraints>
-                <ColumnConstraints hgrow="ALWAYS" minWidth="10.0" prefWidth="516.0"/>
-                <ColumnConstraints hgrow="NEVER" maxWidth="300.0" minWidth="10.0" prefWidth="84.0"/>
-            </columnConstraints>
-            <rowConstraints>
-                <RowConstraints minHeight="100.0" prefHeight="547.0" vgrow="ALWAYS"/>
-                <RowConstraints minHeight="10.0" prefHeight="53.0" vgrow="SOMETIMES"/>
-            </rowConstraints>
-            <children>
-                <MFXScrollPane id="chat-content" fitToHeight="true" fitToWidth="true"
-                               thumbColor="#f4f4f4" thumbHoverColor="#8e8e8e" trackColor="DARKSLATEGRAY"
-                               GridPane.columnSpan="2" GridPane.rowIndex="0">
-                    <content>
-                        <VBox fx:id="chatContentBox" alignment="CENTER">
-                            <padding>
-                                <Insets bottom="10.0" right="5.0" top="10.0" left="10.0" />
-                            </padding>
-                            <children>
-                            </children>
-                        </VBox>
-                    </content>
-                </MFXScrollPane>
-                <MFXButton fx:id="sendMessage" alignment="CENTER" GridPane.valignment="CENTER" contentDisplay="CENTER"
-                           prefHeight="Infinity" prefWidth="Infinity" text="Send" textAlignment="CENTER"
-                           GridPane.columnIndex="1" GridPane.rowIndex="1" onAction="#onSendMessage"/>
-                <MFXTextField fx:id="newMessage" prefHeight="Infinity" prefWidth="Infinity" GridPane.rowIndex="1"
-                              GridPane.valignment="CENTER" GridPane.halignment="CENTER" onAction="#onSendMessage"/>
-            </children>
-        </GridPane>
-    </children>
+    <GridPane AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"
+              AnchorPane.topAnchor="0.0">
+        <columnConstraints>
+            <ColumnConstraints hgrow="ALWAYS" minWidth="10.0" prefWidth="516.0"/>
+            <ColumnConstraints hgrow="NEVER" maxWidth="300.0" minWidth="10.0" prefWidth="84.0"/>
+        </columnConstraints>
+        <rowConstraints>
+            <RowConstraints minHeight="100.0" prefHeight="547.0" vgrow="ALWAYS"/>
+            <RowConstraints minHeight="10.0" prefHeight="53.0" vgrow="SOMETIMES"/>
+        </rowConstraints>
+        <children>
+            <MFXScrollPane id="chat-content" fitToHeight="true" fitToWidth="true"
+                           thumbColor="#f4f4f4" thumbHoverColor="#8e8e8e" trackColor="DARKSLATEGRAY"
+                           GridPane.columnSpan="2" GridPane.rowIndex="0">
+                <VBox fx:id="chatContentBox" alignment="CENTER">
+                    <padding>
+                        <Insets bottom="10.0" right="5.0" top="10.0" left="10.0"/>
+                    </padding>
+                </VBox>
+            </MFXScrollPane>
+            <MFXButton fx:id="sendMessage" alignment="CENTER" GridPane.valignment="CENTER" contentDisplay="CENTER"
+                       prefHeight="Infinity" prefWidth="Infinity" text="Send" textAlignment="CENTER"
+                       GridPane.columnIndex="1" GridPane.rowIndex="1" onAction="#onSendMessage"/>
+            <MFXTextField fx:id="newMessage" prefHeight="Infinity" prefWidth="Infinity" GridPane.rowIndex="1"
+                          GridPane.valignment="CENTER" GridPane.halignment="CENTER" onAction="#onSendMessage"/>
+        </children>
+    </GridPane>
 </AnchorPane>

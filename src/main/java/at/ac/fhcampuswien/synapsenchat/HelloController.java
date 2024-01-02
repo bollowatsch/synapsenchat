@@ -1,25 +1,17 @@
 package at.ac.fhcampuswien.synapsenchat;
 
-import io.github.palexdev.materialfx.controls.MFXButton;
-import io.github.palexdev.materialfx.controls.MFXScrollPane;
-import io.github.palexdev.materialfx.controls.MFXTextField;
-import javafx.event.ActionEvent;
+import io.github.palexdev.materialfx.controls.*;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
-import javafx.scene.control.Separator;
-import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
-
 import java.io.*;
 import java.net.Inet4Address;
 import java.net.UnknownHostException;
 
-import java.util.*;
 
 
 public class HelloController {
@@ -63,7 +55,7 @@ public class HelloController {
     }
 
     @FXML
-    protected void showChatContent(ActionEvent event) throws IOException {
+    protected void showChatContent() throws IOException {
         if (chatName.getText().isEmpty() || ipAddress.getText().isEmpty() || port.getText().isEmpty() ) {
             errorLabel.setText("Please fill in all fields!");
         } else {
@@ -74,7 +66,7 @@ public class HelloController {
     }
 
     @FXML
-    protected void showNewChat(ActionEvent event) throws IOException {
+    protected void showNewChat() throws IOException {
         view = FXMLLoader.load(getClass().getResource("newChat.fxml"));
         homePane.setCenter(view);
     }
