@@ -1,4 +1,4 @@
-package at.ac.fhcampuswien.synapsenchat.connection.server;
+package at.ac.fhcampuswien.synapsenchat.connection.old.server;
 
 import java.io.IOException;
 

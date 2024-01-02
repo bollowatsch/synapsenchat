@@ -14,7 +14,14 @@ public class Main {
         chat.addMessage(new Message("TEST", "Nico"));
         chat.addMessage(new Message("1234", "Nico"));
 
-        ArrayList<Message> list = chat.getAllMessages();
-        for (Message ms : list) System.out.printf("[%d] %s\n", chat.getID(), ms);
+        Chat chat2 = new Chat("Chat2");
+        chat2.addMessage(new Message("Message of chat 2", "tintifax"));
+        chat2.addMessage(new Message("Another message of chat 2", "fredi faulich"));
+
+        for (Chat chats: Chat.getChats()) {
+            ArrayList<Message> list = chats.getAllMessages();
+            for (Message ms : list) System.out.printf("[%d] %s\n", chats.getID(), ms);
+        }
+
     }
 }

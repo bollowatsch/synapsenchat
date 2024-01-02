@@ -6,8 +6,8 @@ module at.ac.fhcampuswien.synapsenchat {
 
     opens at.ac.fhcampuswien.synapsenchat to javafx.fxml;
     exports at.ac.fhcampuswien.synapsenchat;
-    exports at.ac.fhcampuswien.synapsenchat.connection.server;
-    opens at.ac.fhcampuswien.synapsenchat.connection.server to javafx.fxml;
-    exports at.ac.fhcampuswien.synapsenchat.connection.client;
-    opens at.ac.fhcampuswien.synapsenchat.connection.client to javafx.fxml;
+    exports at.ac.fhcampuswien.synapsenchat.connection.multithreading.client;
+    opens at.ac.fhcampuswien.synapsenchat.connection.multithreading.client to javafx.fxml;
+    exports at.ac.fhcampuswien.synapsenchat.connection.multithreading.server;
+    opens at.ac.fhcampuswien.synapsenchat.connection.multithreading.server to javafx.fxml;
 }

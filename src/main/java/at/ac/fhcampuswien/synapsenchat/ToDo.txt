@@ -1,0 +1,8 @@
+ToDo:
+    - Chat logic. Each message object should be assigned to a chat.
+    - A chat should serve as the communication link between the server and the client, accessible to both.
+
+Fixme:
+    - Threads don't terminate if Server or Client closes the session.
+    - Multichat ? (More than one Client connecting to the server)
+    - Cleanup Code in "connection" package

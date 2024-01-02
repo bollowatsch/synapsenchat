@@ -1,4 +1,4 @@
-package at.ac.fhcampuswien.synapsenchat.connection.client;
+package at.ac.fhcampuswien.synapsenchat.connection.old.client;
 import java.net.*;
 import java.io.*;
 public class Client {
