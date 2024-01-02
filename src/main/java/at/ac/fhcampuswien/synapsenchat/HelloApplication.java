@@ -25,6 +25,10 @@ public class HelloApplication extends Application {
                 .build()
                 .setGlobal();
 
+        // set minimum width and height for application
+        stage.setMinWidth(800.0);
+        stage.setMinHeight(650.0);
+
         FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("home.fxml"));
         Parent root = fxmlLoader.load();
         Scene scene = new Scene(root);

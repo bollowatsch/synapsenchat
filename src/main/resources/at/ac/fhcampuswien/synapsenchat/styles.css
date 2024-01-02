@@ -85,3 +85,7 @@
     -fx-border-color: -divider;
     -fx-text-alignment: center;
 }
+
+#error-label{
+    -fx-text-fill: RED;
+}

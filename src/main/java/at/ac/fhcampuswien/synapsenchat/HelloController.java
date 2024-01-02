@@ -37,14 +37,19 @@ public class HelloController {
     @FXML
     MFXButton startConnection;
     @FXML
+    MFXTextField chatName;
+    @FXML
     MFXTextField ipAddress;
+    @FXML
+    MFXTextField port;
+    @FXML
+    Label errorLabel;
     @FXML
     MFXButton sendMessage;
     @FXML
     MFXTextField newMessage;
     @FXML
     VBox chatContentBox;
-
 
 
     @FXML
@@ -56,16 +61,20 @@ public class HelloController {
             startLabel.setVisible(false);
         newChat.setVisible(true);
     }
+
     @FXML
     protected void showChatContent(ActionEvent event) throws IOException {
-        view = FXMLLoader.load(getClass().getResource("chatContent.fxml"));
-        BorderPane chatPane = (BorderPane) startConnection.getScene().getRoot();
-        chatPane.setCenter(view);
-
+        if (chatName.getText().isEmpty() || ipAddress.getText().isEmpty() || port.getText().isEmpty() ) {
+            errorLabel.setText("Please fill in all fields!");
+        } else {
+            view = FXMLLoader.load(getClass().getResource("chatContent.fxml"));
+            BorderPane chatPane = (BorderPane) startConnection.getScene().getRoot();
+            chatPane.setCenter(view);
+        }
     }
 
     @FXML
-    protected void showNewChat(ActionEvent event) throws IOException{
+    protected void showNewChat(ActionEvent event) throws IOException {
         view = FXMLLoader.load(getClass().getResource("newChat.fxml"));
         homePane.setCenter(view);
     }
@@ -78,13 +87,13 @@ public class HelloController {
         ipAddress.appendText(ipv4Address);
     }
 
-  @FXML
-  private void clearIpAddress(){
+    @FXML
+    private void clearIpAddress() {
         ipAddress.clear();
     }
 
     @FXML
-    protected void onStartConnectionButtonClick(){
+    protected void onStartConnectionButtonClick() {
         if (startLabel.isVisible())
             startLabel.setVisible(false);
         if (newChat.isVisible())
@@ -93,7 +102,7 @@ public class HelloController {
     }
 
     @FXML
-    protected void onSendMessage(){
+    protected void onSendMessage() {
         chatContentBox.setAlignment(Pos.TOP_RIGHT);
         String text = newMessage.getText().trim();
         if (!text.isEmpty()) {
@@ -103,6 +112,5 @@ public class HelloController {
             newMessage.clear();
         }
     }
-
 
 }
