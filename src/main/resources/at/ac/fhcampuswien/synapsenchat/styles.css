@@ -71,3 +71,17 @@
 #ip-address{
   -fx-width: 300;
 }
+
+.chat-content-label, #new-chat-button{
+    -fx-background-color: -primary-background;
+    -fx-font-size: 12;
+    -fx-text-fill: -text-dark;
+    -fx-min-height: 40;
+    -fx-padding: 5;
+    -fx-border-insets: 5;
+    -fx-background-insets: 5;
+    -fx-background-radius: 5;
+    -fx-border-radius: 5;
+    -fx-border-color: -divider;
+    -fx-text-alignment: center;
+}

@@ -1,14 +1,19 @@
 package at.ac.fhcampuswien.synapsenchat;
 
 import io.github.palexdev.materialfx.controls.MFXButton;
+import io.github.palexdev.materialfx.controls.MFXScrollPane;
 import io.github.palexdev.materialfx.controls.MFXTextField;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Pos;
 import javafx.scene.control.Label;
+import javafx.scene.control.Separator;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.Pane;
+import javafx.scene.layout.VBox;
 
 import java.io.*;
 import java.net.Inet4Address;
@@ -33,6 +38,13 @@ public class HelloController {
     MFXButton startConnection;
     @FXML
     MFXTextField ipAddress;
+    @FXML
+    MFXButton sendMessage;
+    @FXML
+    MFXTextField newMessage;
+    @FXML
+    VBox chatContentBox;
+
 
 
     @FXML
@@ -78,6 +90,18 @@ public class HelloController {
         if (newChat.isVisible())
             newChat.setVisible(false);
 //        chatContent.setVisible(true);
+    }
+
+    @FXML
+    protected void onSendMessage(){
+        chatContentBox.setAlignment(Pos.TOP_RIGHT);
+        String text = newMessage.getText().trim();
+        if (!text.isEmpty()) {
+            Label message = new Label(text);
+            message.getStyleClass().add("chat-content-label");
+            chatContentBox.getChildren().add(message);
+            newMessage.clear();
+        }
     }
 
 
