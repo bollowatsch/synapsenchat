@@ -1,6 +1,5 @@
-package at.ac.fhcampuswien.synapsenchat.connection.client;
+package at.ac.fhcampuswien.synapsenchat.connection.old.client;
 
-import java.io.IOException;
 import java.util.Scanner;
 
 public class ClientHandler {
