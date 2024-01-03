@@ -1,4 +1,5 @@
 /* Set all colors to readable format*/
+
 *{
     -primary-background: #F5F5F5;
     -primary: #607D8B;
@@ -49,5 +50,46 @@
 #name-field{
     -fx-background-color: -primary-background;
     -fx-text-fill: -text-dark;
+    -fx-border-color: -divider;
+}
+
+.custom-text{
+    -fx-text-fill: -text-dark;
+    -fx-border-color: -divider;
+    -fx-min-width: 150;
+}
+
+#radioButton .dot{
+    -fx-fill: -primary;
+    -fx-border-color: -primary;
+}
+
+#radioButton:selected .radio{
+ -fx-stroke: -primary;
+}
+
+#ip-address{
+  -fx-width: 300;
+}
+
+.chat-content-label, #new-chat-button{
+    -fx-background-color: -primary-background;
+    -fx-font-size: 12;
+    -fx-text-fill: -text-dark;
+    -fx-min-height: 40;
+    -fx-padding: 5;
+    -fx-border-insets: 5;
+    -fx-background-insets: 5;
+    -fx-background-radius: 5;
+    -fx-border-radius: 5;
+    -fx-border-color: -divider;
+    -fx-text-alignment: center;
+}
+
+#error-label{
+    -fx-text-fill: RED;
+}
+
+#new-message-field{
     -fx-border-color: -divider;
 }
