@@ -12,15 +12,18 @@ public class Chat implements Serializable {
     private final ArrayList<Message> messages;
 
     public Chat(String chatName) {
-        this.chatName = chatName;
-        this.id = ++globalID;
-        this.messages = new ArrayList<>();
-        chats.put(id, this);
+        synchronized (chats) {
+            this.chatName = chatName;
+            this.id = ++globalID;
+            this.messages = new ArrayList<>();
+            chats.put(id, this);
+        }
     }
 
     public static Chat getChatByID(int id) {
-        chats.get(id);
-        return chats.get(id);
+        synchronized (chats) {
+            return chats.get(id);
+        }
     }
 
     public int getID() {

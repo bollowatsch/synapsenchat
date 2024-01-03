@@ -18,7 +18,6 @@ public class Server {
             System.out.println("Connection established");
             while (true) {
 
-
                 out = new PrintWriter(clientSocket.getOutputStream(), true);
                 in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
 

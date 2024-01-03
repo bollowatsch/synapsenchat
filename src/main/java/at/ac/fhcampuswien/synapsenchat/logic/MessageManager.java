@@ -37,18 +37,18 @@ public class MessageManager {
         messageQueue.add(message);
     }
 
-    public void startSender(ObjectOutputStream oos) {
+    private void startSender(ObjectOutputStream oos) {
         this.oos = oos;
         new Thread(sender).start();
     }
 
-    public void startReceiver(ObjectInputStream ois) {
+    private void startReceiver(ObjectInputStream ois) {
         this.ois = ois;
         new Thread(receiver).start();
     }
 
     Runnable sender = () -> {
-        System.out.println("IOManager (sender) started!");
+        System.out.println("MessageManager (sender) started!");
         while (!socket.isClosed()) {
 
             synchronized (this) {
@@ -63,8 +63,7 @@ public class MessageManager {
 
                         try {
                             chat.addMessage(message);
-                        } catch (NullPointerException ignored) {
-                        }
+                        } catch (NullPointerException ignored) {}
 
                     } catch (java.net.SocketException e) {
                         System.out.println("java.net.SocketException");
@@ -81,7 +80,7 @@ public class MessageManager {
     };
 
     Runnable receiver = () -> {
-        System.out.println("IOManager (receiver) started!");
+        System.out.println("MessageManager (receiver) started!");
         while (!socket.isClosed()) {
 
             try {
@@ -92,8 +91,7 @@ public class MessageManager {
 
                 try {
                     chat.addMessage(message);
-                } catch (NullPointerException ignored) {
-                }
+                } catch (NullPointerException ignored) {}
 
             } catch (ClassNotFoundException e) {
                 System.out.println("Error occurred while receiving message.");

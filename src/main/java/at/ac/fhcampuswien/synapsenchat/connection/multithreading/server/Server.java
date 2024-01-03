@@ -32,13 +32,10 @@ public class Server {
             //letting the ioManager start
             Thread.sleep(10);
 
-            for (int i = 1; i < 11; i++) {
-                Message message = new Message(String.format("Message %d", i), "Server");
-                sendMessage(message);
-            }
+
 
             //Entering through console
-            /*while (!socket.isClosed() || terminate) {
+            while (!socket.isClosed() || terminate) {
                 System.out.println();
                 System.out.print("Message: ");
                 String input = sc.nextLine();
@@ -50,11 +47,19 @@ public class Server {
                     sendMessage(message);
                 }
             }
-             */
+
+
+            /*
+            for (int i = 1; i < 11; i++) {
+                Message message = new Message(String.format("Message %d", i), "Server");
+                sendMessage(message);
+            }
 
             while (!sc.nextLine().equals("exit")) {
                 continue;
             }
+
+             */
 
             chat.printAllMessages();
             oos.close();
@@ -66,7 +71,7 @@ public class Server {
 
     public synchronized void sendMessage(Message message) throws IOException, InterruptedException {
         messageManager.sendMessage(message);
-        Thread.sleep(500);
+        Thread.sleep(50);
     }
 
     public void terminate() {

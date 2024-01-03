@@ -31,7 +31,8 @@ public class Client {
 
 
             //Entering through console
-            /*while (!socket.isClosed() || terminate) {
+
+            while (!socket.isClosed() || terminate) {
                 System.out.println();
                 System.out.print("Message: ");
                 String input = sc.nextLine();
@@ -43,8 +44,10 @@ public class Client {
                     sendMessage(message);
                 }
             }
-            */
 
+
+
+            /*
             for (int i = 1; i < 11; i++) {
                 sendMessage(new Message(i + " ", "Client"));
             }
@@ -52,6 +55,8 @@ public class Client {
             while (!sc.nextLine().equals("exit")) {
                 continue;
             }
+
+             */
 
             oos.close();
 
