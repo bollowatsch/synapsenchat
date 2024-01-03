@@ -1,49 +1,44 @@
 package at.ac.fhcampuswien.synapsenchat.connection.multithreading.server;
 
-import at.ac.fhcampuswien.synapsenchat.logic.IOManager;
+import at.ac.fhcampuswien.synapsenchat.logic.Chat;
+import at.ac.fhcampuswien.synapsenchat.logic.MessageManager;
 import at.ac.fhcampuswien.synapsenchat.logic.Message;
 
 import java.io.IOException;
-import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Server {
-    private ServerSocket serverSocket;
-    private Socket socket;
-    ArrayList<Message> messages = new ArrayList<>();
-    private IOManager ioManager;
+    private final MessageManager messageManager;
     private Scanner sc = new Scanner(System.in);
+    private boolean terminate = false;
 
     Server(int port) {
         try {
-            serverSocket = new ServerSocket(port);
+            ServerSocket serverSocket = new ServerSocket(port);
             System.out.println("Server online! Waiting for connections.");
 
-            socket = serverSocket.accept();
+            Socket socket = serverSocket.accept();
             System.out.println("Connection established!");
 
             ObjectOutputStream oos = new ObjectOutputStream(socket.getOutputStream());
+            Chat chat = new Chat("First Chat!");
 
-            ioManager = new IOManager(socket);
-            ioManager.startSender(oos);
-            ioManager.startReceiver(new ObjectInputStream(socket.getInputStream()));
+            messageManager = new MessageManager(socket, oos);
+            messageManager.setChat(chat);
 
             //letting the ioManager start
             Thread.sleep(10);
 
-            /*
-            for (int i = 1; i < 6; i++) {
-                Message message = new Message(String.format("Test Message %d", i), "Server");
+            for (int i = 1; i < 11; i++) {
+                Message message = new Message(String.format("Message %d", i), "Server");
                 sendMessage(message);
             }
 
-             */
-
-            while (!socket.isClosed()) {
+            //Entering through console
+            /*while (!socket.isClosed() || terminate) {
                 System.out.println();
                 System.out.print("Message: ");
                 String input = sc.nextLine();
@@ -55,7 +50,13 @@ public class Server {
                     sendMessage(message);
                 }
             }
+             */
 
+            while (!sc.nextLine().equals("exit")) {
+                continue;
+            }
+
+            chat.printAllMessages();
             oos.close();
 
         } catch (IOException | InterruptedException e) {
@@ -64,8 +65,11 @@ public class Server {
     }
 
     public synchronized void sendMessage(Message message) throws IOException, InterruptedException {
-        messages.add(message);
-        ioManager.sendMessage(message);
+        messageManager.sendMessage(message);
         Thread.sleep(500);
+    }
+
+    public void terminate() {
+        this.terminate = true;
     }
 }

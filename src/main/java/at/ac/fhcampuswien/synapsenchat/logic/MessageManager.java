@@ -7,7 +7,7 @@ import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.util.ArrayList;
 
-public class IOManager {
+public class MessageManager {
     private Socket socket;
     private ArrayList<Message> messageQueue;
     private ArrayList<Message> sentMessages;
@@ -17,12 +17,19 @@ public class IOManager {
     private ObjectOutputStream oos;
     private ObjectInputStream ois;
 
-    public IOManager(Socket socket) {
+    private Chat chat;
+
+    public MessageManager(Socket socket, ObjectOutputStream oos) throws IOException {
         this.socket = socket;
         this.messageQueue = new ArrayList<>();
         this.sentMessages = new ArrayList<>();
         this.receivedMessages = new ArrayList<>();
         this.messageToSend = false;
+
+        this.oos = oos;
+        this.ois = new ObjectInputStream(socket.getInputStream());
+        this.startReceiver(ois);
+        this.startSender(oos);
     }
 
     public synchronized void sendMessage(Message message) {
@@ -30,12 +37,12 @@ public class IOManager {
         messageQueue.add(message);
     }
 
-    public synchronized void startSender(ObjectOutputStream oos) {
+    public void startSender(ObjectOutputStream oos) {
         this.oos = oos;
         new Thread(sender).start();
     }
 
-    public synchronized void startReceiver(ObjectInputStream ois) {
+    public void startReceiver(ObjectInputStream ois) {
         this.ois = ois;
         new Thread(receiver).start();
     }
@@ -53,6 +60,12 @@ public class IOManager {
                         oos.writeObject(message);
                         sentMessages.add(message);
                         messageToSend = false;
+
+                        try {
+                            chat.addMessage(message);
+                        } catch (NullPointerException ignored) {
+                        }
+
                     } catch (java.net.SocketException e) {
                         System.out.println("java.net.SocketException");
                         printSentMessages();
@@ -64,10 +77,7 @@ public class IOManager {
                     }
                 }
             }
-
         }
-
-        printSentMessages();
     };
 
     Runnable receiver = () -> {
@@ -79,6 +89,11 @@ public class IOManager {
                 Message message = (Message) ois.readObject();
                 System.out.println(message);
                 receivedMessages.add(message);
+
+                try {
+                    chat.addMessage(message);
+                } catch (NullPointerException ignored) {
+                }
 
             } catch (ClassNotFoundException e) {
                 System.out.println("Error occurred while receiving message.");
@@ -94,7 +109,6 @@ public class IOManager {
             }
         }
 
-        printReceivedMessages();
     };
 
     private void printReceivedMessages() {
@@ -107,4 +121,7 @@ public class IOManager {
         sentMessages.forEach(System.out::println);
     }
 
+    public void setChat(Chat chat) {
+        this.chat = chat;
+    }
 }
