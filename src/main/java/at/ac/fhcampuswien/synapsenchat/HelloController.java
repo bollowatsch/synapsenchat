@@ -72,7 +72,7 @@ public class HelloController {
     }
 
     @FXML
-    private void getClientIp() throws UnknownHostException {
+    private void getServerIp() throws UnknownHostException {
         Inet4Address my_localhost = (Inet4Address) Inet4Address.getLocalHost();
         String ipv4Address = my_localhost.getHostAddress().trim();
         ipAddress.clear();

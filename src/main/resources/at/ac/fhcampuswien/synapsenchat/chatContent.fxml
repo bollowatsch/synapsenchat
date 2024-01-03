@@ -36,7 +36,7 @@
             <MFXButton fx:id="sendMessage" alignment="CENTER" GridPane.valignment="CENTER" contentDisplay="CENTER"
                        prefHeight="Infinity" prefWidth="Infinity" text="Send" textAlignment="CENTER"
                        GridPane.columnIndex="1" GridPane.rowIndex="1" onAction="#onSendMessage"/>
-            <MFXTextField fx:id="newMessage" prefHeight="Infinity" prefWidth="Infinity" GridPane.rowIndex="1"
+            <MFXTextField fx:id="newMessage" id="new-message-field" prefHeight="Infinity" prefWidth="Infinity" GridPane.rowIndex="1"
                           GridPane.valignment="CENTER" GridPane.halignment="CENTER" onAction="#onSendMessage"/>
         </children>
     </GridPane>

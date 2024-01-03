@@ -40,9 +40,9 @@
                             </rowConstraints>
                             <MFXRadioButton id="radioButton" fx:id="radioServer" alignment="TOP_RIGHT" text="Server"
                                             GridPane.columnIndex="0" GridPane.halignment="CENTER"
-                                            toggleGroup="$radio" onAction="#clearIpAddress"/>
+                                            toggleGroup="$radio" onAction="#getServerIp"/>
                             <MFXRadioButton id="radioButton" fx:id="radioClient" selected="true" text="Client"
-                                            GridPane.columnIndex="1" GridPane.halignment="CENTER" toggleGroup="$radio" onAction="#getClientIp"/>
+                                            GridPane.columnIndex="1" GridPane.halignment="CENTER" toggleGroup="$radio" onAction="#clearIpAddress"/>
                         </GridPane>
                         <VBox.margin>
                             <Insets bottom="10.0"/>
