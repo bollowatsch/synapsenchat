@@ -91,5 +91,5 @@
 }
 
 #new-message-field{
-    -fx-border-color: -divider;
+    -fx-border-color: -divider; 
 }
