@@ -73,10 +73,19 @@ public class HelloController {
             VBox chatList = (VBox) chatPane.lookup("#chatList");
             Label newLabel = new Label(chatName.getText());
             newLabel.getStyleClass().add("chat-label");
+            //newLabel.setId(newChat.getId());
+            newLabel.setId("12");
+            newLabel.setOnMouseClicked(e -> {
+                Label label = (Label) e.getSource();
+                showExistingContent(Integer.parseInt(label.getId()));});
             chatList.getChildren().add(newLabel);
             // change view to chatContent
             chatPane.setCenter(view);
         }
+    }
+
+    private void showExistingContent(int id) {
+        System.out.println("The ID of this label is: " + id);
     }
 
     @FXML
