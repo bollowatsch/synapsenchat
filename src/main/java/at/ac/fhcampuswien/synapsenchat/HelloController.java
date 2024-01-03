@@ -59,19 +59,21 @@ public class HelloController {
             errorLabel.setText("Please fill in all fields!");
         } else {
             // instantiate new chat
+            /*
             Chat newChat;
             if (radioServer.isArmed())
                 newChat = new Chat(chatName.getText(), Integer.parseInt(port.getText()));
-            else if (radioClient.isArmed())
+            else
                 newChat = new Chat(chatName.getText(), ipAddress.getText(), Integer.parseInt(port.getText()));
-
-            // create Label and link with ID from chat
-
+            */
             // add new chat label in sidebar
-
-            // change view to chatContent
             view = FXMLLoader.load(getClass().getResource("chatContent.fxml"));
             BorderPane chatPane = (BorderPane) startConnection.getScene().getRoot();
+            VBox chatList = (VBox) chatPane.lookup("#chatList");
+            Label newLabel = new Label(chatName.getText());
+            newLabel.getStyleClass().add("chat-label");
+            chatList.getChildren().add(newLabel);
+            // change view to chatContent
             chatPane.setCenter(view);
         }
     }
