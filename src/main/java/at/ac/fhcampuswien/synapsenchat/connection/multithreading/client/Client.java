@@ -1,10 +1,9 @@
 package at.ac.fhcampuswien.synapsenchat.connection.multithreading.client;
 
-import at.ac.fhcampuswien.synapsenchat.logic.IOManager;
+import at.ac.fhcampuswien.synapsenchat.logic.MessageManager;
 import at.ac.fhcampuswien.synapsenchat.logic.Message;
 
 import java.io.IOException;
-import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.InetAddress;
 import java.net.Socket;
@@ -12,28 +11,28 @@ import java.net.UnknownHostException;
 import java.util.Scanner;
 
 public class Client {
-    private InetAddress inetAddress;
-    private Socket socket;
-    private IOManager ioManager;
+    private final MessageManager messageManager;
     private Scanner sc = new Scanner(System.in);
+    private boolean terminate = false;
 
     Client(String ip, int port) throws UnknownHostException {
-        inetAddress = InetAddress.getByName(ip);
+        InetAddress inetAddress = InetAddress.getByName(ip);
 
         try {
-            socket = new Socket(inetAddress, port);
+            Socket socket = new Socket(inetAddress, port);
             System.out.println("Connection established!");
 
             ObjectOutputStream oos = new ObjectOutputStream(socket.getOutputStream());
 
-            ioManager = new IOManager(socket);
-            ioManager.startReceiver(new ObjectInputStream(socket.getInputStream()));
-            ioManager.startSender(oos);
+            messageManager = new MessageManager(socket, oos);
 
             //letting the ioManager start
             Thread.sleep(10);
 
-            while (!socket.isClosed()) {
+
+            //Entering through console
+
+            while (!socket.isClosed() || terminate) {
                 System.out.println();
                 System.out.print("Message: ");
                 String input = sc.nextLine();
@@ -46,6 +45,19 @@ public class Client {
                 }
             }
 
+
+
+            /*
+            for (int i = 1; i < 11; i++) {
+                sendMessage(new Message(i + " ", "Client"));
+            }
+
+            while (!sc.nextLine().equals("exit")) {
+                continue;
+            }
+
+             */
+
             oos.close();
 
         } catch (IOException | InterruptedException e) {
@@ -54,7 +66,11 @@ public class Client {
     }
 
     public synchronized void sendMessage(Message message) throws IOException, InterruptedException {
-        ioManager.sendMessage(message);
+        messageManager.sendMessage(message);
         Thread.sleep(500);
+    }
+
+    public void terminate() {
+        this.terminate = true;
     }
 }

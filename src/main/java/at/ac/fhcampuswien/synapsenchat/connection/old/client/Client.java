@@ -1,10 +1,13 @@
 package at.ac.fhcampuswien.synapsenchat.connection.old.client;
+
 import java.net.*;
 import java.io.*;
+
 public class Client {
     private Socket clientSocket;
     private PrintWriter out;
     private BufferedReader in;
+
     public void startConnection(String ip, int port) {
         // while(true){
         try {
@@ -18,6 +21,7 @@ public class Client {
         //   receiveMessage();
         // }
     }
+
     public void stopConnection() {
         try {
             in.close();
@@ -27,9 +31,11 @@ public class Client {
             e.printStackTrace();
         }
     }
+
     public void sendMessage(String msg) {
         out.println(msg);
     }
+
     public void receiveMessage() {
         try {
             System.out.println(in.readLine());
