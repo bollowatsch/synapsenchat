@@ -61,10 +61,11 @@ public class HelloController {
             // instantiate new chat
             /*
             Chat newChat;
-            if (radioServer.isArmed())
+            if (radioServer.isSelected())
                 newChat = new Chat(chatName.getText(), Integer.parseInt(port.getText()));
             else
                 newChat = new Chat(chatName.getText(), ipAddress.getText(), Integer.parseInt(port.getText()));
+            System.out.println("TEST");
             */
             // add new chat label in sidebar
             view = FXMLLoader.load(getClass().getResource("chatContent.fxml"));
