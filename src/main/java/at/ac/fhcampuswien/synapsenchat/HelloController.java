@@ -1,5 +1,6 @@
 package at.ac.fhcampuswien.synapsenchat;
 
+import at.ac.fhcampuswien.synapsenchat.logic.Chat;
 import io.github.palexdev.materialfx.controls.*;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -15,6 +16,8 @@ import java.net.UnknownHostException;
 
 public class HelloController {
 
+    @FXML
+    MFXRadioButton radioServer, radioClient;
     @FXML
     BorderPane newChat;
     @FXML
@@ -55,6 +58,18 @@ public class HelloController {
         if (chatName.getText().isEmpty() || ipAddress.getText().isEmpty() || port.getText().isEmpty()) {
             errorLabel.setText("Please fill in all fields!");
         } else {
+            // instantiate new chat
+            Chat newChat;
+            if (radioServer.isArmed())
+                newChat = new Chat(chatName.getText(), Integer.parseInt(port.getText()));
+            else if (radioClient.isArmed())
+                newChat = new Chat(chatName.getText(), ipAddress.getText(), Integer.parseInt(port.getText()));
+
+            // create Label and link with ID from chat
+
+            // add new chat label in sidebar
+
+            // change view to chatContent
             view = FXMLLoader.load(getClass().getResource("chatContent.fxml"));
             BorderPane chatPane = (BorderPane) startConnection.getScene().getRoot();
             chatPane.setCenter(view);
