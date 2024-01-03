@@ -31,7 +31,6 @@
                             <children>
                                 <MFXButton id="new-chat-button" onAction="#showNewChat" text="+">
                                 </MFXButton>
-                                <Label styleClass="chat-label" text="Chat 1"/>
                             </children>
                         </VBox>
                     </content>
