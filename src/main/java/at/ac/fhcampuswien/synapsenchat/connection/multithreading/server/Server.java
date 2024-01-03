@@ -10,12 +10,12 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.Scanner;
 
-public class Server {
+public class Server extends Thread{
     private final MessageManager messageManager;
     private Scanner sc = new Scanner(System.in);
     private boolean terminate = false;
 
-    Server(int port) {
+    public Server(int port, Chat chat) {
         try {
             ServerSocket serverSocket = new ServerSocket(port);
             System.out.println("Server online! Waiting for connections.");
@@ -24,9 +24,8 @@ public class Server {
             System.out.println("Connection established!");
 
             ObjectOutputStream oos = new ObjectOutputStream(socket.getOutputStream());
-            Chat chat = new Chat("First Chat!");
 
-            messageManager = new MessageManager(socket, oos);
+            messageManager = new MessageManager(socket, oos, chat);
             messageManager.setChat(chat);
 
             //letting the ioManager start
@@ -69,7 +68,7 @@ public class Server {
         }
     }
 
-    public synchronized void sendMessage(Message message) throws IOException, InterruptedException {
+    private synchronized void sendMessage(Message message) throws IOException, InterruptedException {
         messageManager.sendMessage(message);
         Thread.sleep(50);
     }

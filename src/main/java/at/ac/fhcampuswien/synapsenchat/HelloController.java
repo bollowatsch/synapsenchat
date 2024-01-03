@@ -8,11 +8,10 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
+
 import java.io.*;
 import java.net.Inet4Address;
 import java.net.UnknownHostException;
-
-
 
 public class HelloController {
 
@@ -43,20 +42,17 @@ public class HelloController {
     @FXML
     VBox chatContentBox;
 
-
     @FXML
     protected void onNewChatButtonClick() {
         System.out.println("New chat!");
-        if (chatContent.isVisible())
-            chatContent.setVisible(false);
-        if (startLabel.isVisible())
-            startLabel.setVisible(false);
+        if (chatContent.isVisible()) chatContent.setVisible(false);
+        if (startLabel.isVisible()) startLabel.setVisible(false);
         newChat.setVisible(true);
     }
 
     @FXML
     protected void showChatContent() throws IOException {
-        if (chatName.getText().isEmpty() || ipAddress.getText().isEmpty() || port.getText().isEmpty() ) {
+        if (chatName.getText().isEmpty() || ipAddress.getText().isEmpty() || port.getText().isEmpty()) {
             errorLabel.setText("Please fill in all fields!");
         } else {
             view = FXMLLoader.load(getClass().getResource("chatContent.fxml"));
@@ -86,10 +82,8 @@ public class HelloController {
 
     @FXML
     protected void onStartConnectionButtonClick() {
-        if (startLabel.isVisible())
-            startLabel.setVisible(false);
-        if (newChat.isVisible())
-            newChat.setVisible(false);
+        if (startLabel.isVisible()) startLabel.setVisible(false);
+        if (newChat.isVisible()) newChat.setVisible(false);
 //        chatContent.setVisible(true);
     }
 

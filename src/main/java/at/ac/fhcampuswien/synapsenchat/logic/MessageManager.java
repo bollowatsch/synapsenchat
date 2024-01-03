@@ -19,12 +19,13 @@ public class MessageManager {
 
     private Chat chat;
 
-    public MessageManager(Socket socket, ObjectOutputStream oos) throws IOException {
+    public MessageManager(Socket socket, ObjectOutputStream oos, Chat chat) throws IOException {
         this.socket = socket;
         this.messageQueue = new ArrayList<>();
         this.sentMessages = new ArrayList<>();
         this.receivedMessages = new ArrayList<>();
         this.messageToSend = false;
+        this.chat = chat;
 
         this.oos = oos;
         this.ois = new ObjectInputStream(socket.getInputStream());

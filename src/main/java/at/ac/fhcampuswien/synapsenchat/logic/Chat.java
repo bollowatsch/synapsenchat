@@ -1,5 +1,8 @@
 package at.ac.fhcampuswien.synapsenchat.logic;
 
+import at.ac.fhcampuswien.synapsenchat.connection.multithreading.client.Client;
+import at.ac.fhcampuswien.synapsenchat.connection.multithreading.server.Server;
+
 import java.io.*;
 import java.util.*;
 
@@ -20,14 +23,20 @@ public class Chat implements Serializable {
         }
     }
 
+    public Chat(String chatName, int port){
+        this(chatName);
+        new Thread(new Server(port, this)).start();
+    }
+
+    public Chat(String chatName, String ip, int port) {
+        this(chatName);
+        new Thread(new Client(ip, port, this)).start();
+    }
+
     public static Chat getChatByID(int id) {
         synchronized (chats) {
             return chats.get(id);
         }
-    }
-
-    public int getID() {
-        return id;
     }
 
     public static ArrayList<Chat> getChats() {
@@ -43,6 +52,10 @@ public class Chat implements Serializable {
 
     public String getChatName() {
         return chatName;
+    }
+
+    public int getID() {
+        return id;
     }
 
     public void addMessage(Message message) {
@@ -85,6 +98,4 @@ public class Chat implements Serializable {
 
         return chat;
     }
-
-
 }

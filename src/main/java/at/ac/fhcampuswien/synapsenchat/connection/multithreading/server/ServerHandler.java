@@ -1,7 +1,9 @@
 package at.ac.fhcampuswien.synapsenchat.connection.multithreading.server;
 
-public class ServerManager {
+import at.ac.fhcampuswien.synapsenchat.logic.Chat;
+
+public class ServerHandler {
     public static void main(String[] args) {
-        Server server = new Server(5555);
+        Chat chat = new Chat("chat", 5555);
     }
 }
