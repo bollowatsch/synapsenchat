@@ -39,7 +39,7 @@ public class Client {
             ObjectOutputStream oos = new ObjectOutputStream(socket.getOutputStream());
             Scanner sc = new Scanner(System.in);
 
-            MessageManager messageManager = new MessageManager(socket, oos, chat);
+            MessageManager messageManager = new MessageManager(socket, oos, chat, this);
 
             //TODO: Connect sending / receiving logic to GUI.
             //Entering through console
@@ -79,5 +79,6 @@ public class Client {
 
     public void terminate() {
         this.terminate = true;
+        Thread.currentThread().interrupt();
     }
 }

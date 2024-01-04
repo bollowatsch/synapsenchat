@@ -1,5 +1,8 @@
 package at.ac.fhcampuswien.synapsenchat.logic;
 
+import at.ac.fhcampuswien.synapsenchat.connection.multithreading.client.Client;
+import at.ac.fhcampuswien.synapsenchat.connection.multithreading.server.Server;
+
 import java.io.EOFException;
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -18,14 +21,20 @@ public class MessageManager {
     private ObjectInputStream ois;
 
     private Chat chat;
+    private Server server;
+    private Client client;
 
-    public MessageManager(Socket socket, ObjectOutputStream oos, Chat chat) throws IOException {
+
+    public MessageManager(Socket socket, ObjectOutputStream oos, Chat chat, Object object) throws IOException {
         this.socket = socket;
         this.messageQueue = new ArrayList<>();
         this.sentMessages = new ArrayList<>();
         this.receivedMessages = new ArrayList<>();
         this.messageToSend = false;
         this.chat = chat;
+
+        if (object instanceof Server) this.server = (Server) object;
+        if (object instanceof Client) this.client = (Client) object;
 
         this.oos = oos;
         this.ois = new ObjectInputStream(socket.getInputStream());
@@ -46,6 +55,7 @@ public class MessageManager {
     private void startReceiver(ObjectInputStream ois) {
         this.ois = ois;
         new Thread(receiver).start();
+
     }
 
     private final Runnable sender = () -> {
@@ -64,7 +74,8 @@ public class MessageManager {
 
                         try {
                             chat.addMessage(message);
-                        } catch (NullPointerException ignored) {}
+                        } catch (NullPointerException ignored) {
+                        }
 
                     } catch (java.net.SocketException e) {
                         System.out.println("java.net.SocketException");
@@ -92,7 +103,8 @@ public class MessageManager {
 
                 try {
                     chat.addMessage(message);
-                } catch (NullPointerException ignored) {}
+                } catch (NullPointerException ignored) {
+                }
 
             } catch (ClassNotFoundException e) {
                 System.out.println("Error occurred while receiving message.");
@@ -107,7 +119,6 @@ public class MessageManager {
                 break;
             }
         }
-
     };
 
     private void printReceivedMessages() {

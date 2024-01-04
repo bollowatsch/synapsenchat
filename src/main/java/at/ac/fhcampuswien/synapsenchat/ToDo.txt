@@ -1,4 +1,5 @@
 ToDo:
+    - Create dedicated Sender and Receiver Classes for MessageManager!
     - Connect MessageHandling to GUI! (currently using console)
     - Multi chat ? (More than one client connecting to the server)
     - letting client reconnect to server after connection is lost without having to restart both components!!
