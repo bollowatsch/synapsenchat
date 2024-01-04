@@ -58,8 +58,7 @@ public class HelloController {
         if (chatName.getText().isEmpty() || ipAddress.getText().isEmpty() || port.getText().isEmpty()) {
             errorLabel.setText("Please fill in all fields!");
         } else {
-            // instantiate new chat
-
+            // instantiate new chat object
             Chat newChat;
             if (radioServer.isSelected())
                 newChat = new Chat(chatName.getText(), Integer.parseInt(port.getText()));
@@ -73,8 +72,7 @@ public class HelloController {
             VBox chatList = (VBox) chatPane.lookup("#chatList");
             Label newLabel = new Label(chatName.getText());
             newLabel.getStyleClass().add("chat-label");
-            //newLabel.setId(newChat.getId());
-            newLabel.setId("12");
+            newLabel.setId(String.valueOf(newChat.getID()));
             newLabel.setOnMouseClicked(e -> {
                 Label label = (Label) e.getSource();
                 showExistingContent(Integer.parseInt(label.getId()));});
