@@ -1,16 +1,19 @@
 ToDo:
-    - Chat logic. Each message object should be assigned to a chat.
-    - A chat should serve as the communication link between the server and the client, accessible to both.
+    - Connect MessageHandling to GUI! (currently using console)
     - Multi chat ? (More than one client connecting to the server)
-    - letting client reconnect to server after connection is lost without having to restart both components.
+    - letting client reconnect to server after connection is lost without having to restart both components!!
 
 Fixme:
     - Threads don't terminate if Server or Client closes the session!!! (using "terminate" variable to let parent thread know when to exit.)
     - Cleanup Code in "connection" package
 
 BUG:
-    - Chats cannot be used from client and server
-    FIX: Letting the server create a chat and manage the messages. only incoming and outgoing messages to and from the server are stored!!!!
+    - Some...
 
 DONE:
+    - Server and Client create their own Chat object, saving received and sent messages on their own.
+    - Server and Client should start in a new Thread with creating a new Chat object.
+    - A chat should serve as the communication link between the server and the client.
+    - Chat logic. Each message object should be assigned to a chat.
+    - Create server or client instances from Chat ---> new Chat(chatName, Server || Client)
     - Serialization of Chat object with all sent messages.

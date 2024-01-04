@@ -48,8 +48,8 @@ public class MessageManager {
         new Thread(receiver).start();
     }
 
-    Runnable sender = () -> {
-        System.out.println("MessageManager (sender) started!");
+    private final Runnable sender = () -> {
+        //System.out.println("MessageManager (sender) started!");
         while (!socket.isClosed()) {
 
             synchronized (this) {
@@ -80,8 +80,8 @@ public class MessageManager {
         }
     };
 
-    Runnable receiver = () -> {
-        System.out.println("MessageManager (receiver) started!");
+    private final Runnable receiver = () -> {
+        //System.out.println("MessageManager (receiver) started!");
         while (!socket.isClosed()) {
 
             try {
@@ -118,9 +118,5 @@ public class MessageManager {
     private void printSentMessages() {
         System.out.println("Printing all sent Messages...");
         sentMessages.forEach(System.out::println);
-    }
-
-    public void setChat(Chat chat) {
-        this.chat = chat;
     }
 }

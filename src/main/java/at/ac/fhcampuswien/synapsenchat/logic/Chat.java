@@ -1,5 +1,6 @@
 package at.ac.fhcampuswien.synapsenchat.logic;
 
+
 import at.ac.fhcampuswien.synapsenchat.connection.multithreading.client.Client;
 import at.ac.fhcampuswien.synapsenchat.connection.multithreading.server.Server;
 
@@ -14,6 +15,9 @@ public class Chat implements Serializable {
     private String chatName;
     private final ArrayList<Message> messages;
 
+    private Client client;
+    private Server server;
+
     public Chat(String chatName) {
         synchronized (chats) {
             this.chatName = chatName;
@@ -23,14 +27,22 @@ public class Chat implements Serializable {
         }
     }
 
-    public Chat(String chatName, int port){
+    public Chat(String chatName, int port) {
         this(chatName);
-        new Thread(new Server(port, this)).start();
+        new Server(port, this);
     }
 
     public Chat(String chatName, String ip, int port) {
         this(chatName);
-        new Thread(new Client(ip, port, this)).start();
+        new Client(ip, port, this);
+    }
+
+    public void setClient(Client client) {
+        this.client = client;
+    }
+
+    public void setServer(Server server) {
+        this.server = server;
     }
 
     public static Chat getChatByID(int id) {

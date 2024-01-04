@@ -10,31 +10,41 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.Scanner;
 
-public class Server extends Thread{
-    private final MessageManager messageManager;
-    private Scanner sc = new Scanner(System.in);
+public class Server {
+    private ServerSocket serverSocket;
+    private Chat chat;
+
     private boolean terminate = false;
 
     public Server(int port, Chat chat) {
         try {
-            ServerSocket serverSocket = new ServerSocket(port);
-            System.out.println("Server online! Waiting for connections.");
+            this.serverSocket = new ServerSocket(port);
+            this.chat = chat;
+            startServer();
+        } catch (IOException e) {
+            System.out.println("Error occurred while trying to create server: " + e.getMessage());
+        }
+    }
+
+    private void startServer() {
+        new Thread(run).start();
+    }
+
+    private final Runnable run = () -> {
+        try {
+            System.out.println("Server started in new Thread! Waiting for connections...");
 
             Socket socket = serverSocket.accept();
             System.out.println("Connection established!");
 
             ObjectOutputStream oos = new ObjectOutputStream(socket.getOutputStream());
+            Scanner sc = new Scanner(System.in);
 
-            messageManager = new MessageManager(socket, oos, chat);
-            messageManager.setChat(chat);
+            MessageManager messageManager = new MessageManager(socket, oos, chat);
 
-            //letting the ioManager start
-            Thread.sleep(10);
-
-
-
+            //TODO: Connect sending / receiving logic to GUI.
             //Entering through console
-            while (!socket.isClosed() || terminate) {
+            while (!socket.isClosed() || !terminate) {
                 System.out.println();
                 System.out.print("Message: ");
                 String input = sc.nextLine();
@@ -43,12 +53,13 @@ public class Server extends Thread{
                     if (input.equals("exit")) break;
 
                     Message message = new Message(input, "Server");
-                    sendMessage(message);
+                    messageManager.sendMessage(message);
+                    Thread.sleep(500);
                 }
             }
 
-
             /*
+            // Sending 10 messages. (type 'exit' to exit)
             for (int i = 1; i < 11; i++) {
                 Message message = new Message(String.format("Message %d", i), "Server");
                 sendMessage(message);
@@ -57,7 +68,6 @@ public class Server extends Thread{
             while (!sc.nextLine().equals("exit")) {
                 continue;
             }
-
              */
 
             chat.printAllMessages();
@@ -66,12 +76,7 @@ public class Server extends Thread{
         } catch (IOException | InterruptedException e) {
             throw new RuntimeException(e);
         }
-    }
-
-    private synchronized void sendMessage(Message message) throws IOException, InterruptedException {
-        messageManager.sendMessage(message);
-        Thread.sleep(50);
-    }
+    };
 
     public void terminate() {
         this.terminate = true;

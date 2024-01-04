@@ -4,6 +4,6 @@ import at.ac.fhcampuswien.synapsenchat.logic.Chat;
 
 public class ServerHandler {
     public static void main(String[] args) {
-        Chat chat = new Chat("chat", 5555);
+        Chat chat = new Chat("Chat#1", 5555);
     }
 }
