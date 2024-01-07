@@ -216,7 +216,7 @@ public class HelloController extends HelloApplication{
         chatPane.setCenter(view);
         MFXScrollPane chatContentPane = (MFXScrollPane) view.lookup("#chat-content");
         VBox chatContentBox = (VBox) chatContentPane.getContent();
-        chatContentBox.setAlignment(Pos.TOP_RIGHT); 
+        chatContentBox.setAlignment(Pos.TOP_RIGHT);
 
         for (Message oldMessage : oldMessages) {
             String text = oldMessage.toString();
