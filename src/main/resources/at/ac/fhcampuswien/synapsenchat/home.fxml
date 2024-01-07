@@ -8,7 +8,7 @@
 <?import javafx.scene.text.Font?>
 <BorderPane fx:controller="at.ac.fhcampuswien.synapsenchat.HelloController" maxHeight="-Infinity" maxWidth="-Infinity"
             minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0"
-            xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:id="homePane">
+            xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:id="chatPane">
     <left>
         <GridPane id="chat-list-gridpane" maxHeight="1.7976931348623157E308" maxWidth="300.0" minWidth="100.0"
                   prefWidth="200.0" GridPane.rowSpan="3">
@@ -40,7 +40,7 @@
                 </MFXScrollPane>
                 <MFXTextField id="name-field" floatingText="Name" minWidth="100.0" prefHeight="49.0" prefWidth="100.0"
                               selectable="false" GridPane.halignment="LEFT" GridPane.rowIndex="2"
-                              GridPane.valignment="CENTER">
+                              GridPane.valignment="CENTER" fx:id="usernameField" onAction="#setUsername">
                     <font>
                         <Font name="Roboto Italic" size="12.0"/>
                     </font>

@@ -4,7 +4,6 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 import io.github.palexdev.materialfx.theming.UserAgentBuilder;
 import io.github.palexdev.materialfx.theming.JavaFXThemes;
@@ -15,7 +14,6 @@ import java.io.IOException;
 public class HelloApplication extends Application {
     @Override
     public void start(Stage stage) throws Exception {
-
 
         UserAgentBuilder.builder()
                 .themes(JavaFXThemes.MODENA)
