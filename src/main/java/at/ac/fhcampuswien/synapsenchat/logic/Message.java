@@ -20,4 +20,8 @@ public class Message implements Serializable {
     public String toString() {
         return String.format("[%s] <%s>: %s", timestamp, senderName, message);
     }
+
+    public String getSenderName() {
+        return senderName;
+    }
 }

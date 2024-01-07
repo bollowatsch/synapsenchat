@@ -9,6 +9,7 @@ import javafx.geometry.Pos;
 import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
 import java.io.*;
@@ -48,7 +49,7 @@ public class HelloController extends HelloApplication{
     VBox chatContentBox;
     @FXML
     MFXTextField usernameField;
-    public String username;
+    public static String username;
     public Chat currentChat;
 
     @FXML
@@ -144,13 +145,15 @@ public class HelloController extends HelloApplication{
         String text = newMessage.getText().trim();
 
         if (!text.isEmpty()) {
-            String username = this.getUsername();
+            String username = getUsername();
+            // set user name to chat name for now for better testing
+            username = (String) currentChat.getChatName();
             Message message = new Message(text, username);
             Label messageLabel = new Label(message.toString());
             messageLabel.getStyleClass().add("chat-content-label");
             chatContentBox.getChildren().add(messageLabel);
-            currentChat.addMessage(message);
-//            currentChat.sendMessage(message);
+//            currentChat.addMessage(message);
+            currentChat.sendMessage(message);
             Chat.serializeChat(currentChat, "src/main/java/at/ac/fhcampuswien/synapsenchat/logs/" + chatID + ".txt");
             newMessage.clear();
         }
@@ -219,7 +222,23 @@ public class HelloController extends HelloApplication{
             String text = oldMessage.toString();
             Label messageLabel = new Label(text);
             messageLabel.getStyleClass().add("chat-content-label");
-            chatContentBox.getChildren().add(messageLabel);
+
+            //add HBox to dynamically change the alignment of the message labels
+            HBox messageContainer = new HBox();
+            messageContainer.setAlignment(Pos.CENTER_LEFT);
+
+            //TODO: needs to be change to user name
+            if ("Server".equals(oldMessage.getSenderName())) {
+                messageContainer.setAlignment(Pos.CENTER_RIGHT);
+            }
+
+            // Add label to the message container
+            messageContainer.getChildren().add(messageLabel);
+
+            // Add the message container to the VBox
+            chatContentBox.getChildren().add(messageContainer);
+
+//            chatContentBox.getChildren().add(messageLabel);
         }
         return view;
     }
@@ -227,6 +246,7 @@ public class HelloController extends HelloApplication{
     public void onReceivedMessage(Message message) {
         String text = message.toString();
         Label messageLabel = new Label(text);
+        chatContentBox.setAlignment(Pos.TOP_LEFT);
         chatContentBox.getChildren().add(messageLabel);
     }
 }

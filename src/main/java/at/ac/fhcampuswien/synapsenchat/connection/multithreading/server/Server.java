@@ -16,7 +16,7 @@ import java.util.Scanner;
 public class Server {
     private ServerSocket serverSocket;
     private Chat chat;
-    private ArrayList<Message> messageQueue;
+    private ArrayList<Message> messageQueue = new ArrayList<>();
     private ArrayList<Message> receivedMessages;
     HelloController helloController = new HelloController();
 
@@ -61,12 +61,12 @@ public class Server {
                     messageQueue.remove(0);
                 }
 
-                Platform.runLater(() -> {
+//                Platform.runLater(() -> {
                     if (!receivedMessages.isEmpty()) {
                         helloController.onReceivedMessage(receivedMessages.get(0));
                         receivedMessages.remove(0);
                     }
-                });
+//                });
             }
 
             chat.printAllMessages();
