@@ -3,9 +3,6 @@ package at.ac.fhcampuswien.synapsenchat.connection.multithreading.server;
 import at.ac.fhcampuswien.synapsenchat.logic.Chat;
 import at.ac.fhcampuswien.synapsenchat.logic.MessageManager;
 import at.ac.fhcampuswien.synapsenchat.logic.Message;
-import at.ac.fhcampuswien.synapsenchat.HelloController;
-import at.ac.fhcampuswien.synapsenchat.HelloApplication;
-import io.github.palexdev.materialfx.controls.*;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -24,6 +21,7 @@ import java.util.Scanner;
 public class Server {
     private ServerSocket serverSocket;
     private Chat chat;
+    private ArrayList<Message> messageQueue;
 
     private boolean terminate = false;
     public MessageManager messageManager;
@@ -65,39 +63,28 @@ public class Server {
             //TODO: Connect sending / receiving logic to GUI.
             //Entering through console
             while (!socket.isClosed() || !terminate) {
-                System.out.println();
-                System.out.print("Message: ");
-                String input = sc.nextLine();
-
-                if (!input.isEmpty()) {
-                    if (input.equals("exit")) break;
-
-                    Message message = new Message(input, "Server");
-                    messageManager.sendMessage(message);
-                    Thread.sleep(500);
+                if (!messageQueue.isEmpty()) {
+                    messageManager.sendMessage(messageQueue.get(0));
+                    messageQueue.remove(0);
                 }
             }
-
-            /*
-            // Sending 10 messages. (type 'exit' to exit)
-            for (int i = 1; i < 11; i++) {
-                Message message = new Message(String.format("Message %d", i), "Server");
-                sendMessage(message);
-            }
-
-            while (!sc.nextLine().equals("exit")) {
-                continue;
-            }
-             */
 
             chat.printAllMessages();
             appendMessageToChat(chat);
             oos.close();
 
-        } catch (IOException | InterruptedException e) {
+        } catch (IOException e) {
             throw new RuntimeException(e);
         }
     };
+
+    /**
+     * Adds Message to messageQueue and sends Message to Client or Server.
+     * @param message Message to be sent.
+     */
+    public void sendMessage(Message message) {
+        messageQueue.add(message);
+    }
 
     public void terminate() {
         this.terminate = true;

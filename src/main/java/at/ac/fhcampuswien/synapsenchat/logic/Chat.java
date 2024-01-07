@@ -29,20 +29,12 @@ public class Chat implements Serializable {
 
     public Chat(String chatName, int port) {
         this(chatName);
-        new Server(port, this);
+        this.server = new Server(port, this);
     }
 
     public Chat(String chatName, String ip, int port) {
         this(chatName);
-        new Client(ip, port, this);
-    }
-
-    public void setClient(Client client) {
-        this.client = client;
-    }
-
-    public void setServer(Server server) {
-        this.server = server;
+        this.client = new Client(ip, port, this);
     }
 
     public static Chat getChatByID(int id) {
@@ -72,6 +64,17 @@ public class Chat implements Serializable {
 
     public void addMessage(Message message) {
         messages.add(message);
+    }
+
+    /**
+     * Sends Message to Server / Client using {@code sendMessage} of client or server.
+     * @param message
+     */
+    public void sendMessage(Message message) {
+        if (server != null) server.sendMessage(message);
+        if (client != null) client.sendMessage(message);
+
+        addMessage(message);
     }
 
     public ArrayList<Message> getAllMessages() {

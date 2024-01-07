@@ -8,11 +8,13 @@ import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.net.InetAddress;
 import java.net.Socket;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Client {
     private Socket socket;
     private Chat chat;
+    private ArrayList<Message> messageQueue;
 
     private boolean terminate = false;
 
@@ -44,38 +46,24 @@ public class Client {
             //TODO: Connect sending / receiving logic to GUI.
             //Entering through console
             while (!socket.isClosed() || terminate) {
-                System.out.println();
-                System.out.print("Message: ");
-                String input = sc.nextLine();
 
-                if (!input.isEmpty()) {
-                    if (input.equals("exit")) break;
-
-                    Message message = new Message(input, "Client");
-                    messageManager.sendMessage(message);
-                    Thread.sleep(500);
+                if (!messageQueue.isEmpty()) {
+                    messageManager.sendMessage(messageQueue.get(0));
+                    messageQueue.remove(0);
                 }
             }
-
-            /*
-            // Sending 10 messages. (type 'exit' to exit)
-            for (int i = 1; i < 11; i++) {
-                sendMessage(new Message(i + " ", "Client"));
-            }
-
-            while (!sc.nextLine().equals("exit")) {
-                continue;
-            }
-
-             */
 
             chat.printAllMessages();
             oos.close();
 
-        } catch (IOException | InterruptedException e) {
+        } catch (IOException e) {
             throw new RuntimeException(e);
         }
     };
+
+    public void sendMessage(Message message) {
+        messageQueue.add(message);
+    }
 
     public void terminate() {
         this.terminate = true;
