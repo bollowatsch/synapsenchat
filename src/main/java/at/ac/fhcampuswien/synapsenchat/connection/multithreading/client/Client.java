@@ -14,7 +14,7 @@ import java.util.Scanner;
 public class Client {
     private Socket socket;
     private Chat chat;
-    private ArrayList<Message> messageQueue;
+    private ArrayList<Message> messageQueue = new ArrayList<>();
 
     private boolean terminate = false;
 

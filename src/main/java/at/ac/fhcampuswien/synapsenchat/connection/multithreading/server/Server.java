@@ -14,7 +14,7 @@ import java.util.Scanner;
 public class Server {
     private ServerSocket serverSocket;
     private Chat chat;
-    private ArrayList<Message> messageQueue;
+    private ArrayList<Message> messageQueue = new ArrayList<>();
 
     private boolean terminate = false;
     public MessageManager messageManager;

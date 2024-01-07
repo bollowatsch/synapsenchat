@@ -150,7 +150,7 @@ public class HelloController extends HelloApplication{
             messageLabel.getStyleClass().add("chat-content-label");
             chatContentBox.getChildren().add(messageLabel);
             currentChat.addMessage(message);
-//            currentChat.sendMessage(message);
+            currentChat.sendMessage(message);
             Chat.serializeChat(currentChat, "src/main/java/at/ac/fhcampuswien/synapsenchat/logs/" + chatID + ".txt");
             newMessage.clear();
         }
