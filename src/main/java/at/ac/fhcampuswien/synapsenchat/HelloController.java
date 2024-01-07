@@ -44,8 +44,8 @@ public class HelloController extends HelloApplication{
     MFXButton sendMessage;
     @FXML
     MFXTextField newMessage;
-    @FXML
-    VBox chatContentBox;
+//    @FXML
+//    VBox chatContentBox;
     @FXML
     MFXTextField usernameField;
     public String username;
@@ -134,7 +134,7 @@ public class HelloController extends HelloApplication{
     public void onSendMessage(AnchorPane view) {
         int chatID = currentChat.getID();
 
-        chatContentBox = (VBox) view.lookup("#chatContentBox");
+        VBox chatContentBox = (VBox) view.lookup("#chatContentBox");
 
         chatContentBox.setAlignment(Pos.TOP_RIGHT);
         String text = newMessage.getText().trim();
@@ -152,7 +152,7 @@ public class HelloController extends HelloApplication{
     public void appendMessageToChat(String text) {
         // append message to chatContentBox
         Label message = new Label(text);
-        chatContentBox.getChildren().add(message);
+//        VBox chatContentBox.getChildren().add(message);
     }
 
     @FXML
@@ -170,8 +170,6 @@ public class HelloController extends HelloApplication{
         //load old messages to the chat
         ArrayList<Message> oldMessages = chat.getAllMessages();
         if (!oldMessages.isEmpty()) {
-            Label messageLabel = new Label("test");
-            chatContentBox.getChildren().add(messageLabel);
             loadOldMessages(view, oldMessages);
         }
 
@@ -181,7 +179,6 @@ public class HelloController extends HelloApplication{
                 Label label = (Label) node;
                 // set action for each label
                 label.setOnMouseClicked(e -> {
-                    Label clickedLabel = (Label) e.getSource();
                     try {
                         showExistingContent(Integer.parseInt(label.getId()));
                     } catch (IOException ex) {
@@ -206,10 +203,13 @@ public class HelloController extends HelloApplication{
     }
 
     private void loadOldMessages(AnchorPane view, ArrayList<Message> oldMessages) {
-        chatContentBox = (VBox) view.lookup("#chatContentBox");
+        BorderPane chatPane = (BorderPane)  view.getScene().getRoot();
+        chatPane.setCenter(view);
+        MFXScrollPane chatContentPane = (MFXScrollPane) view.lookup("#chat-content");
+        VBox chatContentBox = new VBox();
+        chatContentPane.setContent(chatContentBox);
 
-        ArrayList<Message> messageList = oldMessages;
-        for (Message oldMessage : messageList) {
+        for (Message oldMessage : oldMessages) {
             String text = oldMessage.toString();
             Label messageLabel = new Label(text);
             messageLabel.getStyleClass().add("chat-content-label");
