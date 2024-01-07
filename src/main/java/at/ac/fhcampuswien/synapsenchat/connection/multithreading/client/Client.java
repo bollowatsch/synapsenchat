@@ -22,6 +22,7 @@ public class Client {
         try {
             InetAddress inetAddress = InetAddress.getByName(ip);
             this.socket = new Socket(inetAddress, port);
+            this.messageQueue = new ArrayList<>();
             this.chat = chat;
             startClient();
         } catch (IOException e) {

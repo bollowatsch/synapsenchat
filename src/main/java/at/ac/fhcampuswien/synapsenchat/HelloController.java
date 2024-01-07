@@ -150,7 +150,7 @@ public class HelloController extends HelloApplication{
             messageLabel.getStyleClass().add("chat-content-label");
             chatContentBox.getChildren().add(messageLabel);
             currentChat.addMessage(message);
-            currentChat.sendMessage(message);
+//            currentChat.sendMessage(message);
             Chat.serializeChat(currentChat, "src/main/java/at/ac/fhcampuswien/synapsenchat/logs/" + chatID + ".txt");
             newMessage.clear();
         }
@@ -206,7 +206,6 @@ public class HelloController extends HelloApplication{
         }); // Attach to Send button click
 
         int id = currentChat.getID();
-
     }
 
     private AnchorPane loadOldMessages(AnchorPane view, ArrayList<Message> oldMessages) {
@@ -215,7 +214,6 @@ public class HelloController extends HelloApplication{
         MFXScrollPane chatContentPane = (MFXScrollPane) view.lookup("#chat-content");
         VBox chatContentBox = (VBox) chatContentPane.getContent();
         chatContentBox.setAlignment(Pos.TOP_RIGHT);
-
 
         for (Message oldMessage : oldMessages) {
             String text = oldMessage.toString();

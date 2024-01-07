@@ -24,7 +24,6 @@ public class MessageManager {
     private Server server;
     private Client client;
 
-
     public MessageManager(Socket socket, ObjectOutputStream oos, Chat chat, Object object) throws IOException {
         this.socket = socket;
         this.messageQueue = new ArrayList<>();
@@ -64,6 +63,7 @@ public class MessageManager {
 
             synchronized (this) {
 
+                //ToDo: Alle Nachrichten senden, nicht nur die erste!
                 if (messageToSend) {
                     try {
                         Message message = messageQueue.get(0);
@@ -95,6 +95,7 @@ public class MessageManager {
         //System.out.println("MessageManager (receiver) started!");
         while (!socket.isClosed()) {
 
+            //TODO: Empfangene Nachrichten ins GUI übertragen!
             try {
 
                 Message message = (Message) ois.readObject();
