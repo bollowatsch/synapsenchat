@@ -1,8 +1,10 @@
 package at.ac.fhcampuswien.synapsenchat.connection.multithreading.client;
 
+import at.ac.fhcampuswien.synapsenchat.HelloController;
 import at.ac.fhcampuswien.synapsenchat.logic.Chat;
 import at.ac.fhcampuswien.synapsenchat.logic.MessageManager;
 import at.ac.fhcampuswien.synapsenchat.logic.Message;
+import javafx.application.Platform;
 
 import java.io.IOException;
 import java.io.ObjectOutputStream;
@@ -14,7 +16,10 @@ import java.util.Scanner;
 public class Client {
     private Socket socket;
     private Chat chat;
-    private ArrayList<Message> messageQueue = new ArrayList<>();
+    private ArrayList<Message> messageQueue;
+    private ArrayList<Message> receivedMessages;
+
+    private HelloController helloController;
 
     private boolean terminate = false;
 
@@ -23,6 +28,8 @@ public class Client {
             InetAddress inetAddress = InetAddress.getByName(ip);
             this.socket = new Socket(inetAddress, port);
             this.messageQueue = new ArrayList<>();
+            this.receivedMessages = new ArrayList<>();
+            this.helloController = new HelloController();
             this.chat = chat;
             startClient();
         } catch (IOException e) {
@@ -40,17 +47,24 @@ public class Client {
             System.out.println("Connection established!");
 
             ObjectOutputStream oos = new ObjectOutputStream(socket.getOutputStream());
-            Scanner sc = new Scanner(System.in);
-
             MessageManager messageManager = new MessageManager(socket, oos, chat, this);
 
             //TODO: Connect sending / receiving logic to GUI.
             //Entering through console
             while (!socket.isClosed() || terminate) {
+                synchronized (this) {
 
-                if (!messageQueue.isEmpty()) {
-                    messageManager.sendMessage(messageQueue.get(0));
-                    messageQueue.remove(0);
+                    if (!messageQueue.isEmpty()) {
+                        messageManager.sendMessage(messageQueue.get(0));
+                        messageQueue.remove(0);
+                    }
+
+                    if (!receivedMessages.isEmpty()) {
+                        Platform.runLater(() -> {
+                            helloController.onReceivedMessage(receivedMessages.get(0));
+                            receivedMessages.remove(0);
+                        });
+                    }
                 }
             }
 
@@ -64,6 +78,10 @@ public class Client {
 
     public void sendMessage(Message message) {
         messageQueue.add(message);
+    }
+
+    public void receiveMessage(Message message) {
+        receivedMessages.add(message);
     }
 
     public void terminate() {

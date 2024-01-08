@@ -11,12 +11,14 @@ public class Chat implements Serializable {
     private static int globalID = 0;
     private static final HashMap<Integer, Chat> chats = new HashMap<>();
 
-    private final int id;
+    private int id;
     private String chatName;
-    private final ArrayList<Message> messages;
+    private ArrayList<Message> messages;
 
-    private Client client;
-    private Server server;
+    private transient Chat copy;
+
+    private transient Client client;
+    private transient Server server;
 
     public Chat(String chatName) {
         synchronized (chats) {
@@ -35,6 +37,10 @@ public class Chat implements Serializable {
     public Chat(String chatName, String ip, int port) {
         this(chatName);
         this.client = new Client(ip, port, this);
+    }
+
+    public Chat(Chat chat) {
+        this.copy = chat.copy;
     }
 
     public static Chat getChatByID(int id) {
@@ -73,8 +79,6 @@ public class Chat implements Serializable {
     public void sendMessage(Message message) {
         if (server != null) server.sendMessage(message);
         if (client != null) client.sendMessage(message);
-
-//        addMessage(message);
     }
 
     public ArrayList<Message> getAllMessages() {
@@ -88,8 +92,10 @@ public class Chat implements Serializable {
         System.out.println("---------------");
     }
 
-    public static void serializeChat(Chat chat, String filename) {
-        try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(filename))) {
+    //FIXME: SERIALIZATION NOT WORKING CORRECT! (ArrayList of Messages is missing?)
+    public synchronized static void serializeChat(Chat chat, String filename) {
+        File file = new File(filename);
+        try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(file,false))) {
 
             oos.writeObject(chat);
             System.out.println("Serialized Chat object!");
@@ -99,13 +105,15 @@ public class Chat implements Serializable {
         }
     }
 
-    public static Chat deserializeChat(String filename) {
+    //FIXME: DESERIALIZATION NOT WORKING CORRECT! (ARRAY
+    public synchronized static Chat deserializeChat(String filename) {
         Chat chat = null;
+        File file = new File(filename);
 
-        try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(filename))) {
+        try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(file))) {
 
             chat = (Chat) ois.readObject();
-            System.out.println("Deserialized Chat object!");
+            System.out.printf("Deserialized Chat object! (%s)%n", chat.getChatName());
 
         } catch (IOException | ClassNotFoundException e) {
             System.out.println("Error occurred while deserialization of chat object: " + e.getMessage());

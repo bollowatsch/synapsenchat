@@ -12,12 +12,13 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
+
 import java.io.*;
 import java.net.Inet4Address;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
 
-public class HelloController extends HelloApplication{
+public class HelloController extends HelloApplication {
 
     @FXML
     MFXRadioButton radioServer, radioClient;
@@ -50,7 +51,7 @@ public class HelloController extends HelloApplication{
     @FXML
     MFXTextField usernameField;
     public static String username;
-    public Chat currentChat;
+    public static Chat currentChat;
 
     @FXML
     protected void onNewChatButtonClick() {
@@ -67,10 +68,8 @@ public class HelloController extends HelloApplication{
         } else {
             // instantiate new chat object
             Chat newChat;
-            if (radioServer.isSelected())
-                newChat = new Chat(chatName.getText(), Integer.parseInt(port.getText()));
-            else
-                newChat = new Chat(chatName.getText(), ipAddress.getText(), Integer.parseInt(port.getText()));
+            if (radioServer.isSelected()) newChat = new Chat(chatName.getText(), Integer.parseInt(port.getText()));
+            else newChat = new Chat(chatName.getText(), ipAddress.getText(), Integer.parseInt(port.getText()));
             this.currentChat = newChat;
             System.out.println("TEST");
 
@@ -146,7 +145,7 @@ public class HelloController extends HelloApplication{
 
         if (!text.isEmpty()) {
             String username = getUsername();
-            // set user name to chat name for now for better testing
+            // set username to chat name for now for better testing
             username = (String) currentChat.getChatName();
             Message message = new Message(text, username);
             Label messageLabel = new Label(message.toString());
@@ -154,7 +153,9 @@ public class HelloController extends HelloApplication{
             chatContentBox.getChildren().add(messageLabel);
 //            currentChat.addMessage(message);
             currentChat.sendMessage(message);
-            Chat.serializeChat(currentChat, "src/main/java/at/ac/fhcampuswien/synapsenchat/logs/" + chatID + ".txt");
+
+            //TODO: CHECK SERIALIZATION METHOD-SERVERSIDE (second message sent from server throws error???)
+            Chat.serializeChat(new Chat(currentChat), "src/main/java/at/ac/fhcampuswien/synapsenchat/logs/" + chatID + ".txt");
             newMessage.clear();
         }
     }
@@ -163,16 +164,16 @@ public class HelloController extends HelloApplication{
     private void setUsername() {
         this.username = usernameField.getText();
     }
-    private String getUsername(){
-        if (this.username != null)
-            return this.username;
+
+    private String getUsername() {
+        if (this.username != null) return this.username;
         return "Sender";
     }
 
     private void chatContentScene(BorderPane pane, Chat chat) throws IOException {
         // Create and display the main scene
         chatPane = pane;
-        AnchorPane view =  FXMLLoader.load(getClass().getResource("chatContent.fxml"));
+        AnchorPane view = FXMLLoader.load(getClass().getResource("chatContent.fxml"));
         chatPane.setCenter(view);
         VBox chatList = (VBox) chatPane.lookup("#chatList");
 
@@ -204,15 +205,15 @@ public class HelloController extends HelloApplication{
         newMessage.setOnAction(event -> {
             onSendMessage(finalView);
         }); // Attach to Enter key press
+
         sendMessage.setOnAction(event -> {
             onSendMessage(finalView);
         }); // Attach to Send button click
-
         int id = currentChat.getID();
     }
 
     private AnchorPane loadOldMessages(AnchorPane view, ArrayList<Message> oldMessages) {
-        BorderPane chatPane = (BorderPane)  view.getScene().getRoot();
+        BorderPane chatPane = (BorderPane) view.getScene().getRoot();
         chatPane.setCenter(view);
         MFXScrollPane chatContentPane = (MFXScrollPane) view.lookup("#chat-content");
         VBox chatContentBox = (VBox) chatContentPane.getContent();
@@ -244,9 +245,12 @@ public class HelloController extends HelloApplication{
     }
 
     public void onReceivedMessage(Message message) {
-        String text = message.toString();
-        Label messageLabel = new Label(text);
-        chatContentBox.setAlignment(Pos.TOP_LEFT);
-        chatContentBox.getChildren().add(messageLabel);
+        synchronized (this) {
+            String text = message.toString();
+            Label messageLabel = new Label(text);
+            chatContentBox.setAlignment(Pos.TOP_LEFT);
+            chatContentBox.getChildren().add(messageLabel);
+        }
+
     }
 }

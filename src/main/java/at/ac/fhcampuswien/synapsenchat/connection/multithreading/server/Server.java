@@ -16,18 +16,19 @@ import java.util.Scanner;
 public class Server {
     private ServerSocket serverSocket;
     private Chat chat;
-    private ArrayList<Message> messageQueue = new ArrayList<>();
+    private ArrayList<Message> messageQueue;
     private ArrayList<Message> receivedMessages;
-    HelloController helloController = new HelloController();
+
+    private HelloController helloController;
 
     private boolean terminate = false;
-    public MessageManager messageManager;
 
     public Server(int port, Chat chat) {
         try {
             this.serverSocket = new ServerSocket(port);
             this.messageQueue = new ArrayList<>();
             this.receivedMessages = new ArrayList<>();
+            this.helloController = new HelloController();
             this.chat = chat;
             startServer();
         } catch (IOException e) {
@@ -46,27 +47,27 @@ public class Server {
             Socket socket = serverSocket.accept();
             System.out.println("Connection established!");
 
-
             ObjectOutputStream oos = new ObjectOutputStream(socket.getOutputStream());
-            Scanner sc = new Scanner(System.in);
-
-
-            messageManager = new MessageManager(socket, oos, chat, this);
+            MessageManager messageManager = new MessageManager(socket, oos, chat, this);
 
             //TODO: Connect sending / receiving logic to GUI.
             //Entering through console
             while (!socket.isClosed() || !terminate) {
-                if (!messageQueue.isEmpty()) {
-                    messageManager.sendMessage(messageQueue.get(0));
-                    messageQueue.remove(0);
-                }
+                synchronized (this) {
 
-//                Platform.runLater(() -> {
-                    if (!receivedMessages.isEmpty()) {
-                        helloController.onReceivedMessage(receivedMessages.get(0));
-                        receivedMessages.remove(0);
+                    if (!messageQueue.isEmpty()) {
+                        messageManager.sendMessage(messageQueue.get(0));
+                        messageQueue.remove(0);
                     }
-//                });
+
+                    if (!receivedMessages.isEmpty()) {
+                        Platform.runLater(() -> {
+                            helloController.onReceivedMessage(receivedMessages.get(0));
+                            receivedMessages.remove(0);
+                        });
+                    }
+
+                }
             }
 
             chat.printAllMessages();
