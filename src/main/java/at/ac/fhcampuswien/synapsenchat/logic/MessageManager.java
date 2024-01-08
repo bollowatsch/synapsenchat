@@ -73,6 +73,8 @@ public class MessageManager {
                         messageToSend = false;
 
                         try {
+                            client.receiveMessage(message);
+                            server.receiveMessage(message);
                             chat.addMessage(message);
                         } catch (NullPointerException ignored) {
                         }
