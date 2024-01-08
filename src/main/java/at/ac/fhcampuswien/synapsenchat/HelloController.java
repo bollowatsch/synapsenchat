@@ -3,6 +3,7 @@ package at.ac.fhcampuswien.synapsenchat;
 import at.ac.fhcampuswien.synapsenchat.logic.Chat;
 import at.ac.fhcampuswien.synapsenchat.logic.Message;
 import io.github.palexdev.materialfx.controls.*;
+import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -103,6 +104,10 @@ public class HelloController extends HelloApplication {
 
         // change view to chatContent
         chatContentScene(chatPane, currentChat);
+
+    }
+
+    public void updateContent(int id){
 
     }
 
@@ -257,5 +262,9 @@ public class HelloController extends HelloApplication {
             chatContentBox.getChildren().add(messageLabel);
         }
 
+    }
+
+    public static void updateChat(Message message, int chatId){
+        System.out.println("Update detected!! ChatID: " + chatId + " Message: " + message.toString());
     }
 }

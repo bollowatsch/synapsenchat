@@ -1,9 +1,11 @@
 package at.ac.fhcampuswien.synapsenchat.logic;
 
 
+import at.ac.fhcampuswien.synapsenchat.HelloController;
 import at.ac.fhcampuswien.synapsenchat.connection.multithreading.client.Client;
 import at.ac.fhcampuswien.synapsenchat.connection.multithreading.server.Server;
 import javafx.collections.FXCollections;
+import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 
 import java.io.*;
@@ -27,6 +29,8 @@ public class Chat implements Serializable {
             this.chatName = chatName;
             this.id = ++globalID;
             this.messages = FXCollections.observableArrayList();
+            /* w  ww. j a va 2  s.  c o m*/
+            this.messages.addListener((ListChangeListener) c -> HelloController.updateChat((getAllMessages().get(messages.size()-1)), getID()));
             chats.put(id, this);
         }
     }
