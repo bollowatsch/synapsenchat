@@ -62,7 +62,11 @@ public class Server {
 
                     if (!receivedMessages.isEmpty()) {
                         Platform.runLater(() -> {
-                            helloController.onReceivedMessage(receivedMessages.get(0));
+                            try {
+                                helloController.onReceivedMessage(receivedMessages.get(0));
+                            } catch (Exception e) {
+                                System.out.println("ERROR WHILE SENDING RECEIVED MESSAGE TO GUI!");
+                            }
                             receivedMessages.remove(0);
                         });
                     }
