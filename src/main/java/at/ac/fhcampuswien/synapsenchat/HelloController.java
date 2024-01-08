@@ -3,6 +3,7 @@ package at.ac.fhcampuswien.synapsenchat;
 import at.ac.fhcampuswien.synapsenchat.logic.Chat;
 import at.ac.fhcampuswien.synapsenchat.logic.Message;
 import io.github.palexdev.materialfx.controls.*;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
@@ -105,6 +106,10 @@ public class HelloController extends HelloApplication {
 
     }
 
+    /**
+     * shows the "new chat" interface by laoding it into the center of borderPane
+     * @throws IOException
+     */
     @FXML
     protected void showNewChat() throws IOException {
         view = FXMLLoader.load(getClass().getResource("newChat.fxml"));
@@ -178,7 +183,7 @@ public class HelloController extends HelloApplication {
         VBox chatList = (VBox) chatPane.lookup("#chatList");
 
         //load old messages to the chat
-        ArrayList<Message> oldMessages = chat.getAllMessages();
+        ObservableList<Message> oldMessages = chat.getAllMessages();
         if (!oldMessages.isEmpty()) {
             view = loadOldMessages(view, oldMessages);
         }
@@ -212,7 +217,7 @@ public class HelloController extends HelloApplication {
         int id = currentChat.getID();
     }
 
-    private AnchorPane loadOldMessages(AnchorPane view, ArrayList<Message> oldMessages) {
+    private AnchorPane loadOldMessages(AnchorPane view, ObservableList<Message> oldMessages) {
         BorderPane chatPane = (BorderPane) view.getScene().getRoot();
         chatPane.setCenter(view);
         MFXScrollPane chatContentPane = (MFXScrollPane) view.lookup("#chat-content");

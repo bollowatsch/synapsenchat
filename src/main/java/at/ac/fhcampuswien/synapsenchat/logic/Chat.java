@@ -3,6 +3,8 @@ package at.ac.fhcampuswien.synapsenchat.logic;
 
 import at.ac.fhcampuswien.synapsenchat.connection.multithreading.client.Client;
 import at.ac.fhcampuswien.synapsenchat.connection.multithreading.server.Server;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 
 import java.io.*;
 import java.util.*;
@@ -13,7 +15,7 @@ public class Chat implements Serializable {
 
     private int id;
     private String chatName;
-    private ArrayList<Message> messages;
+    private ObservableList<Message> messages;
 
     private transient Chat copy;
 
@@ -24,7 +26,7 @@ public class Chat implements Serializable {
         synchronized (chats) {
             this.chatName = chatName;
             this.id = ++globalID;
-            this.messages = new ArrayList<>();
+            this.messages = FXCollections.observableArrayList();
             chats.put(id, this);
         }
     }
@@ -81,7 +83,7 @@ public class Chat implements Serializable {
         if (client != null) client.sendMessage(message);
     }
 
-    public ArrayList<Message> getAllMessages() {
+    public ObservableList<Message> getAllMessages() {
         return messages;
     }
 

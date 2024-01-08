@@ -2,6 +2,7 @@ package at.ac.fhcampuswien.synapsenchat;
 
 import at.ac.fhcampuswien.synapsenchat.logic.Chat;
 import at.ac.fhcampuswien.synapsenchat.logic.Message;
+import javafx.collections.ObservableList;
 
 import java.util.ArrayList;
 
@@ -33,7 +34,7 @@ public class Main {
         System.out.println(chat2copyCOPY);
 
         for (Chat chats: Chat.getChats()) {
-            ArrayList<Message> list = chats.getAllMessages();
+            ObservableList<Message> list = chats.getAllMessages();
             for (Message ms : list) System.out.printf("[%d] %s\n", chats.getID(), ms);
         }
 
