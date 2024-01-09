@@ -57,14 +57,6 @@ public class HelloController extends HelloApplication {
     private static int currentChatId = -1;
 
     @FXML
-    protected void onNewChatButtonClick() {
-        System.out.println("New chat!");
-        if (chatContent.isVisible()) chatContent.setVisible(false);
-        if (startLabel.isVisible()) startLabel.setVisible(false);
-        newChatPane.setVisible(true);
-    }
-
-    @FXML
     protected void showChatContent() throws IOException {
         if (chatName.getText().isEmpty() || ipAddress.getText().isEmpty() || port.getText().isEmpty()) {
             errorLabel.setText("Please fill in all fields!");
@@ -112,10 +104,6 @@ public class HelloController extends HelloApplication {
 
     }
 
-    public void updateContent(int id){
-
-    }
-
     /**
      * shows the "new chat" interface by laoding it into the center of borderPane
      * @throws IOException
@@ -138,14 +126,6 @@ public class HelloController extends HelloApplication {
     private void clearIpAddress() {
         ipAddress.clear();
     }
-
-    @FXML
-    protected void onStartConnectionButtonClick() {
-        if (startLabel.isVisible()) startLabel.setVisible(false);
-        if (newChatPane.isVisible()) newChatPane.setVisible(false);
-//        chatContent.setVisible(true);
-    }
-
 
     public void onSendMessage(AnchorPane view) {
         int chatID = currentChat.getID();
