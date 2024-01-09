@@ -4,6 +4,7 @@ package at.ac.fhcampuswien.synapsenchat.logic;
 import at.ac.fhcampuswien.synapsenchat.HelloController;
 import at.ac.fhcampuswien.synapsenchat.connection.multithreading.client.Client;
 import at.ac.fhcampuswien.synapsenchat.connection.multithreading.server.Server;
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
@@ -18,30 +19,38 @@ public class Chat implements Serializable {
     private int id;
     private String chatName;
     private ObservableList<Message> messages;
+    private HelloController controller;
 
     private transient Chat copy;
 
     private transient Client client;
     private transient Server server;
 
-    public Chat(String chatName) {
+    public Chat(String chatName, HelloController controller) {
         synchronized (chats) {
             this.chatName = chatName;
+            this.controller = controller;
             this.id = ++globalID;
             this.messages = FXCollections.observableArrayList();
-            /* w  ww. j a va 2  s.  c o m*/
-            this.messages.addListener((ListChangeListener) c -> HelloController.updateChat((getAllMessages().get(messages.size()-1)), getID()));
+            this.messages.addListener((ListChangeListener) c -> {
+                while(c.next()) {
+                    if (c.wasAdded()) {
+                        Platform.runLater(() ->
+                                controller.updateChat((getAllMessages().get(messages.size() - 1)), id));
+                    }
+                }
+            });
             chats.put(id, this);
         }
     }
 
-    public Chat(String chatName, int port) {
-        this(chatName);
+    public Chat(String chatName, int port, HelloController controller) {
+        this(chatName, controller);
         this.server = new Server(port, this);
     }
 
-    public Chat(String chatName, String ip, int port) {
-        this(chatName);
+    public Chat(String chatName, String ip, int port, HelloController controller) {
+        this(chatName, controller);
         this.client = new Client(ip, port, this);
     }
 

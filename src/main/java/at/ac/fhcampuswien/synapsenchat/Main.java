@@ -8,7 +8,7 @@ import java.util.ArrayList;
 
 public class Main {
     public static void main(String[] args) {
-        Chat chat = new Chat("Chat1");
+        /*Chat chat = new Chat("Chat1");
 
         chat.addMessage(new Message("Hello World!", "Nico"));
         chat.addMessage(new Message("TEST", "Nico"));
@@ -46,6 +46,6 @@ public class Main {
         System.out.println(Chat.getChats());
 
         //System.out.println(Chat.getChatByID(2).getAllMessages().get(1));
-
+*/
     }
 }

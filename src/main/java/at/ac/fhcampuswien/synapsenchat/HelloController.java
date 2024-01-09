@@ -54,6 +54,7 @@ public class HelloController extends HelloApplication {
     MFXTextField usernameField;
     public static String username;
     public static Chat currentChat;
+    private static int currentChatId = -1;
 
     @FXML
     protected void onNewChatButtonClick() {
@@ -70,8 +71,8 @@ public class HelloController extends HelloApplication {
         } else {
             // instantiate new chat object
             Chat newChat;
-            if (radioServer.isSelected()) newChat = new Chat(chatName.getText(), Integer.parseInt(port.getText()));
-            else newChat = new Chat(chatName.getText(), ipAddress.getText(), Integer.parseInt(port.getText()));
+            if (radioServer.isSelected()) newChat = new Chat(chatName.getText(), Integer.parseInt(port.getText()), this);
+            else newChat = new Chat(chatName.getText(), ipAddress.getText(), Integer.parseInt(port.getText()), this);
             this.currentChat = newChat;
             System.out.println("TEST");
 
@@ -85,6 +86,9 @@ public class HelloController extends HelloApplication {
                 Label label = (Label) e.getSource();
                 try {
                     showExistingContent(Integer.parseInt(label.getId()));
+                    currentChatId = Integer.parseInt(label.getId());
+                    currentChat = Chat.getChatByID(currentChatId);
+                    System.out.println("Label Id: " + label.getId() + "chat Id: " + currentChatId);
                 } catch (IOException ex) {
                     throw new RuntimeException(ex);
                 }
@@ -201,6 +205,8 @@ public class HelloController extends HelloApplication {
                 label.setOnMouseClicked(e -> {
                     try {
                         showExistingContent(Integer.parseInt(label.getId()));
+                        currentChatId = Integer.parseInt(label.getId());
+                        System.out.println("Label Id: " + label.getId() + "chat Id: " + currentChatId);
                     } catch (IOException ex) {
                         throw new RuntimeException(ex);
                     }
@@ -262,9 +268,12 @@ public class HelloController extends HelloApplication {
             chatContentBox.getChildren().add(messageLabel);
         }
 
+
     }
 
-    public static void updateChat(Message message, int chatId){
-        System.out.println("Update detected!! ChatID: " + chatId + " Message: " + message.toString());
+    public void updateChat(Message message, int chatId){
+        System.out.println("Update detected!! ChatID: " + chatId + "==" + currentChatId + "==" + currentChat.getID() + " Message: " + message.toString());
+        if(chatId == currentChat.getID())
+            onReceivedMessage(message);
     }
 }
