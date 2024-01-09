@@ -54,7 +54,7 @@
                         </VBox.margin>
                     </MFXTextField>
                     <MFXTextField id="port" floatingText="Port" selectable="false" styleClass="custom-text" fx:id="port"/>
-                    <MFXButton id="start-connection" fx:id="startConnection" buttonType="RAISED" minHeight="30.0" onAction="#showChatContent"
+                    <MFXButton id="start-connection" fx:id="startConnection" buttonType="RAISED" minHeight="30.0" onAction="#onSubmitNewChatForm"
                                text="GO!">
                         <VBox.margin>
                             <Insets bottom="20.0" top="20.0"/>

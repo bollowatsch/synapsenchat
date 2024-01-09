@@ -48,40 +48,49 @@ public class ChatAppController extends ChatApp {
     public static String username;
     public static Chat currentChat;
     @FXML
-    protected void showChatContent() throws IOException {
-        if (chatName.getText().isEmpty() || ipAddress.getText().isEmpty() || port.getText().isEmpty()) {
+    protected void onSubmitNewChatForm() {
+        if (chatName.getText().isEmpty() || ipAddress.getText().isEmpty() || port.getText().isEmpty())
             errorLabel.setText("Please fill in all fields!");
-        } else {
+        else {
             // instantiate new chat object
             Chat newChat;
             if (radioServer.isSelected()) newChat = new Chat(chatName.getText(), Integer.parseInt(port.getText()), this);
             else newChat = new Chat(chatName.getText(), ipAddress.getText(), Integer.parseInt(port.getText()), this);
             currentChat = newChat;
-            System.out.println("TEST");
 
-            // add new chat label in sidebar
-            chatPane = (BorderPane) startConnection.getScene().getRoot();
-            VBox chatList = (VBox) chatPane.lookup("#chatList");
-            Label newLabel = new Label(chatName.getText());
-            newLabel.getStyleClass().add("chat-label");
-            newLabel.setId(String.valueOf(newChat.getID()));
-            newLabel.setOnMouseClicked(e -> {
-                Label label = (Label) e.getSource();
-                try {
-                    showExistingContent(Integer.parseInt(label.getId()));
-                    currentChat = Chat.getChatByID(Integer.parseInt(label.getId()));
-                    System.out.println("Label Id: " + label.getId() + "chat Id: " + currentChat.getID());
-                } catch (IOException ex) {
-                    throw new RuntimeException(ex);
-                }
-            });
-            chatList.getChildren().add(newLabel);
-            // change view to chatContent
-//            AnchorPane view =  FXMLLoader.load(getClass().getResource("chatContent.fxml"));
-//            chatPane.setCenter(view);
+            addNewChatLabel(currentChat.getChatName(), currentChat.getID());
+            updateCenterView(currentChat);
+        }
+    }
+
+    private void updateCenterView(Chat newChat) {
+        try {
             chatContentScene(chatPane, newChat);
             showExistingContent(currentChat.getID());
+        } catch (Exception e) {
+            System.out.println("Error updating center view");
+            e.printStackTrace();
         }
+    }
+
+    private void addNewChatLabel(String chatName, int chatId) {
+        // add new chat label in sidebar
+        chatPane = (BorderPane) startConnection.getScene().getRoot();
+        VBox chatList = (VBox) chatPane.lookup("#chatList");
+        Label newLabel = new Label(chatName);
+        newLabel.getStyleClass().add("chat-label");
+        newLabel.setId(String.valueOf(chatId));
+        newLabel.setOnMouseClicked(e -> {
+            Label label = (Label) e.getSource();
+            try {
+                showExistingContent(Integer.parseInt(label.getId()));
+                currentChat = Chat.getChatByID(Integer.parseInt(label.getId()));
+                System.out.println("Label Id: " + label.getId() + "chat Id: " + currentChat.getID());
+            } catch (IOException ex) {
+                throw new RuntimeException(ex);
+            }
+        });
+        chatList.getChildren().add(newLabel);
     }
 
     protected void showExistingContent(int id) throws IOException {
@@ -91,7 +100,6 @@ public class ChatAppController extends ChatApp {
 
         // change view to chatContent
         chatContentScene(chatPane, currentChat);
-
     }
 
     /**
