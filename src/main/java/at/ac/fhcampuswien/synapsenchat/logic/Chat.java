@@ -3,6 +3,7 @@ package at.ac.fhcampuswien.synapsenchat.logic;
 
 import at.ac.fhcampuswien.synapsenchat.ChatAppController;
 import at.ac.fhcampuswien.synapsenchat.connection.Client;
+import at.ac.fhcampuswien.synapsenchat.connection.Instance;
 import at.ac.fhcampuswien.synapsenchat.connection.Server;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
@@ -18,17 +19,14 @@ public class Chat implements Serializable {
 
     private int id;
     private String chatName;
-    private transient ChatAppController controller;
     private ObservableList<Message> messages;
 
     private transient Chat copy;
-    private transient Client client;
-    private transient Server server;
+    private transient Instance instance;
 
     public Chat(String chatName, ChatAppController controller) {
         synchronized (chats) {
             this.chatName = chatName;
-            this.controller = controller;
             this.id = ++globalID;
             this.messages = FXCollections.observableArrayList();
             this.messages.addListener((ListChangeListener) c -> {
@@ -45,12 +43,12 @@ public class Chat implements Serializable {
 
     public Chat(String chatName, int port, ChatAppController controller) {
         this(chatName, controller);
-        this.server = new Server(port, this);
+        this.instance = new Server(port, this);
     }
 
     public Chat(String chatName, String ip, int port, ChatAppController controller) {
         this(chatName, controller);
-        this.client = new Client(ip, port, this);
+        this.instance = new Client(ip, port, this);
     }
 
     public Chat(Chat chat) {
@@ -70,10 +68,6 @@ public class Chat implements Serializable {
         }
     }
 
-    public void setChatName(String chatName) {
-        this.chatName = chatName;
-    }
-
     public String getChatName() {
         return chatName;
     }
@@ -88,24 +82,14 @@ public class Chat implements Serializable {
 
     /**
      * Sends Message to Server / Client using {@code sendMessage} of client or server.
-     *
-     * @param message
+     * @param message Message object
      */
     public void sendMessage(Message message) {
-        if (server != null) server.sendMessage(message);
-        if (client != null) client.sendMessage(message);
-        //messages.add(message);
+        if (instance != null) instance.sendMessage(message);
     }
 
     public ObservableList<Message> getAllMessages() {
         return messages;
-    }
-
-    public void printAllMessages() {
-        System.out.println("---------------");
-        System.out.printf("Printing chat history for chat %s...%n", this.chatName);
-        messages.forEach(System.out::println);
-        System.out.println("---------------");
     }
 
     //FIXME: SERIALIZATION NOT WORKING CORRECT! (ArrayList of Messages is missing?)

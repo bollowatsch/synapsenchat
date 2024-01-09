@@ -6,33 +6,17 @@ import at.ac.fhcampuswien.synapsenchat.logic.Message;
 
 import java.io.IOException;
 import java.io.ObjectOutputStream;
-import java.net.ServerSocket;
 import java.net.Socket;
-import java.util.ArrayList;
 
-public class Server {
-    private ServerSocket serverSocket;
-    private Chat chat;
-    private ArrayList<Message> messageQueue;
-
-    private static boolean terminate = false;
+public class Server extends Instance {
 
     public Server(int port, Chat chat) {
-        try {
-            this.serverSocket = new ServerSocket(port);
-            this.messageQueue = new ArrayList<>();
-            this.chat = chat;
-            startServer();
-        } catch (IOException e) {
-            System.out.println("Error occurred while trying to create server: " + e.getMessage());
-        }
+        super(port, chat);
+        start();
     }
 
-    private void startServer() {
-        new Thread(run).start();
-    }
-
-    private final Runnable run = () -> {
+    @Override
+    void runLogic() {
         try {
             System.out.println("Server started in new Thread! Waiting for connections...");
 
@@ -46,7 +30,6 @@ public class Server {
 
             while (socket.isConnected() && !terminate) {
                 synchronized (this) {
-
 
                     if (!messageQueue.isEmpty()) {
                         Message toSend = messageQueue.get(0);
@@ -63,13 +46,5 @@ public class Server {
         } catch (IOException | InterruptedException e) {
             throw new RuntimeException("Server terminated!");
         }
-    };
-
-    public void sendMessage(Message message) {
-        messageQueue.add(message);
-    }
-
-    public synchronized static void terminate() {
-        terminate = true;
     }
 }

@@ -1,39 +1,22 @@
 package at.ac.fhcampuswien.synapsenchat.connection;
 
 import at.ac.fhcampuswien.synapsenchat.logic.Chat;
-import at.ac.fhcampuswien.synapsenchat.logic.MessageManager;
 import at.ac.fhcampuswien.synapsenchat.logic.Message;
+import at.ac.fhcampuswien.synapsenchat.logic.MessageManager;
 
 import java.io.IOException;
 import java.io.ObjectOutputStream;
-import java.net.InetAddress;
-import java.net.Socket;
-import java.util.ArrayList;
 
-public class Client {
-    private Socket socket;
-    private Chat chat;
-    private ArrayList<Message> messageQueue;
 
-    private static boolean terminate = false;
+public class Client extends Instance {
 
     public Client(String ip, int port, Chat chat) {
-        try {
-            InetAddress inetAddress = InetAddress.getByName(ip);
-            this.socket = new Socket(inetAddress, port);
-            this.messageQueue = new ArrayList<>();
-            this.chat = chat;
-            startClient();
-        } catch (IOException e) {
-            System.out.println("Error occurred while trying to create client: " + e.getMessage());
-        }
+        super(ip, port, chat);
+        start();
     }
 
-    private void startClient() {
-        new Thread(run).start();
-    }
-
-    private final Runnable run = () -> {
+    @Override
+    void runLogic() {
         try {
             System.out.println("Client started in new Thread! ");
             System.out.println("Connection established!");
@@ -61,13 +44,5 @@ public class Client {
         } catch (IOException | InterruptedException e) {
             throw new RuntimeException(e);
         }
-    };
-
-    public void sendMessage(Message message) {
-        messageQueue.add(message);
-    }
-
-    public synchronized static void terminate() {
-        terminate = true;
     }
 }

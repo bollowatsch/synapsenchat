@@ -2,7 +2,6 @@ package at.ac.fhcampuswien.synapsenchat;
 
 import at.ac.fhcampuswien.synapsenchat.connection.Client;
 import at.ac.fhcampuswien.synapsenchat.connection.Server;
-import at.ac.fhcampuswien.synapsenchat.logic.Chat;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.event.EventHandler;
@@ -22,11 +21,12 @@ public class ChatApp extends Application {
             stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
                 @Override
                 public void handle(WindowEvent windowEvent) {
-                    Chat.serializeChat(ChatAppController.currentChat, "src/main/java/at/ac/fhcampuswien/synapsenchat/logs/test.txt");
                     Platform.exit();
 
                     Client.terminate();
                     Server.terminate();
+
+                    //TODO: Save all chats!
 
                     try {Thread.sleep(1000);} catch (InterruptedException ignored) {}
 
