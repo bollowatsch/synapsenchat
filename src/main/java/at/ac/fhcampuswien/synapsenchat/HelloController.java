@@ -170,7 +170,7 @@ public class HelloController extends HelloApplication {
             currentChat.sendMessage(message);
 
             //TODO: CHECK SERIALIZATION METHOD-SERVERSIDE (second message sent from server throws error???)
-            Chat.serializeChat(new Chat(currentChat), "src/main/java/at/ac/fhcampuswien/synapsenchat/logs/" + chatID + ".txt");
+            //Chat.serializeChat(new Chat(currentChat), "src/main/java/at/ac/fhcampuswien/synapsenchat/logs/" + chatID + ".txt");
             newMessage.clear();
         }
     }
@@ -264,6 +264,9 @@ public class HelloController extends HelloApplication {
     public void onReceivedMessage(Message message) {
         synchronized (this) {
             //chatContentBox = (VBox) view.lookup("#chatContentBox");
+
+            System.out.println("onReceivedMessage(): " + message);
+
             String text = message.toString();
             Label messageLabel = new Label(text);
             messageLabel.getStyleClass().add("chat-content-label");

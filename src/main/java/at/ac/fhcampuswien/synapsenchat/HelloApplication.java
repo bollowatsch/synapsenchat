@@ -16,7 +16,6 @@ import javafx.stage.WindowEvent;
 public class HelloApplication extends Application {
     @Override
     public void start(Stage stage) throws Exception {
-
         synchronized (this) {
             stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
                 @Override
@@ -24,6 +23,7 @@ public class HelloApplication extends Application {
                     Chat.serializeChat(HelloController.currentChat, "src/main/java/at/ac/fhcampuswien/synapsenchat/logs/test.txt");
                     Platform.exit();
                     System.out.println("EXITING...");
+                    try {Thread.sleep(1000);} catch (InterruptedException ignored) {}
                     System.exit(0);
                 }
             });

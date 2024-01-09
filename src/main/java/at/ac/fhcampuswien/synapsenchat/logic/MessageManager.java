@@ -54,12 +54,11 @@ public class MessageManager {
     private void startReceiver(ObjectInputStream ois) {
         this.ois = ois;
         new Thread(receiver).start();
-
     }
 
     private final Runnable sender = () -> {
         //System.out.println("MessageManager (sender) started!");
-        while (!socket.isClosed()) {
+        while (socket.isConnected()) {
 
             synchronized (this) {
 
@@ -67,14 +66,13 @@ public class MessageManager {
                 if (messageToSend) {
                     try {
                         Message message = messageQueue.get(0);
+
                         messageQueue.remove(0);
                         oos.writeObject(message);
                         sentMessages.add(message);
                         messageToSend = false;
 
                         try {
-                            client.receiveMessage(message);
-                            server.receiveMessage(message);
                             chat.addMessage(message);
                         } catch (NullPointerException ignored) {
                         }
@@ -95,33 +93,38 @@ public class MessageManager {
 
     private final Runnable receiver = () -> {
         //System.out.println("MessageManager (receiver) started!");
-        while (!socket.isClosed()) {
+        while (socket.isConnected()) {
 
-            //TODO: Empfangene Nachrichten ins GUI übertragen!
-            try {
 
-                Message message = (Message) ois.readObject();
-                System.out.println(message);
-                receivedMessages.add(message);
-
+                //TODO: Empfangene Nachrichten ins GUI übertragen!
                 try {
-                    chat.addMessage(message);
-                } catch (NullPointerException ignored) {
-                }
 
-            } catch (ClassNotFoundException e) {
-                System.out.println("Error occurred while receiving message.");
-                System.out.println(e.getMessage());
-                printReceivedMessages();
-                break;
-            } catch (EOFException e) {
-                System.out.println("Stream ended!");
-                break;
-            } catch (IOException e) {
-                System.out.println("RuntimeException");
-                break;
+                    Message message = (Message) ois.readObject();
+                    receivedMessages.add(message);
+
+                    try {
+                        client.receiveMessage(message);
+                    } catch (NullPointerException ignored) {}
+
+                    try {
+                        server.receiveMessage(message);
+                    } catch (NullPointerException ignored) {}
+
+                    chat.addMessage(message);
+
+                } catch (ClassNotFoundException e) {
+                    System.out.println("Error occurred while receiving message.");
+                    System.out.println(e.getMessage());
+                    printReceivedMessages();
+                    break;
+                } catch (EOFException e) {
+                    System.out.println("Stream ended!");
+                    break;
+                } catch (IOException e) {
+                    System.out.println("RuntimeException");
+                    break;
+                }
             }
-        }
     };
 
     private void printReceivedMessages() {

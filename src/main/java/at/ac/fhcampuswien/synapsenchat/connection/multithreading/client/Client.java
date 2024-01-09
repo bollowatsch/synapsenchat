@@ -4,14 +4,12 @@ import at.ac.fhcampuswien.synapsenchat.HelloController;
 import at.ac.fhcampuswien.synapsenchat.logic.Chat;
 import at.ac.fhcampuswien.synapsenchat.logic.MessageManager;
 import at.ac.fhcampuswien.synapsenchat.logic.Message;
-import javafx.application.Platform;
 
 import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.net.InetAddress;
 import java.net.Socket;
 import java.util.ArrayList;
-import java.util.Scanner;
 
 public class Client {
     private Socket socket;
@@ -51,33 +49,34 @@ public class Client {
 
             //TODO: Connect sending / receiving logic to GUI.
             //Entering through console
-            while (!socket.isClosed() || !terminate) {
+            while (socket.isConnected() || !terminate) {
                 synchronized (this) {
 
                     if (!messageQueue.isEmpty()) {
-                        messageManager.sendMessage(messageQueue.get(0));
-                        messageQueue.remove(0);
+                        Message toSend = messageQueue.get(0);
+                        messageManager.sendMessage(toSend);
+                        messageQueue.remove(toSend);
                     }
 
                     if (!receivedMessages.isEmpty()) {
-                        Platform.runLater(() -> {
-
-                            try {
-                                helloController.onReceivedMessage(receivedMessages.get(0));
-                            } catch (Exception e) {
-                                System.out.println("ERROR WHILE SENDING RECEIVED MESSAGE TO GUI!");
-                            }
-
+                        try {
+                            //helloController.onReceivedMessage(receivedMessages.get(0));
+                            System.out.println("Client run loop: " + receivedMessages.get(0));
                             receivedMessages.remove(0);
-                        });
+                        } catch (Exception e) {
+                            System.out.println("ERROR WHILE SENDING RECEIVED MESSAGE TO GUI!");
+                            System.out.println(e.getMessage());
+                        }
                     }
+
+                    Thread.sleep(500);
                 }
             }
 
             chat.printAllMessages();
             oos.close();
 
-        } catch (IOException e) {
+        } catch (IOException | InterruptedException e) {
             throw new RuntimeException(e);
         }
     };

@@ -18,11 +18,10 @@ public class Chat implements Serializable {
 
     private int id;
     private String chatName;
-    private ObservableList<Message> messages;
     private HelloController controller;
+    private ObservableList<Message> messages;
 
     private transient Chat copy;
-
     private transient Client client;
     private transient Server server;
 
@@ -89,6 +88,7 @@ public class Chat implements Serializable {
 
     /**
      * Sends Message to Server / Client using {@code sendMessage} of client or server.
+     *
      * @param message
      */
     public void sendMessage(Message message) {
