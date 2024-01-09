@@ -3,7 +3,7 @@
 * Download & install SceneBuilder from https://gluonhq.com/products/javafx/
 * Add SDK to project:
 `File > Project Structure > Libraires > + > Java > <Filepath to JavaFX lib folder>`
-## Scenebuilder
+## Scenebuilder (not mandatory)
 * Download & install SceneBuilder from https://gluonhq.com/products/scene-builder/
 * After installation, specify SceneBuilder Path in IntelliJ:
   `File > Settings > Languages & Frameworks > JavaFX > Path to SceneBuilder`
