@@ -98,6 +98,7 @@ public class HelloController extends HelloApplication {
 //            AnchorPane view =  FXMLLoader.load(getClass().getResource("chatContent.fxml"));
 //            chatPane.setCenter(view);
             chatContentScene(chatPane, newChat);
+            showExistingContent(currentChat.getID());
         }
     }
 
@@ -160,11 +161,11 @@ public class HelloController extends HelloApplication {
         if (!text.isEmpty()) {
             String username = getUsername();
             // set username to chat name for now for better testing
-            username = (String) currentChat.getChatName();
+            // username = (String) currentChat.getChatName();
             Message message = new Message(text, username);
             Label messageLabel = new Label(message.toString());
             messageLabel.getStyleClass().add("chat-content-label");
-            chatContentBox.getChildren().add(messageLabel);
+            //chatContentBox.getChildren().add(messageLabel);
 //            currentChat.addMessage(message);
             currentChat.sendMessage(message);
 
@@ -205,8 +206,8 @@ public class HelloController extends HelloApplication {
                 label.setOnMouseClicked(e -> {
                     try {
                         showExistingContent(Integer.parseInt(label.getId()));
-                        currentChatId = Integer.parseInt(label.getId());
-                        System.out.println("Label Id: " + label.getId() + "chat Id: " + currentChatId);
+                        currentChat = Chat.getChatByID(Integer.parseInt(label.getId()));
+                        System.out.println("Label Id: " + label.getId() + "chat Id: " + currentChat.getID());
                     } catch (IOException ex) {
                         throw new RuntimeException(ex);
                     }
@@ -262,13 +263,13 @@ public class HelloController extends HelloApplication {
 
     public void onReceivedMessage(Message message) {
         synchronized (this) {
+            //chatContentBox = (VBox) view.lookup("#chatContentBox");
             String text = message.toString();
             Label messageLabel = new Label(text);
+            messageLabel.getStyleClass().add("chat-content-label");
             chatContentBox.setAlignment(Pos.TOP_LEFT);
             chatContentBox.getChildren().add(messageLabel);
         }
-
-
     }
 
     public void updateChat(Message message, int chatId){

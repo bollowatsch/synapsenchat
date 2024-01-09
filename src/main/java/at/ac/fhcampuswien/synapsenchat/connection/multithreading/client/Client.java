@@ -51,7 +51,7 @@ public class Client {
 
             //TODO: Connect sending / receiving logic to GUI.
             //Entering through console
-            while (!socket.isClosed() || terminate) {
+            while (!socket.isClosed() || !terminate) {
                 synchronized (this) {
 
                     if (!messageQueue.isEmpty()) {
