@@ -1,7 +1,7 @@
 package at.ac.fhcampuswien.synapsenchat;
 
-import at.ac.fhcampuswien.synapsenchat.connection.multithreading.client.Client;
-import at.ac.fhcampuswien.synapsenchat.connection.multithreading.server.Server;
+import at.ac.fhcampuswien.synapsenchat.connection.Client;
+import at.ac.fhcampuswien.synapsenchat.connection.Server;
 import at.ac.fhcampuswien.synapsenchat.logic.Chat;
 import javafx.application.Application;
 import javafx.application.Platform;

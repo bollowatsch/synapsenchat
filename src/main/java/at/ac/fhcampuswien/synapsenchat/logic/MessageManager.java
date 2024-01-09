@@ -1,7 +1,7 @@
 package at.ac.fhcampuswien.synapsenchat.logic;
 
-import at.ac.fhcampuswien.synapsenchat.connection.multithreading.client.Client;
-import at.ac.fhcampuswien.synapsenchat.connection.multithreading.server.Server;
+import at.ac.fhcampuswien.synapsenchat.connection.Client;
+import at.ac.fhcampuswien.synapsenchat.connection.Server;
 
 import java.io.EOFException;
 import java.io.IOException;

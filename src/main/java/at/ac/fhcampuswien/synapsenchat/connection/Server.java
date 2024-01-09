@@ -1,4 +1,4 @@
-package at.ac.fhcampuswien.synapsenchat.connection.multithreading.server;
+package at.ac.fhcampuswien.synapsenchat.connection;
 
 import at.ac.fhcampuswien.synapsenchat.logic.Chat;
 import at.ac.fhcampuswien.synapsenchat.logic.MessageManager;
