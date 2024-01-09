@@ -74,7 +74,6 @@ public class ChatAppController extends ChatApp {
     }
 
     private void addNewChatLabel(String chatName, int chatId) {
-        // add new chat label in sidebar
         chatPane = (BorderPane) startConnection.getScene().getRoot();
         VBox chatList = (VBox) chatPane.lookup("#chatList");
         Label newLabel = new Label(chatName);
@@ -103,7 +102,7 @@ public class ChatAppController extends ChatApp {
     }
 
     /**
-     * shows the "new chat" interface by laoding it into the center of borderPane
+     * shows the "new chat" interface by loading it into the center of borderPane
      * @throws IOException
      */
     @FXML
@@ -164,6 +163,12 @@ public class ChatAppController extends ChatApp {
         return "Sender";
     }
 
+    /**
+     * loads chatContent.fxml into center view, loads old messages into view
+     * @param pane
+     * @param chat
+     * @throws IOException
+     */
     private void chatContentScene(BorderPane pane, Chat chat) throws IOException {
         // Create and display the main scene
         chatPane = pane;
@@ -175,23 +180,6 @@ public class ChatAppController extends ChatApp {
         ObservableList<Message> oldMessages = chat.getAllMessages();
         if (!oldMessages.isEmpty()) {
             view = loadOldMessages(view, oldMessages);
-        }
-
-        // functionality to switch between the chats
-        for (javafx.scene.Node node : chatList.getChildren()) {
-            if (node instanceof Label) {
-                Label label = (Label) node;
-                // set action for each label
-                label.setOnMouseClicked(e -> {
-                    try {
-                        showExistingContent(Integer.parseInt(label.getId()));
-                        currentChat = Chat.getChatByID(Integer.parseInt(label.getId()));
-                        System.out.println("Label Id: " + label.getId() + "chat Id: " + currentChat.getID());
-                    } catch (IOException ex) {
-                        throw new RuntimeException(ex);
-                    }
-                });
-            }
         }
 
         newMessage = (MFXTextField) view.lookup("#new-message-field");
