@@ -1,6 +1,5 @@
 package at.ac.fhcampuswien.synapsenchat.connection.multithreading.client;
 
-import at.ac.fhcampuswien.synapsenchat.HelloController;
 import at.ac.fhcampuswien.synapsenchat.logic.Chat;
 import at.ac.fhcampuswien.synapsenchat.logic.MessageManager;
 import at.ac.fhcampuswien.synapsenchat.logic.Message;
@@ -16,16 +15,13 @@ public class Client {
     private Chat chat;
     private ArrayList<Message> messageQueue;
 
-    private HelloController helloController;
-
-    private boolean terminate = false;
+    private static boolean terminate = false;
 
     public Client(String ip, int port, Chat chat) {
         try {
             InetAddress inetAddress = InetAddress.getByName(ip);
             this.socket = new Socket(inetAddress, port);
             this.messageQueue = new ArrayList<>();
-            this.helloController = new HelloController();
             this.chat = chat;
             startClient();
         } catch (IOException e) {
@@ -47,7 +43,7 @@ public class Client {
 
             //TODO: Connect sending / receiving logic to GUI.
             //Entering through console
-            while (socket.isConnected() || !terminate) {
+            while (socket.isConnected() && !terminate) {
                 synchronized (this) {
 
                     if (!messageQueue.isEmpty()) {
@@ -59,8 +55,8 @@ public class Client {
                 }
             }
 
-            chat.printAllMessages();
             oos.close();
+            System.out.println("Client terminated!");
 
         } catch (IOException | InterruptedException e) {
             throw new RuntimeException(e);
@@ -71,8 +67,7 @@ public class Client {
         messageQueue.add(message);
     }
 
-    public void terminate() {
-        this.terminate = true;
-        Thread.currentThread().interrupt();
+    public synchronized static void terminate() {
+        terminate = true;
     }
 }

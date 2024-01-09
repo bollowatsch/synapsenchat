@@ -1,5 +1,7 @@
 package at.ac.fhcampuswien.synapsenchat;
 
+import at.ac.fhcampuswien.synapsenchat.connection.multithreading.client.Client;
+import at.ac.fhcampuswien.synapsenchat.connection.multithreading.server.Server;
 import at.ac.fhcampuswien.synapsenchat.logic.Chat;
 import javafx.application.Application;
 import javafx.application.Platform;
@@ -22,8 +24,13 @@ public class HelloApplication extends Application {
                 public void handle(WindowEvent windowEvent) {
                     Chat.serializeChat(HelloController.currentChat, "src/main/java/at/ac/fhcampuswien/synapsenchat/logs/test.txt");
                     Platform.exit();
-                    System.out.println("EXITING...");
+
+                    Client.terminate();
+                    Server.terminate();
+
                     try {Thread.sleep(1000);} catch (InterruptedException ignored) {}
+
+                    System.out.println("EXITING...");
                     System.exit(0);
                 }
             });

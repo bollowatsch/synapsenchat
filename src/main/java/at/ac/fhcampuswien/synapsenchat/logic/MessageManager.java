@@ -41,6 +41,14 @@ public class MessageManager {
         this.startSender(oos);
     }
 
+    private synchronized boolean close()  {
+        try {
+            oos.close();
+            ois.close();
+        } catch (IOException ignored) {return false;}
+        return true;
+    }
+
     public synchronized void sendMessage(Message message) {
         messageToSend = true;
         messageQueue.add(message);
@@ -57,12 +65,10 @@ public class MessageManager {
     }
 
     private final Runnable sender = () -> {
-        //System.out.println("MessageManager (sender) started!");
         while (socket.isConnected()) {
 
             synchronized (this) {
 
-                //ToDo: Alle Nachrichten senden, nicht nur die erste!
                 if (messageToSend) {
                     try {
                         Message message = messageQueue.get(0);
@@ -79,7 +85,6 @@ public class MessageManager {
 
                     } catch (java.net.SocketException e) {
                         System.out.println("java.net.SocketException");
-                        printSentMessages();
                         break;
                     } catch (IOException e) {
                         System.out.println("Error occurred while trying to send message.");
@@ -89,41 +94,36 @@ public class MessageManager {
                 }
             }
         }
+
+        if (close()) System.out.println("MM (sender) closed!");
     };
 
     private final Runnable receiver = () -> {
-        //System.out.println("MessageManager (receiver) started!");
         while (socket.isConnected()) {
 
-                //TODO: Empfangene Nachrichten ins GUI übertragen!
-                try {
+            //TODO: Proper Exception handling and terminating Server -> MessageManager -> HelloApplication!
+            try {
 
-                    Message message = (Message) ois.readObject();
-                    receivedMessages.add(message);
-                    chat.addMessage(message);
+                Message message = (Message) ois.readObject();
+                receivedMessages.add(message);
+                chat.addMessage(message);
 
-                } catch (ClassNotFoundException e) {
-                    System.out.println("Error occurred while receiving message.");
-                    System.out.println(e.getMessage());
-                    printReceivedMessages();
-                    break;
-                } catch (EOFException e) {
-                    System.out.println("Stream ended!");
-                    break;
-                } catch (IOException e) {
-                    System.out.println("RuntimeException");
-                    break;
-                }
+            } catch (ClassNotFoundException e) {
+                System.out.println("Error occurred while receiving message.");
+                break;
+            } catch (EOFException e) {
+                System.out.println("Stream ended!");
+                break;
+            } catch (IOException e) {
+                System.out.println("IOException: " + e.getMessage());
+                break;
+            } catch (RuntimeException e) {
+                System.out.println("RuntimeException: " + e.getMessage());
+                break;
             }
+        }
+
+        if (close()) System.out.println("MM (receiver) closed!");
+            Thread.currentThread().interrupt();
     };
-
-    private void printReceivedMessages() {
-        System.out.println("Printing all received Messages...");
-        receivedMessages.forEach(System.out::println);
-    }
-
-    private void printSentMessages() {
-        System.out.println("Printing all sent Messages...");
-        sentMessages.forEach(System.out::println);
-    }
 }

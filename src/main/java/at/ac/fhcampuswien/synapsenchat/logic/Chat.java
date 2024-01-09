@@ -18,7 +18,7 @@ public class Chat implements Serializable {
 
     private int id;
     private String chatName;
-    private HelloController controller;
+    private transient HelloController controller;
     private ObservableList<Message> messages;
 
     private transient Chat copy;

@@ -1,32 +1,26 @@
 package at.ac.fhcampuswien.synapsenchat.connection.multithreading.server;
 
-import at.ac.fhcampuswien.synapsenchat.HelloController;
 import at.ac.fhcampuswien.synapsenchat.logic.Chat;
 import at.ac.fhcampuswien.synapsenchat.logic.MessageManager;
 import at.ac.fhcampuswien.synapsenchat.logic.Message;
-import javafx.application.Platform;
 
 import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
-import java.util.Scanner;
 
 public class Server {
     private ServerSocket serverSocket;
     private Chat chat;
     private ArrayList<Message> messageQueue;
 
-    private HelloController helloController;
-
-    private boolean terminate = false;
+    private static boolean terminate = false;
 
     public Server(int port, Chat chat) {
         try {
             this.serverSocket = new ServerSocket(port);
             this.messageQueue = new ArrayList<>();
-            this.helloController = new HelloController();
             this.chat = chat;
             startServer();
         } catch (IOException e) {
@@ -49,8 +43,10 @@ public class Server {
             MessageManager messageManager = new MessageManager(socket, oos, chat, this);
 
             //TODO: Connect sending / receiving logic to GUI.
-            while (socket.isConnected() || !terminate) {
+
+            while (socket.isConnected() && !terminate) {
                 synchronized (this) {
+
 
                     if (!messageQueue.isEmpty()) {
                         Message toSend = messageQueue.get(0);
@@ -61,26 +57,19 @@ public class Server {
                 }
             }
 
-            chat.printAllMessages();
             oos.close();
+            System.out.println("Server terminated!");
 
         } catch (IOException | InterruptedException e) {
-            throw new RuntimeException(e);
+            throw new RuntimeException("Server terminated!");
         }
     };
-
-    /**
-     * Adds Message to messageQueue and sends Message to Client or Server.
-     *
-     * @param message Message to be sent.
-     */
 
     public void sendMessage(Message message) {
         messageQueue.add(message);
     }
 
-    public void terminate() {
-        this.terminate = true;
-        //Thread.currentThread().interrupt();
+    public synchronized static void terminate() {
+        terminate = true;
     }
 }
