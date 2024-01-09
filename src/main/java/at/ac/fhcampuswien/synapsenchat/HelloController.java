@@ -25,12 +25,6 @@ public class HelloController extends HelloApplication {
     @FXML
     MFXRadioButton radioServer, radioClient;
     @FXML
-    BorderPane newChatPane;
-    @FXML
-    Label startLabel;
-    @FXML
-    AnchorPane chatContent;
-    @FXML
     protected BorderPane chatPane;
     @FXML
     protected AnchorPane view;
@@ -54,8 +48,6 @@ public class HelloController extends HelloApplication {
     MFXTextField usernameField;
     public static String username;
     public static Chat currentChat;
-    private static int currentChatId = -1;
-
     @FXML
     protected void showChatContent() throws IOException {
         if (chatName.getText().isEmpty() || ipAddress.getText().isEmpty() || port.getText().isEmpty()) {
@@ -78,9 +70,8 @@ public class HelloController extends HelloApplication {
                 Label label = (Label) e.getSource();
                 try {
                     showExistingContent(Integer.parseInt(label.getId()));
-                    currentChatId = Integer.parseInt(label.getId());
-                    currentChat = Chat.getChatByID(currentChatId);
-                    System.out.println("Label Id: " + label.getId() + "chat Id: " + currentChatId);
+                    currentChat = Chat.getChatByID(Integer.parseInt(label.getId()));
+                    System.out.println("Label Id: " + label.getId() + "chat Id: " + currentChat.getID());
                 } catch (IOException ex) {
                     throw new RuntimeException(ex);
                 }
@@ -254,7 +245,7 @@ public class HelloController extends HelloApplication {
     }
 
     public void updateChat(Message message, int chatId){
-        System.out.println("Update detected!! ChatID: " + chatId + "==" + currentChatId + "==" + currentChat.getID() + " Message: " + message.toString());
+        System.out.println("Update detected!! ChatID: " + chatId + "==" + currentChat.getID() + " Message: " + message.toString());
         if(chatId == currentChat.getID())
             onReceivedMessage(message);
     }
