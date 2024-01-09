@@ -47,6 +47,7 @@ public class ChatAppController extends ChatApp {
     MFXTextField usernameField;
     public static String username;
     public static Chat currentChat;
+
     @FXML
     protected void onSubmitNewChatForm() {
         if (chatName.getText().isEmpty() || ipAddress.getText().isEmpty() || port.getText().isEmpty())
@@ -54,7 +55,8 @@ public class ChatAppController extends ChatApp {
         else {
             // instantiate new chat object
             Chat newChat;
-            if (radioServer.isSelected()) newChat = new Chat(chatName.getText(), Integer.parseInt(port.getText()), this);
+            if (radioServer.isSelected())
+                newChat = new Chat(chatName.getText(), Integer.parseInt(port.getText()), this);
             else newChat = new Chat(chatName.getText(), ipAddress.getText(), Integer.parseInt(port.getText()), this);
             currentChat = newChat;
 
@@ -103,6 +105,7 @@ public class ChatAppController extends ChatApp {
 
     /**
      * shows the "new chat" interface by loading it into the center of borderPane
+     *
      * @throws IOException
      */
     @FXML
@@ -165,8 +168,10 @@ public class ChatAppController extends ChatApp {
     }
 
     //TODO divide into atomic methods
+
     /**
      * loads chatContent.fxml into center view, loads old messages into view
+     *
      * @param pane
      * @param chat
      * @throws IOException
@@ -253,9 +258,34 @@ public class ChatAppController extends ChatApp {
         }
     }
 
-    public void updateChat(Message message, int chatId){
+    public void updateChat(Message message, int chatId) {
         System.out.println("Update detected!! ChatID: " + chatId + "==" + currentChat.getID() + " Message: " + message.toString());
-        if(chatId == currentChat.getID())
+        if (chatId == currentChat.getID())
             onReceivedMessage(message);
+    }
+
+    public boolean validateIPv4(String IP) {
+        try {
+            if (IP == null || IP.isEmpty()) {
+                return false;
+            }
+            String[] octets = IP.split("\\.");
+            if (octets.length != 4) {
+                return false;
+            }
+            for (String number : octets) {
+                int octetToCheck = Integer.parseInt(number);
+                if ((octetToCheck < 0) || (octetToCheck > 255)) {
+                    return false;
+                }
+            }
+            if (IP.endsWith(".")) {
+                return false;
+            }
+            return true;
+        } catch (NumberFormatException exception) {
+            System.out.println(exception);
+            return false;
+        }
     }
 }
