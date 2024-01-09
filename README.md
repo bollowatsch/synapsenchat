@@ -2,7 +2,7 @@
 For the initial setup (installation of JavaFX) please refer to [__Setup of JavaFX__](setup.md#javafx).
 # Launch
 To test this Chatclient, you need to run two instances. You can either 
-1. Run the Client on two seperate machines on the same local network or
+1. Run the Client on two separate machines on the same local network or
 2. Run two instances on the same machine [_How Can I do this?_](https://stackoverflow.com/questions/41226555/how-do-i-run-the-same-application-twice-in-intellij#:~:text=Click%20Run%2D%3EEdit%20Configurations.,Click%20on%20Apply.)
 # Connecting
 1. Create a chat as server (**This needs to be done first!**)
