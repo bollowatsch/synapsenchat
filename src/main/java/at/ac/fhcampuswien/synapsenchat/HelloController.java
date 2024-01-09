@@ -73,7 +73,7 @@ public class HelloController extends HelloApplication {
             Chat newChat;
             if (radioServer.isSelected()) newChat = new Chat(chatName.getText(), Integer.parseInt(port.getText()), this);
             else newChat = new Chat(chatName.getText(), ipAddress.getText(), Integer.parseInt(port.getText()), this);
-            this.currentChat = newChat;
+            currentChat = newChat;
             System.out.println("TEST");
 
             // add new chat label in sidebar
@@ -177,11 +177,12 @@ public class HelloController extends HelloApplication {
 
     @FXML
     private void setUsername() {
-        this.username = usernameField.getText();
+        username = usernameField.getText();
+        System.out.println(username);
     }
 
     private String getUsername() {
-        if (this.username != null) return this.username;
+        if (username != null) return username;
         return "Sender";
     }
 

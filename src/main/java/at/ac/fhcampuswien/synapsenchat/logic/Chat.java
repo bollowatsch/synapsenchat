@@ -94,7 +94,7 @@ public class Chat implements Serializable {
     public void sendMessage(Message message) {
         if (server != null) server.sendMessage(message);
         if (client != null) client.sendMessage(message);
-        messages.add(message);
+        //messages.add(message);
     }
 
     public ObservableList<Message> getAllMessages() {
