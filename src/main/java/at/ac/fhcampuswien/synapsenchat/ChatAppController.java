@@ -214,8 +214,7 @@ public class ChatAppController extends ChatApp {
             HBox messageContainer = new HBox();
             messageContainer.setAlignment(Pos.CENTER_LEFT);
 
-            //TODO: needs to be change to user name
-            if ("Server".equals(oldMessage.getSenderName())) {
+            if (username.equals(oldMessage.getSenderName())) {
                 messageContainer.setAlignment(Pos.CENTER_RIGHT);
             }
 
@@ -224,8 +223,6 @@ public class ChatAppController extends ChatApp {
 
             // Add the message container to the VBox
             chatContentBox.getChildren().add(messageContainer);
-
-//            chatContentBox.getChildren().add(messageLabel);
         }
         return view;
     }
@@ -236,8 +233,23 @@ public class ChatAppController extends ChatApp {
             String text = message.toString();
             Label messageLabel = new Label(text);
             messageLabel.getStyleClass().add("chat-content-label");
-            chatContentBox.setAlignment(Pos.TOP_LEFT);
-            chatContentBox.getChildren().add(messageLabel);
+
+            chatContentBox.setAlignment(Pos.TOP_RIGHT);
+//            chatContentBox.getChildren().add(messageLabel);
+
+            //add HBox to dynamically change the alignment of the message labels
+            HBox messageContainer = new HBox();
+            messageContainer.setAlignment(Pos.CENTER_LEFT);
+
+            if (username.equals(message.getSenderName())) {
+                messageContainer.setAlignment(Pos.CENTER_RIGHT);
+            }
+
+            // Add label to the message container
+            messageContainer.getChildren().add(messageLabel);
+
+            // Add the message container to the VBox
+            chatContentBox.getChildren().add(messageContainer);
         }
     }
 
