@@ -1,7 +1,6 @@
 # ToDo:
 - [ ] CHAT SERIALIZATION NOT WORKING CORRECTLY!!!
 - [ ] letting client reconnect to server after connection is lost without having to restart both components!!
-- [ ] check for correct IP input
 - [ ] register enter keystroke for new chat button
 - [ ] Terminate Server/Client instances correctly (Press 'X' -> shutdown Instance -> shutdown MessageManager -> serialize all Chats -> System.exit(0))
 
@@ -24,3 +23,4 @@
 - [x] Connect MessageHandling to GUI! (currently using console)
 - [x] Multi chat ? (More than one client connecting to the server)
 - [x] prevent input of well known ports
+- [x] check for correct IP input in GUI

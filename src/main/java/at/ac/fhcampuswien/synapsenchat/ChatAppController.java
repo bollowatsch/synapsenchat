@@ -54,6 +54,8 @@ public class ChatAppController extends ChatApp {
             errorLabel.setText("Please fill in all fields!");
         else if (Integer.parseInt(port.getText()) < 1024 || Integer.parseInt(port.getText()) > 65535)
             errorLabel.setText("Choose a port in the range of [1024 : 65535]!");
+        else if (!validateIPv4(ipAddress.getText()))
+            errorLabel.setText(("Unvalid ipv4 format!"));
         else {
             // instantiate new chat object
             Chat newChat;
