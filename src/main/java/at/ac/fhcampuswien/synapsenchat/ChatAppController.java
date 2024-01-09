@@ -124,6 +124,7 @@ public class ChatAppController extends ChatApp {
         ipAddress.clear();
     }
 
+    // TODO divide into atomic methods, if possible
     public void onSendMessage(AnchorPane view) {
         int chatID = currentChat.getID();
 
@@ -163,6 +164,7 @@ public class ChatAppController extends ChatApp {
         return "Sender";
     }
 
+    //TODO divide into atomic methods
     /**
      * loads chatContent.fxml into center view, loads old messages into view
      * @param pane
