@@ -3,7 +3,8 @@
 - [ ] Create dedicated Sender and Receiver Classes for MessageManager!
 - [ ] letting client reconnect to server after connection is lost without having to restart both components!!
 - [ ] prevent input of well known ports
-- [ ] check for correct IP input 
+- [ ] check for correct IP input
+- [ ] register enter keystroke for new chat button
 
 # Fixme:
 - [ ] Threads don't terminate if Server or Client closes the session!!! (using "terminate" variable to let parent thread know when to exit.)
