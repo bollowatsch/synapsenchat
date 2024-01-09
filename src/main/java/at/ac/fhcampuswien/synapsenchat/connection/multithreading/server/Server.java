@@ -17,7 +17,6 @@ public class Server {
     private ServerSocket serverSocket;
     private Chat chat;
     private ArrayList<Message> messageQueue;
-    private ArrayList<Message> receivedMessages;
 
     private HelloController helloController;
 
@@ -27,7 +26,6 @@ public class Server {
         try {
             this.serverSocket = new ServerSocket(port);
             this.messageQueue = new ArrayList<>();
-            this.receivedMessages = new ArrayList<>();
             this.helloController = new HelloController();
             this.chat = chat;
             startServer();
@@ -58,20 +56,8 @@ public class Server {
                         Message toSend = messageQueue.get(0);
                         messageManager.sendMessage(toSend);
                         messageQueue.remove(toSend);
+                        Thread.sleep(500);
                     }
-
-                    if (!receivedMessages.isEmpty()) {
-                        try {
-                            //helloController.onReceivedMessage(receivedMessages.get(0));
-                            System.out.println("Server run loop: " + receivedMessages.get(0));
-                            receivedMessages.remove(0);
-                        } catch (Exception e) {
-                            System.out.println("ERROR WHILE SENDING RECEIVED MESSAGE TO GUI!");
-                            System.out.println(e.getMessage());
-                        }
-                    }
-
-                    Thread.sleep(500);
                 }
             }
 
@@ -91,10 +77,6 @@ public class Server {
 
     public void sendMessage(Message message) {
         messageQueue.add(message);
-    }
-
-    public void receiveMessage(Message message) {
-        receivedMessages.add(message);
     }
 
     public void terminate() {

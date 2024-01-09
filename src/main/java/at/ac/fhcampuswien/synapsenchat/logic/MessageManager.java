@@ -95,21 +95,11 @@ public class MessageManager {
         //System.out.println("MessageManager (receiver) started!");
         while (socket.isConnected()) {
 
-
                 //TODO: Empfangene Nachrichten ins GUI übertragen!
                 try {
 
                     Message message = (Message) ois.readObject();
                     receivedMessages.add(message);
-
-                    try {
-                        client.receiveMessage(message);
-                    } catch (NullPointerException ignored) {}
-
-                    try {
-                        server.receiveMessage(message);
-                    } catch (NullPointerException ignored) {}
-
                     chat.addMessage(message);
 
                 } catch (ClassNotFoundException e) {

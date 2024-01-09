@@ -15,7 +15,6 @@ public class Client {
     private Socket socket;
     private Chat chat;
     private ArrayList<Message> messageQueue;
-    private ArrayList<Message> receivedMessages;
 
     private HelloController helloController;
 
@@ -26,7 +25,6 @@ public class Client {
             InetAddress inetAddress = InetAddress.getByName(ip);
             this.socket = new Socket(inetAddress, port);
             this.messageQueue = new ArrayList<>();
-            this.receivedMessages = new ArrayList<>();
             this.helloController = new HelloController();
             this.chat = chat;
             startClient();
@@ -56,20 +54,8 @@ public class Client {
                         Message toSend = messageQueue.get(0);
                         messageManager.sendMessage(toSend);
                         messageQueue.remove(toSend);
+                        Thread.sleep(500);
                     }
-
-                    if (!receivedMessages.isEmpty()) {
-                        try {
-                            //helloController.onReceivedMessage(receivedMessages.get(0));
-                            System.out.println("Client run loop: " + receivedMessages.get(0));
-                            receivedMessages.remove(0);
-                        } catch (Exception e) {
-                            System.out.println("ERROR WHILE SENDING RECEIVED MESSAGE TO GUI!");
-                            System.out.println(e.getMessage());
-                        }
-                    }
-
-                    Thread.sleep(500);
                 }
             }
 
@@ -83,10 +69,6 @@ public class Client {
 
     public void sendMessage(Message message) {
         messageQueue.add(message);
-    }
-
-    public void receiveMessage(Message message) {
-        receivedMessages.add(message);
     }
 
     public void terminate() {
