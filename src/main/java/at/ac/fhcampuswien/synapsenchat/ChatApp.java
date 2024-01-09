@@ -15,14 +15,14 @@ import io.github.palexdev.materialfx.theming.JavaFXThemes;
 import io.github.palexdev.materialfx.theming.MaterialFXStylesheets;
 import javafx.stage.WindowEvent;
 
-public class HelloApplication extends Application {
+public class ChatApp extends Application {
     @Override
     public void start(Stage stage) throws Exception {
         synchronized (this) {
             stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
                 @Override
                 public void handle(WindowEvent windowEvent) {
-                    Chat.serializeChat(HelloController.currentChat, "src/main/java/at/ac/fhcampuswien/synapsenchat/logs/test.txt");
+                    Chat.serializeChat(ChatAppController.currentChat, "src/main/java/at/ac/fhcampuswien/synapsenchat/logs/test.txt");
                     Platform.exit();
 
                     Client.terminate();
@@ -42,14 +42,14 @@ public class HelloApplication extends Application {
         stage.setMinWidth(800.0);
         stage.setMinHeight(650.0);
 
-        FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("home.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(ChatApp.class.getResource("home.fxml"));
         Parent root = fxmlLoader.load();
 
         Scene scene = new Scene(root);
         //   scene.getStylesheets().add(getClass().getResource("").toExternalForm());
         stage.setTitle("Synapsenchat");
         stage.setScene(scene);
-        scene.getStylesheets().add(HelloApplication.class.getResource("styles.css").toExternalForm());
+        scene.getStylesheets().add(ChatApp.class.getResource("styles.css").toExternalForm());
         stage.show();
     }
 

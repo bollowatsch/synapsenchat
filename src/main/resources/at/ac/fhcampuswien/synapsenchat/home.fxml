@@ -6,7 +6,7 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.text.Font?>
-<BorderPane fx:controller="at.ac.fhcampuswien.synapsenchat.HelloController" maxHeight="-Infinity" maxWidth="-Infinity"
+<BorderPane fx:controller="at.ac.fhcampuswien.synapsenchat.ChatAppController" maxHeight="-Infinity" maxWidth="-Infinity"
             minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0"
             xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:id="chatPane">
     <left>

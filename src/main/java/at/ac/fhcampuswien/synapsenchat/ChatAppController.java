@@ -3,7 +3,6 @@ package at.ac.fhcampuswien.synapsenchat;
 import at.ac.fhcampuswien.synapsenchat.logic.Chat;
 import at.ac.fhcampuswien.synapsenchat.logic.Message;
 import io.github.palexdev.materialfx.controls.*;
-import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -20,7 +19,7 @@ import java.net.Inet4Address;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
 
-public class HelloController extends HelloApplication {
+public class ChatAppController extends ChatApp {
 
     @FXML
     MFXRadioButton radioServer, radioClient;

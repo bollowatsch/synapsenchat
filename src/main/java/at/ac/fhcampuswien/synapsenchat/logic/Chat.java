@@ -1,7 +1,7 @@
 package at.ac.fhcampuswien.synapsenchat.logic;
 
 
-import at.ac.fhcampuswien.synapsenchat.HelloController;
+import at.ac.fhcampuswien.synapsenchat.ChatAppController;
 import at.ac.fhcampuswien.synapsenchat.connection.multithreading.client.Client;
 import at.ac.fhcampuswien.synapsenchat.connection.multithreading.server.Server;
 import javafx.application.Platform;
@@ -18,14 +18,14 @@ public class Chat implements Serializable {
 
     private int id;
     private String chatName;
-    private transient HelloController controller;
+    private transient ChatAppController controller;
     private ObservableList<Message> messages;
 
     private transient Chat copy;
     private transient Client client;
     private transient Server server;
 
-    public Chat(String chatName, HelloController controller) {
+    public Chat(String chatName, ChatAppController controller) {
         synchronized (chats) {
             this.chatName = chatName;
             this.controller = controller;
@@ -43,12 +43,12 @@ public class Chat implements Serializable {
         }
     }
 
-    public Chat(String chatName, int port, HelloController controller) {
+    public Chat(String chatName, int port, ChatAppController controller) {
         this(chatName, controller);
         this.server = new Server(port, this);
     }
 
-    public Chat(String chatName, String ip, int port, HelloController controller) {
+    public Chat(String chatName, String ip, int port, ChatAppController controller) {
         this(chatName, controller);
         this.client = new Client(ip, port, this);
     }
