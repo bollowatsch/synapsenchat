@@ -51,6 +51,8 @@ public class ChatAppController extends ChatApp {
     protected void onSubmitNewChatForm() {
         if (chatName.getText().isEmpty() || ipAddress.getText().isEmpty() || port.getText().isEmpty())
             errorLabel.setText("Please fill in all fields!");
+        else if (Integer.parseInt(port.getText()) < 1024 || Integer.parseInt(port.getText()) > 65535)
+            errorLabel.setText("Choose a port in the range of [1024 : 65535]!");
         else {
             // instantiate new chat object
             Chat newChat;
