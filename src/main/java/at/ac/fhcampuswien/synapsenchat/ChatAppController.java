@@ -22,9 +22,6 @@ public class ChatAppController extends ChatApp {
     MFXRadioButton radioServer, radioClient;
     @FXML
     protected BorderPane outerPane;
-    //TODO replace view with 2 separate views for form and chat
-    @FXML
-    protected AnchorPane view;
     @FXML
     private AnchorPane chatContentPane;
     @FXML
@@ -167,6 +164,7 @@ public class ChatAppController extends ChatApp {
         currentChat = Chat.getChatByID(id);
         //currentChat = Chat.deserializeChat("src/main/java/at/ac/fhcampuswien/synapsenchat/logs/" + id + ".txt");
         ObservableList<Message> oldMessages = currentChat.getAllMessages();
+        System.out.println("print old messages: " + oldMessages + "\n size: " + oldMessages.size());
         for (Message oldMessage : oldMessages)
                 onReceivedMessage(oldMessage);
     }
