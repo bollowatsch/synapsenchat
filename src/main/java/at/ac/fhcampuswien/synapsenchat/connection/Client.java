@@ -22,7 +22,7 @@ public class Client extends Instance {
             System.out.println("Connection established!");
 
             ObjectOutputStream oos = new ObjectOutputStream(socket.getOutputStream());
-            MessageManager messageManager = new MessageManager(socket, oos, chat, this);
+            MessageManager messageManager = new MessageManager(socket, oos, chat);
 
             //TODO: Connect sending / receiving logic to GUI.
             //Entering through console

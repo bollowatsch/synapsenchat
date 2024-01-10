@@ -1,8 +1,5 @@
 package at.ac.fhcampuswien.synapsenchat.logic;
 
-import at.ac.fhcampuswien.synapsenchat.connection.Client;
-import at.ac.fhcampuswien.synapsenchat.connection.Server;
-
 import java.io.EOFException;
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -21,10 +18,8 @@ public class MessageManager {
     private ObjectInputStream ois;
 
     private Chat chat;
-    private Server server;
-    private Client client;
 
-    public MessageManager(Socket socket, ObjectOutputStream oos, Chat chat, Object object) throws IOException {
+    public MessageManager(Socket socket, ObjectOutputStream oos, Chat chat) throws IOException {
         this.socket = socket;
         this.messageQueue = new ArrayList<>();
         this.sentMessages = new ArrayList<>();
@@ -32,8 +27,6 @@ public class MessageManager {
         this.messageToSend = false;
         this.chat = chat;
 
-        if (object instanceof Server) this.server = (Server) object;
-        if (object instanceof Client) this.client = (Client) object;
 
         this.oos = oos;
         this.ois = new ObjectInputStream(socket.getInputStream());
@@ -80,8 +73,7 @@ public class MessageManager {
 
                         try {
                             chat.addMessage(message);
-                        } catch (NullPointerException ignored) {
-                        }
+                        } catch (NullPointerException ignored) {}
 
                     } catch (java.net.SocketException e) {
                         System.out.println("java.net.SocketException");
@@ -123,7 +115,6 @@ public class MessageManager {
             }
         }
 
-        if (close()) System.out.println("MM (receiver) closed!");
-            Thread.currentThread().interrupt();
+        if (close())  System.out.println("MM (receiver) closed!");
     };
 }

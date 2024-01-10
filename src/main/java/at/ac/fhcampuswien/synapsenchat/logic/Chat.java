@@ -29,7 +29,7 @@ public class Chat implements Serializable {
             this.chatName = chatName;
             this.id = ++globalID;
             this.messages = FXCollections.observableArrayList();
-            this.messages.addListener((ListChangeListener) c -> {
+            this.messages.addListener((ListChangeListener<Message>) c -> {
                 while(c.next()) {
                     if (c.wasAdded()) {
                         Platform.runLater(() ->
