@@ -8,10 +8,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.*;
 
 
 import java.io.*;
@@ -24,9 +21,14 @@ public class ChatAppController extends ChatApp {
     @FXML
     MFXRadioButton radioServer, radioClient;
     @FXML
-    protected BorderPane chatPane;
+    protected BorderPane outerPane;
+    //TODO replace view with 2 separate views for form and chat
     @FXML
     protected AnchorPane view;
+    @FXML
+    private AnchorPane chatContentPane;
+    @FXML
+    private AnchorPane newChatFormPane;
     @FXML
     MFXButton startConnection;
     @FXML
@@ -48,14 +50,58 @@ public class ChatAppController extends ChatApp {
     public static String username;
     public static Chat currentChat;
 
+    /**
+     * update center view of outerPane to contain either newChatForm or chatContent
+     * @param filename filename for anchorPane that will be added to center of outerPane
+     * @return outerPane with updated center scene
+     */
+    private BorderPane updateCenterView(String filename) throws IOException {
+        try {
+            if(!(filename.equals("chatContent.fxml") || filename.equals("newChat.fxml")))
+                throw new IOException("worng filename provided!");
+            AnchorPane newCenterPane = FXMLLoader.load(getClass().getResource(filename));
+            if(filename.equals("chatContent.fxml"))
+                chatContentPane = newCenterPane;
+            else
+                newChatFormPane = newCenterPane;
+            outerPane.setCenter(newCenterPane);
+        } catch (IOException e){
+            System.out.println("Error loading new xml file : " + filename);
+            e.printStackTrace();
+        }
+        return outerPane;
+    }
+
+    /**
+     * shows the "new chat" interface by loading it into the center of borderPane
+     */
     @FXML
-    protected void onSubmitNewChatForm() {
+    protected void showNewChatForm() throws IOException {
+        outerPane = updateCenterView("newChat.fxml");
+    }
+
+    /**
+     * validates input fields in new chat form
+     * @return Error message to be displayed in GUI
+     */
+    private String validateNewChatForm(){
         if (chatName.getText().isEmpty() || ipAddress.getText().isEmpty() || port.getText().isEmpty())
-            errorLabel.setText("Please fill in all fields!");
+            return "Please fill in all fields!";
         else if (Integer.parseInt(port.getText()) < 1024 || Integer.parseInt(port.getText()) > 65535)
-            errorLabel.setText("Choose a port in the range of [1024 : 65535]!");
+            return "Choose a port in the range of [1024 : 65535]!";
         else if (!validateIPv4(ipAddress.getText()))
-            errorLabel.setText(("Unvalid ipv4 format!"));
+            return "Unvalid ipv4 format!";
+        return "";
+    }
+
+    /**
+     * error handling for input form
+     * create new chat object and update view to display chatContent
+     */
+    @FXML
+    protected void onSubmitNewChatForm() throws IOException {
+        if(!validateNewChatForm().isEmpty())
+            errorLabel.setText(validateNewChatForm());
         else {
             // instantiate new chat object
             Chat newChat;
@@ -65,29 +111,42 @@ public class ChatAppController extends ChatApp {
             currentChat = newChat;
 
             addNewChatLabel(currentChat.getChatName(), currentChat.getID());
-            updateCenterView(currentChat);
+            outerPane = updateCenterView("chatContent.fxml");
         }
     }
 
-    private void updateCenterView(Chat newChat) {
-        try {
-            chatContentScene(chatPane, newChat);
-            showExistingContent(currentChat.getID());
-        } catch (Exception e) {
-            System.out.println("Error updating center view");
-            e.printStackTrace();
+    /**
+     * create a new message object and send it with currentChat
+     */
+    public void onSendMessage() {
+        newMessage = (MFXTextField) chatContentPane.lookup("#new-message-field");
+        String text = newMessage.getText().trim();
+
+        if (!text.isEmpty()) {
+            Message message = new Message(text, getUsername());
+            currentChat.sendMessage(message);
+
+            //TODO: CHECK SERIALIZATION METHOD-SERVERSIDE (second message sent from server throws error???)
+            //Chat.serializeChat(new Chat(currentChat), "src/main/java/at/ac/fhcampuswien/synapsenchat/logs/" + chatID + ".txt");
+            newMessage.clear();
         }
     }
 
+    /**
+     * create a new clickable label in sidebar to navigate between active chats
+     * @param chatName name of the chat, is displayed in sidebar
+     * @param chatId ID to be stored in chat object. Is used to link to corresponding label
+     */
     private void addNewChatLabel(String chatName, int chatId) {
-        chatPane = (BorderPane) startConnection.getScene().getRoot();
-        VBox chatList = (VBox) chatPane.lookup("#chatList");
+        outerPane = (BorderPane) startConnection.getScene().getRoot();
+        VBox chatList = (VBox) outerPane.lookup("#chatList");
         Label newLabel = new Label(chatName);
         newLabel.getStyleClass().add("chat-label");
         newLabel.setId(String.valueOf(chatId));
         newLabel.setOnMouseClicked(e -> {
             Label label = (Label) e.getSource();
             try {
+                outerPane = updateCenterView("chatContent.fxml");
                 showExistingContent(Integer.parseInt(label.getId()));
                 currentChat = Chat.getChatByID(Integer.parseInt(label.getId()));
                 System.out.println("Label Id: " + label.getId() + "chat Id: " + currentChat.getID());
@@ -98,161 +157,41 @@ public class ChatAppController extends ChatApp {
         chatList.getChildren().add(newLabel);
     }
 
-    protected void showExistingContent(int id) throws IOException {
-        ArrayList<Chat> chatList = Chat.getChats();
+    /**
+     *
+     * @param id
+     * @return
+     * @throws IOException
+     */
+    public void showExistingContent(int id) throws IOException {
         currentChat = Chat.getChatByID(id);
-//        currentChat = Chat.deserializeChat("src/main/java/at/ac/fhcampuswien/synapsenchat/logs/" + id + ".txt");
-
-        // change view to chatContent
-        chatContentScene(chatPane, currentChat);
+        //currentChat = Chat.deserializeChat("src/main/java/at/ac/fhcampuswien/synapsenchat/logs/" + id + ".txt");
+        ObservableList<Message> oldMessages = currentChat.getAllMessages();
+        for (Message oldMessage : oldMessages)
+                onReceivedMessage(oldMessage);
     }
 
     /**
-     * shows the "new chat" interface by loading it into the center of borderPane
-     *
-     * @throws IOException
+     * displays message in center view
+     * aligns messages left / right depending on sender
+     * @param message
      */
-    @FXML
-    protected void showNewChat() throws IOException {
-        view = FXMLLoader.load(getClass().getResource("newChat.fxml"));
-        chatPane.setCenter(view);
-    }
-
-    @FXML
-    private void getServerIp() throws UnknownHostException {
-        Inet4Address my_localhost = (Inet4Address) Inet4Address.getLocalHost();
-        String ipv4Address = my_localhost.getHostAddress().trim();
-        ipAddress.clear();
-        ipAddress.appendText(ipv4Address);
-    }
-
-    @FXML
-    private void clearIpAddress() {
-        ipAddress.clear();
-    }
-
-    // TODO divide into atomic methods, if possible
-    public void onSendMessage(AnchorPane view) {
-        int chatID = currentChat.getID();
-
-        chatContentBox = (VBox) view.lookup("#chatContentBox");
-//        MFXScrollPane chatContentPane = (MFXScrollPane) view.lookup("#chat-content");
-//        VBox chatContentBox = new VBox();
-//        chatContentPane.setContent(chatContentBox);
-
-        chatContentBox.setAlignment(Pos.TOP_RIGHT);
-        String text = newMessage.getText().trim();
-
-        if (!text.isEmpty()) {
-            String username = getUsername();
-            // set username to chat name for now for better testing
-            // username = (String) currentChat.getChatName();
-            Message message = new Message(text, username);
-            Label messageLabel = new Label(message.toString());
-            messageLabel.getStyleClass().add("chat-content-label");
-            //chatContentBox.getChildren().add(messageLabel);
-//            currentChat.addMessage(message);
-            currentChat.sendMessage(message);
-
-            //TODO: CHECK SERIALIZATION METHOD-SERVERSIDE (second message sent from server throws error???)
-            //Chat.serializeChat(new Chat(currentChat), "src/main/java/at/ac/fhcampuswien/synapsenchat/logs/" + chatID + ".txt");
-            newMessage.clear();
-        }
-    }
-
-    @FXML
-    private void setUsername() {
-        username = usernameField.getText();
-        System.out.println(username);
-    }
-
-    private String getUsername() {
-        if (username != null) return username;
-        return "Sender";
-    }
-
-    //TODO divide into atomic methods
-
-    /**
-     * loads chatContent.fxml into center view, loads old messages into view
-     *
-     * @param pane
-     * @param chat
-     * @throws IOException
-     */
-    private void chatContentScene(BorderPane pane, Chat chat) throws IOException {
-        // Create and display the main scene
-        chatPane = pane;
-        AnchorPane view = FXMLLoader.load(getClass().getResource("chatContent.fxml"));
-        chatPane.setCenter(view);
-        VBox chatList = (VBox) chatPane.lookup("#chatList");
-
-        //load old messages to the chat
-        ObservableList<Message> oldMessages = chat.getAllMessages();
-        if (!oldMessages.isEmpty()) {
-            view = loadOldMessages(view, oldMessages);
-        }
-
-        newMessage = (MFXTextField) view.lookup("#new-message-field");
-        sendMessage = (MFXButton) view.lookup("#send-message");
-
-        AnchorPane finalView = view;
-        newMessage.setOnAction(event -> {
-            onSendMessage(finalView);
-        }); // Attach to Enter key press
-
-        sendMessage.setOnAction(event -> {
-            onSendMessage(finalView);
-        }); // Attach to Send button click
-        int id = currentChat.getID();
-    }
-
-    private AnchorPane loadOldMessages(AnchorPane view, ObservableList<Message> oldMessages) {
-        BorderPane chatPane = (BorderPane) view.getScene().getRoot();
-        chatPane.setCenter(view);
-        MFXScrollPane chatContentPane = (MFXScrollPane) view.lookup("#chat-content");
-        VBox chatContentBox = (VBox) chatContentPane.getContent();
-        chatContentBox.setAlignment(Pos.TOP_RIGHT);
-
-        for (Message oldMessage : oldMessages) {
-            String text = oldMessage.toString();
-            Label messageLabel = new Label(text);
-            messageLabel.getStyleClass().add("chat-content-label");
-
-            //add HBox to dynamically change the alignment of the message labels
-            HBox messageContainer = new HBox();
-            messageContainer.setAlignment(Pos.CENTER_LEFT);
-
-            if (username.equals(oldMessage.getSenderName())) {
-                messageContainer.setAlignment(Pos.CENTER_RIGHT);
-            }
-
-            // Add label to the message container
-            messageContainer.getChildren().add(messageLabel);
-
-            // Add the message container to the VBox
-            chatContentBox.getChildren().add(messageContainer);
-        }
-        return view;
-    }
-
     public void onReceivedMessage(Message message) {
         synchronized (this) {
-            //chatContentBox = (VBox) view.lookup("#chatContentBox");
+            MFXScrollPane chatContentScrollPane = (MFXScrollPane) chatContentPane.lookup("#chat-content");
+            VBox chatContentBox = (VBox) chatContentScrollPane.getContent();
+            chatContentBox.setAlignment(Pos.TOP_RIGHT);
             String text = message.toString();
+
             Label messageLabel = new Label(text);
             messageLabel.getStyleClass().add("chat-content-label");
 
-            chatContentBox.setAlignment(Pos.TOP_RIGHT);
-//            chatContentBox.getChildren().add(messageLabel);
-
             //add HBox to dynamically change the alignment of the message labels
             HBox messageContainer = new HBox();
-            messageContainer.setAlignment(Pos.CENTER_LEFT);
-
-            if (username.equals(message.getSenderName())) {
+            if (username.equals(message.getSenderName()))
                 messageContainer.setAlignment(Pos.CENTER_RIGHT);
-            }
+            else
+                messageContainer.setAlignment(Pos.CENTER_LEFT);
 
             // Add label to the message container
             messageContainer.getChildren().add(messageLabel);
@@ -262,12 +201,22 @@ public class ChatAppController extends ChatApp {
         }
     }
 
+    /**
+     * helper function to call onReceivedMessage with appropriate parameters
+     * @param message
+     * @param chatId
+     */
     public void updateChat(Message message, int chatId) {
         System.out.println("Update detected!! ChatID: " + chatId + "==" + currentChat.getID() + " Message: " + message.toString());
         if (chatId == currentChat.getID())
             onReceivedMessage(message);
     }
 
+    /**
+     * validate entered IP address
+     * @param IP IP address entered in form
+     * @return true if valid (syntax), false otherwise
+     */
     public boolean validateIPv4(String IP) {
         try {
             if (IP == null || IP.isEmpty()) {
@@ -291,5 +240,27 @@ public class ChatAppController extends ChatApp {
             System.out.println(exception);
             return false;
         }
+    }
+
+    @FXML
+    private void getServerIp() throws UnknownHostException {
+        Inet4Address my_localhost = (Inet4Address) Inet4Address.getLocalHost();
+        String ipv4Address = my_localhost.getHostAddress().trim();
+        ipAddress.clear();
+        ipAddress.appendText(ipv4Address);
+    }
+
+    @FXML
+    private void clearIpAddress() {
+        ipAddress.clear();
+    }
+    @FXML
+    private void setUsername() {
+        username = usernameField.getText();
+    }
+
+    private String getUsername() {
+        if (username != null) return username;
+        return "Sender";
     }
 }

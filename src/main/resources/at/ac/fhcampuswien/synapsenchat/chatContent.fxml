@@ -10,7 +10,7 @@
 
 <?import javafx.scene.layout.VBox?>
 <?import javafx.geometry.Insets?>
-<AnchorPane fx:id="chatContent" prefWidth="Infinity" minHeight="600.0" minWidth="600.0"
+<AnchorPane fx:id="chatContentPane" prefWidth="Infinity" minHeight="600.0" minWidth="600.0"
             xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="at.ac.fhcampuswien.synapsenchat.ChatAppController">
     <GridPane AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"
@@ -26,8 +26,8 @@
         <children>
             <MFXScrollPane id="chat-content" fitToHeight="true" fitToWidth="true"
                            thumbColor="#f4f4f4" thumbHoverColor="#8e8e8e" trackColor="DARKSLATEGRAY"
-                           GridPane.columnSpan="2" GridPane.rowIndex="0" fx:id="chatContentPane">
-                <VBox fx:id="chatContentBox" alignment="CENTER" id="chatContentBox">
+                           GridPane.columnSpan="2" GridPane.rowIndex="0" >
+                <VBox fx:id="chatContentBox" alignment="CENTER" id="chat-content-box">
                     <padding>
                         <Insets bottom="10.0" right="5.0" top="10.0" left="10.0"/>
                     </padding>
@@ -35,9 +35,9 @@
             </MFXScrollPane>
             <MFXButton fx:id="sendMessage" alignment="CENTER" GridPane.valignment="CENTER" contentDisplay="CENTER"
                        prefHeight="Infinity" prefWidth="Infinity" text="Send" textAlignment="CENTER"
-                       GridPane.columnIndex="1" GridPane.rowIndex="1" id="send-message"/>
+                       GridPane.columnIndex="1" GridPane.rowIndex="1" id="send-message" onAction="#onSendMessage"/>
             <MFXTextField fx:id="newMessage" id="new-message-field" prefHeight="Infinity" prefWidth="Infinity" GridPane.rowIndex="1"
-                          GridPane.valignment="CENTER" GridPane.halignment="CENTER"/>
+                          GridPane.valignment="CENTER" GridPane.halignment="CENTER" onAction="#onSendMessage"/>
         </children>
     </GridPane>
 </AnchorPane>

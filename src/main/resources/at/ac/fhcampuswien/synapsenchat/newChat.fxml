@@ -14,7 +14,7 @@
 <?import javafx.scene.control.ToggleGroup?>
 
 <?import javafx.scene.control.Label?>
-<AnchorPane minHeight="600.0" minWidth="600.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
+<AnchorPane fx:id="newChatFormPane" minHeight="600.0" minWidth="600.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="at.ac.fhcampuswien.synapsenchat.ChatAppController">
     <MFXScrollPane id="new-chat" fitToHeight="true" fitToWidth="true" thumbColor="#8c8c8c" thumbHoverColor="#8e8e8e"
                    trackColor="DARKSLATEGRAY" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0"
@@ -53,7 +53,7 @@
                             <Insets bottom="10.0"/>
                         </VBox.margin>
                     </MFXTextField>
-                    <MFXTextField id="port" floatingText="Port" selectable="false" styleClass="custom-text" fx:id="port"/>
+                    <MFXTextField id="port" floatingText="Port" selectable="false" styleClass="custom-text" fx:id="port" onAction="#onSubmitNewChatForm"/>
                     <MFXButton id="start-connection" fx:id="startConnection" buttonType="RAISED" minHeight="30.0" onAction="#onSubmitNewChatForm"
                                text="GO!">
                         <VBox.margin>

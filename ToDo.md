@@ -3,6 +3,8 @@
 - [ ] letting client reconnect to server after connection is lost without having to restart both components!!
 - [ ] register enter keystroke for new chat button
 - [ ] Terminate Server/Client instances correctly (Press 'X' -> shutdown Instance -> shutdown MessageManager -> serialize all Chats -> System.exit(0))
+- [ ] Refactor ChatController to only have atomic methods
+- [ ] Force input of username or use default value instead
 
 # Fixme:
 - [ ] Threads don't terminate if Server or Client closes the session!!! (using "terminate" variable to let parent thread know when to exit.)
