@@ -3,7 +3,8 @@
 - [ ] letting client reconnect to server after connection is lost without having to restart both components!!
 - [ ] Terminate Server/Client instances correctly (Press 'X' -> shutdown Instance -> shutdown MessageManager -> serialize all Chats -> System.exit(0))
 - [ ] Force input of username or use default value instead
-- [ ] Add/Change access modifiers to private where suitable 
+- [ ] Add/Change access modifiers to private where suitable
+- [ ] After Creation of new chat set cursor into newChatField
 
 # Fixme:
 - [ ] Threads don't terminate if Server or Client closes the session!!! (using "terminate" variable to let parent thread know when to exit.)
