@@ -14,7 +14,6 @@ import javafx.scene.layout.*;
 import java.io.*;
 import java.net.Inet4Address;
 import java.net.UnknownHostException;
-import java.util.ArrayList;
 
 public class ChatAppController extends ChatApp {
 
@@ -44,7 +43,7 @@ public class ChatAppController extends ChatApp {
     VBox chatContentBox;
     @FXML
     MFXTextField usernameField;
-    public static String username;
+    public static String username = "";
     public static Chat currentChat;
 
     /**
@@ -55,7 +54,7 @@ public class ChatAppController extends ChatApp {
     private BorderPane updateCenterView(String filename) throws IOException {
         try {
             if(!(filename.equals("chatContent.fxml") || filename.equals("newChat.fxml")))
-                throw new IOException("worng filename provided!");
+                throw new IOException("wrong filename provided!");
             AnchorPane newCenterPane = FXMLLoader.load(getClass().getResource(filename));
             if(filename.equals("chatContent.fxml"))
                 chatContentPane = newCenterPane;
@@ -87,7 +86,9 @@ public class ChatAppController extends ChatApp {
         else if (Integer.parseInt(port.getText()) < 1024 || Integer.parseInt(port.getText()) > 65535)
             return "Choose a port in the range of [1024 : 65535]!";
         else if (!validateIPv4(ipAddress.getText()))
-            return "Unvalid ipv4 format!";
+            return "Invalid ipv4 format!";
+        if (username.isEmpty())
+            return "Please set a username!";
         return "";
     }
 
@@ -156,8 +157,7 @@ public class ChatAppController extends ChatApp {
 
     /**
      *
-     * @param id
-     * @return
+     * @param id id of current chat
      * @throws IOException
      */
     public void showExistingContent(int id) throws IOException {
@@ -202,7 +202,7 @@ public class ChatAppController extends ChatApp {
     /**
      * helper function to call onReceivedMessage with appropriate parameters
      * @param message
-     * @param chatId
+     * @param chatId id of current chat
      */
     public void updateChat(Message message, int chatId) {
         System.out.println("Update detected!! ChatID: " + chatId + "==" + currentChat.getID() + " Message: " + message.toString());
