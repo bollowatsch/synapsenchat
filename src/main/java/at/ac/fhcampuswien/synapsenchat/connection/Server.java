@@ -32,10 +32,9 @@ public class Server extends Instance {
                 synchronized (this) {
 
                     if (!messageQueue.isEmpty()) {
-                        Message toSend = messageQueue.get(0);
+                        Message toSend = messageQueue.remove(0);
                         messageManager.sendMessage(toSend);
-                        messageQueue.remove(toSend);
-                        Thread.sleep(500);
+                        wait(500);
                     }
                 }
             }

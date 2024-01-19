@@ -30,10 +30,9 @@ public class Client extends Instance {
                 synchronized (this) {
 
                     if (!messageQueue.isEmpty()) {
-                        Message toSend = messageQueue.get(0);
+                        Message toSend = messageQueue.remove(0);
                         messageManager.sendMessage(toSend);
-                        messageQueue.remove(toSend);
-                        Thread.sleep(500);
+                        wait(500);
                     }
                 }
             }
@@ -42,7 +41,7 @@ public class Client extends Instance {
             System.out.println("Client terminated!");
 
         } catch (IOException | InterruptedException e) {
-            throw new RuntimeException(e);
+            throw new RuntimeException("Client terminated!");
         }
     }
 }
