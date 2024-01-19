@@ -15,6 +15,11 @@ import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 
 public class ChatApp extends Application {
+    /**
+     * Main class fur GUI to start application
+     * @param stage
+     * @throws Exception
+     */
     @Override
     public void start(Stage stage) throws Exception {
         synchronized (this) {

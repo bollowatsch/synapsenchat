@@ -5,6 +5,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class Message implements Serializable {
+
     private final String timestamp;
     private final String messageText;
     private final String senderName;

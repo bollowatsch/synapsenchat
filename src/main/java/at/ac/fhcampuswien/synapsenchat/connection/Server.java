@@ -9,6 +9,11 @@ import java.io.ObjectOutputStream;
 import java.net.Socket;
 
 public class Server extends Instance {
+    /**
+     * Class for starting the server socket using the port and chat instance.
+     * @param port The port to open a connection.
+     * @param chat The Chat instance for using.
+     */
 
     public Server(int port, Chat chat) {
         super(port, chat);
