@@ -11,7 +11,9 @@ import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 
 import java.io.*;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
 
 public class Chat implements Serializable {
     private static int globalID = 0;
@@ -30,7 +32,7 @@ public class Chat implements Serializable {
             this.id = ++globalID;
             this.messages = FXCollections.observableArrayList();
             this.messages.addListener((ListChangeListener<Message>) c -> {
-                while(c.next()) {
+                while (c.next()) {
                     if (c.wasAdded()) {
                         Platform.runLater(() ->
                                 controller.updateChat((getAllMessages().get(messages.size() - 1)), id));
@@ -82,10 +84,13 @@ public class Chat implements Serializable {
 
     /**
      * Sends Message to Server / Client using {@code sendMessage} of client or server.
+     *
      * @param message Message object
      */
     public void sendMessage(Message message) {
-        if (instance != null) instance.sendMessage(message);
+        if (instance != null) {
+            instance.sendMessage(message);
+        }
     }
 
     public ObservableList<Message> getAllMessages() {
@@ -95,7 +100,7 @@ public class Chat implements Serializable {
     //FIXME: SERIALIZATION NOT WORKING CORRECT! (ArrayList of Messages is missing?)
     public synchronized static void serializeChat(Chat chat, String filename) {
         File file = new File(filename);
-        try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(file,false))) {
+        try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(file, false))) {
 
             oos.writeObject(chat);
             System.out.println("Serialized Chat object!");

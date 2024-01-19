@@ -42,9 +42,7 @@ public abstract class Instance {
         new Thread(run).start();
     }
 
-    protected Runnable run = () -> {
-        runLogic();
-    };
+    protected Runnable run = this::runLogic;
 
     abstract void runLogic();
 

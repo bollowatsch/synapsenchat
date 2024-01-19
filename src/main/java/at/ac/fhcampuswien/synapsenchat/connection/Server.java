@@ -1,8 +1,8 @@
 package at.ac.fhcampuswien.synapsenchat.connection;
 
 import at.ac.fhcampuswien.synapsenchat.logic.Chat;
-import at.ac.fhcampuswien.synapsenchat.logic.MessageManager;
 import at.ac.fhcampuswien.synapsenchat.logic.Message;
+import at.ac.fhcampuswien.synapsenchat.logic.MessageManager;
 
 import java.io.IOException;
 import java.io.ObjectOutputStream;

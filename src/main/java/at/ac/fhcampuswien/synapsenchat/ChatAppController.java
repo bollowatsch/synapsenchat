@@ -2,20 +2,25 @@ package at.ac.fhcampuswien.synapsenchat;
 
 import at.ac.fhcampuswien.synapsenchat.logic.Chat;
 import at.ac.fhcampuswien.synapsenchat.logic.Message;
-import io.github.palexdev.materialfx.controls.*;
+import io.github.palexdev.materialfx.controls.MFXButton;
+import io.github.palexdev.materialfx.controls.MFXRadioButton;
+import io.github.palexdev.materialfx.controls.MFXScrollPane;
+import io.github.palexdev.materialfx.controls.MFXTextField;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
-import javafx.scene.layout.*;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 
-
-import java.io.*;
+import java.io.IOException;
 import java.net.Inet4Address;
 import java.net.UnknownHostException;
 
-public class ChatAppController extends ChatApp {
+public class ChatAppController {
 
     @FXML
     MFXRadioButton radioServer, radioClient;
@@ -48,20 +53,22 @@ public class ChatAppController extends ChatApp {
 
     /**
      * update center view of outerPane to contain either newChatForm or chatContent
+     *
      * @param filename filename for anchorPane that will be added to center of outerPane
      * @return outerPane with updated center scene
      */
     private BorderPane updateCenterView(String filename) throws IOException {
         try {
-            if(!(filename.equals("chatContent.fxml") || filename.equals("newChat.fxml")))
+            if (!(filename.equals("chatContent.fxml") || filename.equals("newChat.fxml")))
                 throw new IOException("wrong filename provided!");
             AnchorPane newCenterPane = FXMLLoader.load(getClass().getResource(filename));
-            if(filename.equals("chatContent.fxml"))
+            if (filename.equals("chatContent.fxml")) {
                 chatContentPane = newCenterPane;
-            else
+            } else {
                 newChatFormPane = newCenterPane;
+            }
             outerPane.setCenter(newCenterPane);
-        } catch (IOException e){
+        } catch (IOException e) {
             System.out.println("Error loading new xml file : " + filename);
             e.printStackTrace();
         }
@@ -78,17 +85,19 @@ public class ChatAppController extends ChatApp {
 
     /**
      * validates input fields in new chat form
+     *
      * @return Error message to be displayed in GUI
      */
-    private String validateNewChatForm(){
-        if (chatName.getText().isEmpty() || ipAddress.getText().isEmpty() || port.getText().isEmpty())
+    private String validateNewChatForm() {
+        if (chatName.getText().isEmpty() || ipAddress.getText().isEmpty() || port.getText().isEmpty()) {
             return "Please fill in all fields!";
-        else if (Integer.parseInt(port.getText()) < 1024 || Integer.parseInt(port.getText()) > 65535)
+        } else if (Integer.parseInt(port.getText()) < 1024 || Integer.parseInt(port.getText()) > 65535) {
             return "Choose a port in the range of [1024 : 65535]!";
-        else if (!validateIPv4(ipAddress.getText()))
+        } else if (!validateIPv4(ipAddress.getText())) {
             return "Invalid ipv4 format!";
-        if (username.isEmpty())
+        } else if (username.isEmpty()) {
             return "Please set a username!";
+        }
         return "";
     }
 
@@ -98,14 +107,16 @@ public class ChatAppController extends ChatApp {
      */
     @FXML
     protected void onSubmitNewChatForm() throws IOException {
-        if(!validateNewChatForm().isEmpty())
+        if (!validateNewChatForm().isEmpty())
             errorLabel.setText(validateNewChatForm());
         else {
             // instantiate new chat object
             Chat newChat;
-            if (radioServer.isSelected())
+            if (radioServer.isSelected()) {
                 newChat = new Chat(chatName.getText(), Integer.parseInt(port.getText()), this);
-            else newChat = new Chat(chatName.getText(), ipAddress.getText(), Integer.parseInt(port.getText()), this);
+            } else {
+                newChat = new Chat(chatName.getText(), ipAddress.getText(), Integer.parseInt(port.getText()), this);
+            }
             currentChat = newChat;
 
             addNewChatLabel(currentChat.getChatName(), currentChat.getID());
@@ -132,8 +143,9 @@ public class ChatAppController extends ChatApp {
 
     /**
      * create a new clickable label in sidebar to navigate between active chats
+     *
      * @param chatName name of the chat, is displayed in sidebar
-     * @param chatId ID to be stored in chat object. Is used to link to corresponding label
+     * @param chatId   ID to be stored in chat object. Is used to link to corresponding label
      */
     private void addNewChatLabel(String chatName, int chatId) {
         outerPane = (BorderPane) startConnection.getScene().getRoot();
@@ -156,7 +168,6 @@ public class ChatAppController extends ChatApp {
     }
 
     /**
-     *
      * @param id id of current chat
      * @throws IOException
      */
@@ -166,12 +177,13 @@ public class ChatAppController extends ChatApp {
         ObservableList<Message> oldMessages = currentChat.getAllMessages();
         System.out.println("print old messages: " + oldMessages + "\n size: " + oldMessages.size());
         for (Message oldMessage : oldMessages)
-                onReceivedMessage(oldMessage);
+            onReceivedMessage(oldMessage);
     }
 
     /**
      * displays message in center view
      * aligns messages left / right depending on sender
+     *
      * @param message
      */
     public void onReceivedMessage(Message message) {
@@ -201,8 +213,9 @@ public class ChatAppController extends ChatApp {
 
     /**
      * helper function to call onReceivedMessage with appropriate parameters
+     *
      * @param message
-     * @param chatId id of current chat
+     * @param chatId  id of current chat
      */
     public void updateChat(Message message, int chatId) {
         System.out.println("Update detected!! ChatID: " + chatId + "==" + currentChat.getID() + " Message: " + message.toString());
@@ -212,6 +225,7 @@ public class ChatAppController extends ChatApp {
 
     /**
      * validate entered IP address
+     *
      * @param IP IP address entered in form
      * @return true if valid (syntax), false otherwise
      */
@@ -230,10 +244,7 @@ public class ChatAppController extends ChatApp {
                     return false;
                 }
             }
-            if (IP.endsWith(".")) {
-                return false;
-            }
-            return true;
+            return !IP.endsWith(".");
         } catch (NumberFormatException exception) {
             System.out.println(exception);
             return false;
@@ -252,13 +263,16 @@ public class ChatAppController extends ChatApp {
     private void clearIpAddress() {
         ipAddress.clear();
     }
+
     @FXML
     private void setUsername() {
         username = usernameField.getText();
     }
 
     private String getUsername() {
-        if (username != null) return username;
+        if (username != null) {
+            return username;
+        }
         return "Sender";
     }
 }

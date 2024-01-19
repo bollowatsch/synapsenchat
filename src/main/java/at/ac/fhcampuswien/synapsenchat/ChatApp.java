@@ -2,6 +2,9 @@ package at.ac.fhcampuswien.synapsenchat;
 
 import at.ac.fhcampuswien.synapsenchat.connection.Client;
 import at.ac.fhcampuswien.synapsenchat.connection.Server;
+import io.github.palexdev.materialfx.theming.JavaFXThemes;
+import io.github.palexdev.materialfx.theming.MaterialFXStylesheets;
+import io.github.palexdev.materialfx.theming.UserAgentBuilder;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.event.EventHandler;
@@ -9,9 +12,6 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import io.github.palexdev.materialfx.theming.UserAgentBuilder;
-import io.github.palexdev.materialfx.theming.JavaFXThemes;
-import io.github.palexdev.materialfx.theming.MaterialFXStylesheets;
 import javafx.stage.WindowEvent;
 
 public class ChatApp extends Application {
@@ -28,7 +28,10 @@ public class ChatApp extends Application {
 
                     //TODO: Save all chats!
 
-                    try {Thread.sleep(1000);} catch (InterruptedException ignored) {}
+                    try {
+                        Thread.sleep(1000);
+                    } catch (InterruptedException ignored) {
+                    }
 
                     System.out.println("EXITING...");
                     System.exit(0);

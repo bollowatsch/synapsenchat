@@ -34,11 +34,13 @@ public class MessageManager {
         this.startSender(oos);
     }
 
-    private synchronized boolean close()  {
+    private synchronized boolean close() {
         try {
             oos.close();
             ois.close();
-        } catch (IOException ignored) {return false;}
+        } catch (IOException ignored) {
+            return false;
+        }
         return true;
     }
 
@@ -73,7 +75,8 @@ public class MessageManager {
 
                         try {
                             chat.addMessage(message);
-                        } catch (NullPointerException ignored) {}
+                        } catch (NullPointerException ignored) {
+                        }
 
                     } catch (java.net.SocketException e) {
                         System.out.println("java.net.SocketException");
@@ -87,7 +90,9 @@ public class MessageManager {
             }
         }
 
-        if (close()) System.out.println("MM (sender) closed!");
+        if (close()) {
+            System.out.println("MM (sender) closed!");
+        }
     };
 
     private final Runnable receiver = () -> {
@@ -115,6 +120,8 @@ public class MessageManager {
             }
         }
 
-        if (close())  System.out.println("MM (receiver) closed!");
+        if (close()) {
+            System.out.println("MM (receiver) closed!");
+        }
     };
 }
