@@ -93,3 +93,18 @@
 #new-message-field{
     -fx-border-color: -divider;
 }
+
+.selected-chat{
+    -fx-background-color: RED;
+    -fx-font-size: 16;
+    -fx-text-fill: -text-dark;
+    -fx-min-width: 100;
+    -fx-min-height: 40;
+    -fx-padding: 5;
+    -fx-border-insets: 5;
+    -fx-background-insets: 5;
+    -fx-background-radius: 5;
+    -fx-border-radius: 5;
+    -fx-border-color: -divider;
+    -fx-text-alignment: center;
+}

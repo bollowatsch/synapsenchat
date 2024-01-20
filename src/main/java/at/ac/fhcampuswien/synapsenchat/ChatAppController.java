@@ -160,6 +160,7 @@ public class ChatAppController {
                 showExistingContent(Integer.parseInt(label.getId()));
                 currentChat = Chat.getChatByID(Integer.parseInt(label.getId()));
                 System.out.println("Label Id: " + label.getId() + "chat Id: " + currentChat.getID());
+                highlightCurrentChat(label);
             } catch (IOException ex) {
                 throw new RuntimeException(ex);
             }
@@ -274,5 +275,15 @@ public class ChatAppController {
             return username;
         }
         return "Sender";
+    }
+
+    private void highlightCurrentChat(Label label) {
+        for (javafx.scene.Node child : ((VBox) label.getParent()).getChildren()) {
+            child.getStyleClass().remove("selected-chat");
+        }
+        // Apply a different style to the selected label
+        if (label.getId().equals(String.valueOf(currentChat.getID()))) {
+            label.getStyleClass().add("selected-chat");
+        }
     }
 }
