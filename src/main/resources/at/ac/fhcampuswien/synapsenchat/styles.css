@@ -43,9 +43,6 @@
     -fx-text-alignment: center;
 }
 
-#new-chat-button{
-    -fx-background-color: -accent;
-}
 
 #name-field{
     -fx-background-color: -primary-background;
@@ -72,18 +69,19 @@
   -fx-width: 300;
 }
 
-.chat-content-label, #new-chat-button{
+.chat-content-label {
     -fx-background-color: -primary-background;
     -fx-font-size: 12;
     -fx-text-fill: -text-dark;
     -fx-min-height: 40;
+    -fx-max-width: 400;
     -fx-padding: 5;
     -fx-border-insets: 5;
     -fx-background-insets: 5;
     -fx-background-radius: 5;
     -fx-border-radius: 5;
     -fx-border-color: -divider;
-    -fx-text-alignment: center;
+    -fx-text-alignment: left;
 }
 
 #error-label{
@@ -95,9 +93,9 @@
 }
 
 .selected-chat{
-    -fx-background-color: RED;
+    -fx-background-color: -divider;
     -fx-font-size: 16;
-    -fx-text-fill: -text-dark;
+    -fx-text-fill: -text-light;
     -fx-min-width: 100;
     -fx-min-height: 40;
     -fx-padding: 5;
@@ -105,6 +103,21 @@
     -fx-background-insets: 5;
     -fx-background-radius: 5;
     -fx-border-radius: 5;
-    -fx-border-color: -divider;
+    -fx-border-stroke: 10;
+    -fx-border-color: -primary-background;
     -fx-text-alignment: center;
+}
+
+.mfx-text-field .floating-text {
+  -fx-text-fill: -text-dark;
+}
+
+#name-field .floating-text {
+  -fx-background-color: -primary-background;
+}
+
+.mfx-radio-button .mfx-ripple-generator {
+  -mfx-animation-speed: 2;
+  -mfx-ripple-color: -primary;
+  -mfx-ripple-radius: 8;
 }

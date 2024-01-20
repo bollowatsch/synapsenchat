@@ -15,6 +15,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import org.w3c.dom.Text;
 
 import java.io.IOException;
 import java.net.Inet4Address;
@@ -81,6 +82,14 @@ public class ChatAppController {
     @FXML
     protected void showNewChatForm() throws IOException {
         outerPane = updateCenterView("newChat.fxml");
+
+        // make sure that no label is highlighted as selected during the creation of a new chat
+        VBox chatList = (VBox) outerPane.lookup("#chatList");
+        for (javafx.scene.Node child : chatList.getChildren()) {
+            if (child instanceof Label label) {
+                label.getStyleClass().remove("selected-chat");
+            }
+        }
     }
 
     /**
@@ -156,16 +165,17 @@ public class ChatAppController {
         newLabel.setOnMouseClicked(e -> {
             Label label = (Label) e.getSource();
             try {
+                currentChat = Chat.getChatByID(Integer.parseInt(label.getId()));
+                highlightCurrentChat(label);
                 outerPane = updateCenterView("chatContent.fxml");
                 showExistingContent(Integer.parseInt(label.getId()));
-                currentChat = Chat.getChatByID(Integer.parseInt(label.getId()));
                 System.out.println("Label Id: " + label.getId() + "chat Id: " + currentChat.getID());
-                highlightCurrentChat(label);
             } catch (IOException ex) {
                 throw new RuntimeException(ex);
             }
         });
         chatList.getChildren().add(newLabel);
+        highlightCurrentChat(newLabel);
     }
 
     /**
@@ -195,6 +205,8 @@ public class ChatAppController {
             String text = message.toString();
 
             Label messageLabel = new Label(text);
+            // enable text wrapping
+            messageLabel.setWrapText(true);
             messageLabel.getStyleClass().add("chat-content-label");
 
             //add HBox to dynamically change the alignment of the message labels
@@ -277,6 +289,9 @@ public class ChatAppController {
         return "Sender";
     }
 
+    /**
+     * the currently selected chat should have a different styling
+     */
     private void highlightCurrentChat(Label label) {
         for (javafx.scene.Node child : ((VBox) label.getParent()).getChildren()) {
             child.getStyleClass().remove("selected-chat");
