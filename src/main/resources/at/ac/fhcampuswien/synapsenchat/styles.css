@@ -6,7 +6,7 @@
     -text-dark: #212121;
     -text-light: #FFFFFF;
     -text-secondary: #9f9f9f;
-    -divider: #BDBDBD;
+    -divider: #C3B1A8; /*#BDBDBD;*/
     -accent: #66B2A8;
     -fx-font-family: "Roboto Light";
 
@@ -95,7 +95,7 @@
 .selected-chat{
     -fx-background-color: -divider;
     -fx-font-size: 16;
-    -fx-text-fill: -text-light;
+    -fx-text-fill: -text-dark;
     -fx-min-width: 100;
     -fx-min-height: 40;
     -fx-padding: 5;
