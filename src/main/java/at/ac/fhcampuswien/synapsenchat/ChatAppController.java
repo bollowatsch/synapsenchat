@@ -143,9 +143,7 @@ public class ChatAppController {
         if (!text.isEmpty()) {
             Message message = new Message(text, getUsername());
             currentChat.sendMessage(message);
-
-            //TODO: CHECK SERIALIZATION METHOD-SERVERSIDE (second message sent from server throws error???)
-            //Chat.serializeChat(new Chat(currentChat), "src/main/java/at/ac/fhcampuswien/synapsenchat/logs/" + chatID + ".txt");
+            
             newMessage.clear();
         }
     }
@@ -266,8 +264,8 @@ public class ChatAppController {
 
     @FXML
     private void getServerIp() throws UnknownHostException {
-        Inet4Address my_localhost = (Inet4Address) Inet4Address.getLocalHost();
-        String ipv4Address = my_localhost.getHostAddress().trim();
+        Inet4Address myLocalhost = (Inet4Address) Inet4Address.getLocalHost();
+        String ipv4Address = myLocalhost.getHostAddress().trim();
         ipAddress.clear();
         ipAddress.appendText(ipv4Address);
     }
