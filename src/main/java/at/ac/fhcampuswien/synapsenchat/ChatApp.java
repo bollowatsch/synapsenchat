@@ -55,7 +55,6 @@ public class ChatApp extends Application {
         Parent root = fxmlLoader.load();
 
         Scene scene = new Scene(root);
-        //   scene.getStylesheets().add(getClass().getResource("").toExternalForm());
         stage.setTitle("Synapsenchat");
         stage.setScene(scene);
         scene.getStylesheets().add(ChatApp.class.getResource("styles.css").toExternalForm());
